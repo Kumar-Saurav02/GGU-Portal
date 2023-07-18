@@ -1,0 +1,24 @@
+.attendanceEntry {
+  width: 100vw;
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  position: absolute;
+}
+
+.discription{
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (max-width : 768px) {
+
+  .approvBox{
+    display : flex;
+    align-items: center;
+  }
+  .attendanceEntry{
+    display : flex;
+  }
+}
+

@@ -1,0 +1,73 @@
+.scholarshipStudent {
+  width: 100vw;
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  position: absolute;
+}
+.full {
+  margin: auto;
+  text-align: center;
+}
+
+.first {
+  width: 50%;
+  margin: auto;
+}
+
+.showdata {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  margin: auto;
+  margin-top: 55px;
+}
+
+.Field_data_val {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  background-color: rgb(219, 216, 216);
+}
+.show_data_val {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  background-color: rgb(219, 216, 216);
+}
+.titles {
+  text-align: left;
+}
+
+.data_n_title {
+  margin: auto;
+  text-align: center;
+  height: 20px;
+  width: 200px;
+}
+
+@media screen and (max-width : 768px) {
+  .content {
+    width: 80vh;
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    border : 1px solid rgb(170, 169, 169);
+    border-radius : 5px;
+    box-shadow: 2px 2px 2px rgb(202, 202, 214);
+   }
+   .approvBox {
+    width: 80vh;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    padding-bottom: 2%;
+    background-color: whitesmoke;
+  }
+}
