@@ -21,6 +21,7 @@ import {
 } from "./reducers/teacherReducer";
 import {
   acceptingRejectingStudentTeacherApprovalReducer,
+  getAllStudentsDetailsReducer,
   getAllTeacherDetailsReducer,
   getStudentApprovalRequestReducer,
   getTeacherApprovalRequestReducer,
@@ -46,6 +47,7 @@ const reducer = combineReducers({
   marksFeesCourseUpdate: marksFeesCourseUpdateReducer,
   updateTeacherRole: updateTeacherRoleReducer,
   getAllTeacherDetails: getAllTeacherDetailsReducer,
+  getAllStudentsDetails: getAllStudentsDetailsReducer,
   courseScholarshipCheck: courseScholarshipCheckReducer,
   getCoursesForApproval: getCoursesForApprovalReducer,
   getScholarshipsForApproval: getScholarshipsForApprovalReducer,

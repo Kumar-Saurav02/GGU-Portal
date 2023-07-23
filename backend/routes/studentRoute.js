@@ -25,8 +25,22 @@ const {
 const router = express.Router();
 
 router.route("/registerApprovalStudent").post(registerApprovalStudent);
-router.route("/registerStudentAccept/:id").post(registerStudentAccept);
-router.route("/rejectApprovalStudent/:id").delete(rejectApprovalStudent);
+router
+  .route("/registerStudentAccept/:id")
+  .post(
+    isAuthenticatedUser,
+    authorizeRolesTeacher("teacher"),
+    authorizeSubRolesTeacher("admin"),
+    registerStudentAccept
+  );
+router
+  .route("/rejectApprovalStudent/:id")
+  .delete(
+    isAuthenticatedUser,
+    authorizeRolesTeacher("teacher"),
+    authorizeSubRolesTeacher("admin"),
+    rejectApprovalStudent
+  );
 router.route("/loginStudent").post(loginStudent);
 router.route("/logoutStudent").get(logout);
 router.route("/updateStudent").put(isAuthenticatedUser, updateDetails);
@@ -37,6 +51,7 @@ router
 router
   .route("/getAllStudents")
   .get(
+    isAuthenticatedUser,
     authorizeRolesTeacher("teacher"),
     authorizeSubRolesTeacher("admin"),
     getAllStudents

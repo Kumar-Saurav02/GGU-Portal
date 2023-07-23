@@ -9,10 +9,10 @@ const Dashboard = () => {
   return (
     <Fragment>
       <div className="fulladmindashboard">
-          <div className="dashboard">
+        <div className="dashboard">
           <SidebarTeacher role={teacher.subRole} />
-              <h2>Dashboard</h2>
-          </div>
+          <h2>Dashboard</h2>
+        </div>
       </div>
     </Fragment>
   );

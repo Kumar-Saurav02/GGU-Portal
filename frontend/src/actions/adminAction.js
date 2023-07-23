@@ -24,6 +24,9 @@ import {
   GET_ALL_TEACHER_REQUEST,
   GET_ALL_TEACHER_SUCCESS,
   GET_ALL_TEACHER_FAIL,
+  GET_ALL_STUDENTS_REQUEST,
+  GET_ALL_STUDENTS_SUCCESS,
+  GET_ALL_STUDENTS_FAIL,
 } from "../constants/adminConstant";
 import axios from "axios";
 
@@ -180,6 +183,25 @@ export const getAllTeacherDetails = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: GET_ALL_TEACHER_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+//GET ALL STUDENTS DETAILS
+export const getAllStudentDetail = () => async (dispatch) => {
+  try {
+    dispatch({ type: GET_ALL_STUDENTS_REQUEST });
+
+    const { data } = await axios.get(`/api/getAllStudents`);
+
+    dispatch({
+      type: GET_ALL_STUDENTS_SUCCESS,
+      payload: data.students,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_ALL_STUDENTS_FAIL,
       payload: error.response.data.message,
     });
   }

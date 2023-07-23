@@ -27,6 +27,10 @@ import MarksEntry from "./components/Teacher/Marks/MarksEntry";
 import ProtectedRoute from "./components/Route/ProtectedRoute";
 import EditProfileStudent from "./components/Student/EditProfileStudent/EditProfileStudent";
 import EditProfileTeacher from "./components/Teacher/EditProfileTeacher/EditProfileTeacher";
+import StudentList from "./components/Admin/StudentList/StudentList";
+import StudentListDetails from "./components/Admin/StudentList/StudentListDetails";
+import TeacherList from "./components/Admin/TeacherList/TeacherList";
+import TeacherListDetails from "./components/Admin/TeacherList/TeacherListDetails";
 
 function App() {
   useEffect(() => {
@@ -107,6 +111,48 @@ function App() {
               role="teacher"
               subRole="admin"
               Component={ChangingTeacherRole}
+            />
+          }
+        />
+
+        <Route
+          path="/studentsList"
+          element={
+            <ProtectedRoute
+              role="teacher"
+              subRole="admin"
+              Component={StudentList}
+            />
+          }
+        />
+        <Route
+          path="/studentListDetails"
+          element={
+            <ProtectedRoute
+              role="teacher"
+              subRole="admin"
+              Component={StudentListDetails}
+            />
+          }
+        />
+
+        <Route
+          path="/teachersList"
+          element={
+            <ProtectedRoute
+              role="teacher"
+              subRole="admin"
+              Component={TeacherList}
+            />
+          }
+        />
+        <Route
+          path="/teacherListDetails"
+          element={
+            <ProtectedRoute
+              role="teacher"
+              subRole="admin"
+              Component={TeacherListDetails}
             />
           }
         />

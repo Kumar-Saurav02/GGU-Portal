@@ -30,6 +30,9 @@ import {
   GET_ALL_TEACHER_REQUEST,
   GET_ALL_TEACHER_SUCCESS,
   GET_ALL_TEACHER_FAIL,
+  GET_ALL_STUDENTS_REQUEST,
+  GET_ALL_STUDENTS_SUCCESS,
+  GET_ALL_STUDENTS_FAIL,
 } from "../constants/adminConstant";
 
 //GET ALL STUDENTS APPROVAL REQUESTS
@@ -199,6 +202,39 @@ export const getAllTeacherDetailsReducer = (
         ...state,
         loading: false,
         teachers: null,
+        error: action.payload,
+      };
+    case CLEAR_MESSAGES:
+      return {
+        ...state,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+//GET ALL STUDENTS DETAILS
+export const getAllStudentsDetailsReducer = (
+  state = { students: [] },
+  action
+) => {
+  switch (action.type) {
+    case GET_ALL_STUDENTS_REQUEST:
+      return {
+        loading: true,
+      };
+    case GET_ALL_STUDENTS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        students: action.payload,
+      };
+    case GET_ALL_STUDENTS_FAIL:
+      return {
+        ...state,
+        loading: false,
+        students: null,
         error: action.payload,
       };
     case CLEAR_MESSAGES:
