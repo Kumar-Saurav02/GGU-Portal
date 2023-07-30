@@ -276,6 +276,7 @@ const DocumentUploadStudent = () => {
       if (resultUpload.trim() === "") {
         return toast.error("Upload document properly");
       }
+      setIsChecked(false);
       dispatch(
         uploadingMarks(
           semesterForResult.trim(),
@@ -290,8 +291,6 @@ const DocumentUploadStudent = () => {
       if (semesterForResult.trim() === "") {
         return toast.error("Fill semester properly");
       }
-      setResultDetails({ ...resultDetails, cgpaForResult: 0 });
-      setResultDetails({ ...resultDetails, sgpaForResult: 0 });
 
       for (let i = 0; i < assignedSubject.length; i++) {
         if (Object.keys(assignedSubject[i].completeValue).length === 0) {
@@ -309,11 +308,12 @@ const DocumentUploadStudent = () => {
       if (resultUpload.trim() === "") {
         return toast.error("Upload document properly");
       }
+      setIsChecked(false);
       dispatch(
         uploadingMarks(
           semesterForResult.trim(),
-          sgpaForResult.trim(),
-          cgpaForResult.trim(),
+          "0",
+          "0",
           listOfBackSubjects,
           resultUpload,
           "Active Backlog"
@@ -605,6 +605,7 @@ const DocumentUploadStudent = () => {
                 <div>
                   <input
                     type="checkbox"
+                    id="check"
                     onChange={(e) => setIsChecked(!isChecked)}
                   />
                   <p>
