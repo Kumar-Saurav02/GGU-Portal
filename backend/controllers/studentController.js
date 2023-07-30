@@ -751,12 +751,12 @@ exports.getStudent = catchAsyncErrors(async (req, res, next) => {
 //GET COURSE OF STUDENT'S SEMESTER
 exports.getCourseSelectionForSemester = catchAsyncErrors(
   async (req, res, next) => {
-    const sem = req.user.semester;
-    const depart = req.user.department;
+    const semester = req.user.currentSemester;
+    const department = req.user.department;
 
     const course = await CourseSelection.findOne({
-      semester: sem,
-      department: depart,
+      semester: semester,
+      department: department,
     });
 
     res.status(200).json({

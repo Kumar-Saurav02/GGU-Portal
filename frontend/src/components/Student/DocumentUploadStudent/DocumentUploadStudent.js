@@ -34,6 +34,8 @@ const DocumentUploadStudent = () => {
     }
   }, [error, message]);
 
+  const [isCheckedFees, setIsCheckedFees] = useState(false);
+
   const semesters = [1, 2, 3, 4, 5, 6, 7, 8];
   const [feeDetails, setFeeDetails] = useState({
     semesterForFees: "",
@@ -127,6 +129,9 @@ const DocumentUploadStudent = () => {
   }, [semesterForResult]);
 
   const submitFeeDataChange = () => {
+    if (isCheckedFees === false) {
+      return toast.error("Select the undertaking");
+    }
     if (semesterForFees.trim() === "") {
       return toast.error("Fill semester properly");
     }
@@ -155,6 +160,7 @@ const DocumentUploadStudent = () => {
       updatingDateOfPayment[2] +
       " " +
       updatingDateOfPayment[3];
+    setIsCheckedFees(false);
     dispatch(
       uploadingFees(
         semesterForFees.trim(),
@@ -454,6 +460,17 @@ const DocumentUploadStudent = () => {
                   <br></br>
                   <p>File:- {previewFeeUpload}</p>
                 </div>
+                <div>
+                  <input
+                    type="checkbox"
+                    onChange={(e) => setIsCheckedFees(!isCheckedFees)}
+                  />
+                  <p>
+                    I hereby declare that the entries made by me in the
+                    aforesaid form are complete and true to the best of my
+                    knowledge.
+                  </p>
+                </div>
                 <br></br>
                 <div className="btn">
                   <button
@@ -609,9 +626,9 @@ const DocumentUploadStudent = () => {
                     onChange={(e) => setIsChecked(!isChecked)}
                   />
                   <p>
-                    I am responsible for all the information filled by me. If
-                    any information is found false or invalid then I will be
-                    solely responsible.
+                    I hereby declare that the entries made by me in the
+                    aforesaid form are complete and true to the best of my
+                    knowledge.
                   </p>
                 </div>
                 <br></br>

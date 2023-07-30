@@ -38,6 +38,8 @@ const StudentScholarship = () => {
     }
   }, [error, message]);
 
+  const [isCheckedScholarship, setIsCheckedScholarship] = useState(false);
+
   const documentChange = (e) => {
     const reader = new FileReader();
 
@@ -50,6 +52,9 @@ const StudentScholarship = () => {
   };
 
   const submitScholarshipDetails = () => {
+    if (isCheckedScholarship === false) {
+      return toast.error("Select the undertaking");
+    }
     if (
       session !== undefined ||
       studentState !== undefined ||
@@ -84,6 +89,8 @@ const StudentScholarship = () => {
       dateOfScholarshipSubmission[2] +
       " " +
       dateOfScholarshipSubmission[3];
+
+    setIsCheckedScholarship(false);
 
     dispatch(
       submitScholarship(
@@ -196,6 +203,19 @@ const StudentScholarship = () => {
                       onChange={documentChange}
                     />
                   </div>
+                </div>
+                <div>
+                  <input
+                    type="checkbox"
+                    onChange={(e) =>
+                      setIsCheckedScholarship(!isCheckedScholarship)
+                    }
+                  />
+                  <p>
+                    I hereby declare that the entries made by me in the
+                    aforesaid form are complete and true to the best of my
+                    knowledge.
+                  </p>
                 </div>
                 <br></br>
 
