@@ -443,6 +443,8 @@ exports.acceptScholarshipSelection = catchAsyncErrors(
     const {
       session,
       state,
+      district,
+      dateOfSubmission,
       scholarship,
       scholarshipDocument,
       enrollmentNumber,
@@ -454,20 +456,14 @@ exports.acceptScholarshipSelection = catchAsyncErrors(
       return next(new ErrorHandler(`Some error occurred`));
     }
 
-    if (scholarshipDocument.trim() === "") {
-      student.scholarshipDetails.push({
-        session,
-        state,
-        scholarship,
-      });
-    } else {
-      student.scholarshipDetails.push({
-        session,
-        state,
-        scholarship,
-        scholarshipDocument,
-      });
-    }
+    student.scholarshipDetails.push({
+      session,
+      state,
+      district,
+      dateOfSubmission,
+      scholarship,
+      scholarshipDocument,
+    });
 
     await ApproveScholarship.deleteOne({ _id: id });
 

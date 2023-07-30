@@ -273,7 +273,16 @@ export const scholarshipApprovalByIncharge = () => async (dispatch) => {
 
 //SCHOLARSHIP ACCEPT
 export const scholarshipAcceptByIncharge =
-  (session, state, scholarship, scholarshipDocument, enrollmentNumber, id) =>
+  (
+    session,
+    state,
+    scholarship,
+    scholarshipDocument,
+    enrollmentNumber,
+    id,
+    district,
+    dateOfSubmission
+  ) =>
   async (dispatch) => {
     try {
       dispatch({ type: SCHOLARSHIP_ACCEPT_REQUEST });
@@ -289,6 +298,8 @@ export const scholarshipAcceptByIncharge =
           scholarshipDocument,
           enrollmentNumber,
           id,
+          district,
+          dateOfSubmission,
         },
         config
       );

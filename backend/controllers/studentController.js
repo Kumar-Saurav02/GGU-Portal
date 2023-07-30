@@ -365,6 +365,8 @@ exports.updateDetails = catchAsyncErrors(async (req, res, next) => {
     scholarshipState,
     scholarshipName,
     scholarshipDocument,
+    scholarshipDistrict,
+    scholarshipDate,
   } = req.body;
 
   const updatedData = {
@@ -593,38 +595,39 @@ exports.updateDetails = catchAsyncErrors(async (req, res, next) => {
   }
 
   if (scholarshipSession !== undefined) {
-    if (scholarshipDocument !== "") {
-      const uploadScholarship = await cloudinary.uploader.upload(
-        scholarshipDocument,
-        {
-          folder: "Scholarship",
-        }
-      );
-      const docs = {
-        public_id: uploadScholarship.public_id,
-        url: uploadScholarship.secure_url,
-      };
-      await ApproveScholarship.create({
-        name: req.user.name,
-        enrollmentNumber: req.user.enrollmentNo,
-        department: req.user.department,
-        semester: req.user.currentSemester,
-        session: scholarshipSession,
-        state: scholarshipState,
-        scholarship: scholarshipName,
-        scholarshipDocument: docs,
-      });
-    } else {
-      await ApproveScholarship.create({
-        name: req.user.name,
-        enrollmentNumber: req.user.enrollmentNo,
-        department: req.user.department,
-        semester: req.user.currentSemester,
-        session: scholarshipSession,
-        state: scholarshipState,
-        scholarship: scholarshipName,
-      });
-    }
+    const uploadScholarship = await cloudinary.uploader.upload(
+      scholarshipDocument,
+      {
+        folder: "Scholarship",
+      }
+    );
+    const docs = {
+      public_id: uploadScholarship.public_id,
+      url: uploadScholarship.secure_url,
+    };
+    await ApproveScholarship.create({
+      name: req.user.name,
+      enrollmentNumber: req.user.enrollmentNo,
+      department: req.user.department,
+      semester: req.user.currentSemester,
+      session: scholarshipSession,
+      state: scholarshipState,
+      district: scholarshipDistrict,
+      dateOfSubmission: scholarshipDate,
+      scholarship: scholarshipName,
+      scholarshipDocument: docs,
+    });
+    //  else {
+    //   await ApproveScholarship.create({
+    //     name: req.user.name,
+    //     enrollmentNumber: req.user.enrollmentNo,
+    //     department: req.user.department,
+    //     semester: req.user.currentSemester,
+    //     session: scholarshipSession,
+    //     state: scholarshipState,
+    //     scholarship: scholarshipName,
+    //   });
+    // }
     res.status(200).json({
       success: true,
       message: "Scholarship details sent for approval",

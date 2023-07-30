@@ -140,18 +140,22 @@ router
     authorizeSubRolesTeacher("classIncharge"),
     rejectCourseSelection
   );
-router.route("/acceptScholarshipSelection").put(
-  isAuthenticatedUser,
-  authorizeRolesTeacher("teacher"),
-  // authorizeSubRolesTeacher("classIncharge"),
-  acceptScholarshipSelection
-);
-router.route("/rejectScholarshipSelection").delete(
-  isAuthenticatedUser,
-  authorizeRolesTeacher("teacher"),
-  // authorizeSubRolesTeacher("classIncharge"),
-  rejectScholarshipSelection
-);
+router
+  .route("/acceptScholarshipSelection")
+  .put(
+    isAuthenticatedUser,
+    authorizeRolesTeacher("teacher"),
+    authorizeSubRolesTeacher("classIncharge"),
+    acceptScholarshipSelection
+  );
+router
+  .route("/rejectScholarshipSelection")
+  .delete(
+    isAuthenticatedUser,
+    authorizeRolesTeacher("teacher"),
+    authorizeSubRolesTeacher("classIncharge"),
+    rejectScholarshipSelection
+  );
 router
   .route("/getAllCoursesApproval")
   .get(

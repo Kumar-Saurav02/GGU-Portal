@@ -275,7 +275,9 @@ export const submitScholarship =
     scholarshipSession,
     scholarshipState,
     scholarshipName,
-    scholarshipDocument
+    scholarshipDocument,
+    scholarshipDistrict,
+    scholarshipDate
   ) =>
   async (dispatch) => {
     try {
@@ -290,6 +292,8 @@ export const submitScholarship =
           scholarshipState,
           scholarshipName,
           scholarshipDocument,
+          scholarshipDistrict,
+          scholarshipDate,
         },
         config
       );

@@ -25,6 +25,14 @@ const approveScholarshipSchema = new mongoose.Schema({
     type: String,
     required: [true, "Enter state"],
   },
+  district: {
+    type: String,
+    required: [true, "Enter district"],
+  },
+  dateOfSubmission: {
+    type: String,
+    required: [true, "Enter date"],
+  },
   scholarship: {
     type: String,
     required: [true, "Enter name of scholarship"],

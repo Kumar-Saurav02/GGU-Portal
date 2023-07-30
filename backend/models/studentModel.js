@@ -299,12 +299,23 @@ const studentSchema = new mongoose.Schema({
     {
       session: {
         type: String,
+        required: [true, "Session is required"],
       },
       state: {
         type: String,
+        required: [true, "State is required"],
+      },
+      district: {
+        type: String,
+        required: [true, "District is required"],
+      },
+      dateOfSubmission: {
+        type: String,
+        required: [true, "Date is required"],
       },
       scholarship: {
         type: String,
+        required: [true, "Name is required"],
       },
       scholarshipDocument: {
         public_id: {
