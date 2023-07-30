@@ -23,8 +23,6 @@ const TeacherList = () => {
     error,
   } = useSelector((state) => state.getAllTeacherDetails);
 
-  console.log(teachers);
-
   const [searchResult, setSearchResult] = useState("");
 
   useEffect(() => {

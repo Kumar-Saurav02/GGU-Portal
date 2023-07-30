@@ -157,12 +157,33 @@ const studentSchema = new mongoose.Schema({
       semester: {
         type: Number,
       },
+      status: {
+        type: String,
+      },
       cgpa: {
         type: Number,
+        required: true,
       },
       sgpa: {
         type: Number,
+        required: true,
       },
+      backSubject: [
+        {
+          semester: {
+            type: Number,
+          },
+          subjectName: {
+            type: String,
+          },
+          subjectCode: {
+            type: String,
+          },
+          subjectCredit: {
+            type: String,
+          },
+        },
+      ],
       result: {
         public_id: {
           type: String,
@@ -203,6 +224,30 @@ const studentSchema = new mongoose.Schema({
       attendance: {
         type: Number,
       },
+      // subjects: [
+      //   {
+      //     subjectName: {
+      //       type: String,
+      //     },
+      //     subjectTotalAttendance: {
+      //       type: Number,
+      //       default: 0,
+      //     },
+      //     months: [
+      //       {
+      //         monthName: {
+      //           type: String,
+      //         },
+      //         attendance: {
+      //           type: Number,
+      //         },
+      //         totalAttendance: {
+      //           type: Number,
+      //         },
+      //       },
+      //     ],
+      //   },
+      // ],
     },
   ],
   backSubject: [
@@ -217,6 +262,9 @@ const studentSchema = new mongoose.Schema({
         type: String,
       },
       subjectCredit: {
+        type: String,
+      },
+      status: {
         type: String,
       },
     },

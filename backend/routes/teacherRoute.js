@@ -124,18 +124,22 @@ router.route("/getAllSubjects").get(
 );
 
 //CLASS INCHARGE
-router.route("/acceptCourseSelection").put(
-  isAuthenticatedUser,
-  authorizeRolesTeacher("teacher"),
-  // authorizeSubRolesTeacher("classIncharge"),
-  acceptCourseSelection
-);
-router.route("/rejectCourseSelection").delete(
-  isAuthenticatedUser,
-  authorizeRolesTeacher("teacher"),
-  // authorizeSubRolesTeacher("classIncharge"),
-  rejectCourseSelection
-);
+router
+  .route("/acceptCourseSelection")
+  .put(
+    isAuthenticatedUser,
+    authorizeRolesTeacher("teacher"),
+    authorizeSubRolesTeacher("classIncharge"),
+    acceptCourseSelection
+  );
+router
+  .route("/rejectCourseSelection")
+  .delete(
+    isAuthenticatedUser,
+    authorizeRolesTeacher("teacher"),
+    authorizeSubRolesTeacher("classIncharge"),
+    rejectCourseSelection
+  );
 router.route("/acceptScholarshipSelection").put(
   isAuthenticatedUser,
   authorizeRolesTeacher("teacher"),
@@ -148,18 +152,22 @@ router.route("/rejectScholarshipSelection").delete(
   // authorizeSubRolesTeacher("classIncharge"),
   rejectScholarshipSelection
 );
-router.route("/getAllCoursesApproval").get(
-  isAuthenticatedUser,
-  authorizeRolesTeacher("teacher"),
-  // authorizeSubRolesTeacher("classIncharge"),
-  getAllCoursesApproval
-);
-router.route("/getAllScholarshipsApproval").get(
-  isAuthenticatedUser,
-  authorizeRolesTeacher("teacher"),
-  // authorizeSubRolesTeacher("classIncharge"),
-  getAllScholarshipsApproval
-);
+router
+  .route("/getAllCoursesApproval")
+  .get(
+    isAuthenticatedUser,
+    authorizeRolesTeacher("teacher"),
+    authorizeSubRolesTeacher("classIncharge"),
+    getAllCoursesApproval
+  );
+router
+  .route("/getAllScholarshipsApproval")
+  .get(
+    isAuthenticatedUser,
+    authorizeRolesTeacher("teacher"),
+    authorizeSubRolesTeacher("classIncharge"),
+    getAllScholarshipsApproval
+  );
 
 //ATTENDANCE
 router.route("/attendanceEntryByTeacher").put(

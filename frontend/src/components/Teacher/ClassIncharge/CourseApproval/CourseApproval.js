@@ -54,12 +54,12 @@ const CourseApproval = () => {
       ) : (
         <Fragment>
           <div className="courseApproval">
-            <SidebarTeacher role={teacher.subRole}/>
+            <SidebarTeacher role={teacher.subRole} />
             <div className="approvBox">
               <div className="request">
-                <h1>Mark's Entry</h1>
-                  <hr></hr>
-                  <br></br>
+                <h1>Course Approval</h1>
+                <hr></hr>
+                <br></br>
                 {courses &&
                   courses.map((course, i) => (
                     <div key={i}>

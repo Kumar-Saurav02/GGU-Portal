@@ -211,7 +211,15 @@ export const uploadingFees =
 
 //STUDENT UPLOAD MARKS
 export const uploadingMarks =
-  (marksSemester, marksSGPA, marksCGPA, marksResult) => async (dispatch) => {
+  (
+    marksSemester,
+    marksSGPA,
+    marksCGPA,
+    marksListOfBackSubjects,
+    marksResult,
+    marksStatus
+  ) =>
+  async (dispatch) => {
     try {
       dispatch({ type: SUBMIT_MARKS_REQUEST });
 
@@ -223,7 +231,9 @@ export const uploadingMarks =
           marksSemester,
           marksSGPA,
           marksCGPA,
+          marksListOfBackSubjects,
           marksResult,
+          marksStatus,
         },
         config
       );

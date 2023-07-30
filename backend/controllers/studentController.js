@@ -356,7 +356,9 @@ exports.updateDetails = catchAsyncErrors(async (req, res, next) => {
     marksSemester,
     marksSGPA,
     marksCGPA,
+    marksListOfBackSubjects,
     marksResult,
+    marksStatus,
     attendance,
     courseSubmission,
     scholarshipSession,
@@ -497,26 +499,29 @@ exports.updateDetails = catchAsyncErrors(async (req, res, next) => {
     );
 
     if (isDetailPresent) {
-      for (const detail of req.user.marksDetails) {
-        if (detail.semester.toString() === marksSemester.toString()) {
-          await cloudinary.uploader.destroy(detail.result.public_id);
-          const uploadResult = await cloudinary.uploader.upload(marksResult, {
-            folder: "results",
-          });
-          await Student.updateOne(
-            { _id: req.user._id, "marksDetails.semester": detail.semester },
-            {
-              $set: {
-                "marksDetails.$.semester": marksSemester,
-                "marksDetails.$.cgpa": marksCGPA,
-                "marksDetails.$.sgpa": marksSGPA,
-                "marksDetails.$.result.public_id": uploadResult.public_id,
-                "marksDetails.$.result.url": uploadResult.secure_url,
-              },
-            }
-          );
-        }
-      }
+      return next(
+        new ErrorHandler("Result already uploaded for current semester", 401)
+      );
+      // for (const detail of req.user.marksDetails) {
+      //   if (detail.semester.toString() === marksSemester.toString()) {
+      //     await cloudinary.uploader.destroy(detail.result.public_id);
+      //     const uploadResult = await cloudinary.uploader.upload(marksResult, {
+      //       folder: "results",
+      //     });
+      //     await Student.updateOne(
+      //       { _id: req.user._id, "marksDetails.semester": detail.semester },
+      //       {
+      //         $set: {
+      //           "marksDetails.$.semester": marksSemester,
+      //           "marksDetails.$.cgpa": marksCGPA,
+      //           "marksDetails.$.sgpa": marksSGPA,
+      //           "marksDetails.$.result.public_id": uploadResult.public_id,
+      //           "marksDetails.$.result.url": uploadResult.secure_url,
+      //         },
+      //       }
+      //     );
+      //   }
+      // }
     } else {
       const uploadResult = await cloudinary.uploader.upload(marksResult, {
         folder: "results",
@@ -524,8 +529,10 @@ exports.updateDetails = catchAsyncErrors(async (req, res, next) => {
 
       req.user.marksDetails.push({
         semester: marksSemester,
+        status: marksStatus,
         cgpa: marksSGPA,
         sgpa: marksCGPA,
+        backSubject: marksListOfBackSubjects,
         result: {
           public_id: uploadResult.public_id,
           url: uploadResult.secure_url,

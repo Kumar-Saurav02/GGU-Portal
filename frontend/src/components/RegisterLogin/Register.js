@@ -79,7 +79,6 @@ const Register = () => {
     passwordStudent: "",
     confirmPasswordStudent: "",
   });
-  console.log(student);
   const {
     enrollmentNo,
     nameStudent,
@@ -502,15 +501,7 @@ const Register = () => {
     );
   };
 
-  const inputArr = [
-    {
-      type: "text",
-      id: 1,
-      value: "",
-    },
-  ];
-  
-  const [assignedSubject, setAssignedSubject] = useState(inputArr);
+  const [assignedSubject, setAssignedSubject] = useState([]);
 
   const addInput = () => {
     setAssignedSubject((s) => {
@@ -523,6 +514,16 @@ const Register = () => {
           required: true,
         },
       ];
+    });
+  };
+  const removeInput = (e) => {
+    e.preventDefault();
+
+    const index = e.target.id;
+    setAssignedSubject((s) => {
+      let newArr = [...s];
+      newArr.splice(index, 1);
+      return newArr;
     });
   };
 
@@ -1188,7 +1189,7 @@ const Register = () => {
                   {/* Calendar */}
                   <div className="entry">
                     <label className="label_name" for="{dateOfBirthStudent}">
-                      DoB
+                      Date Of Birth
                     </label>
 
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -1277,13 +1278,18 @@ const Register = () => {
                     <div className="address" id="label_input">
                       {assignedSubject.map((item, i) => {
                         return (
-                          <input
-                            onChange={handleChange}
-                            value={item.value}
-                            id={i}
-                            type={item.type}
-                            size="40"
-                          />
+                          <div>
+                            <input
+                              onChange={handleChange}
+                              value={item.value}
+                              id={i}
+                              type={item.type}
+                              size="40"
+                            />
+                            <button id={i} onClick={removeInput}>
+                              Remove
+                            </button>
+                          </div>
                         );
                       })}
 

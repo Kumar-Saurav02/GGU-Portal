@@ -8,6 +8,8 @@ const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const sendToken = require("../utils/jwtToken");
 const cloudinary = require("cloudinary").v2;
 const sendEmail = require("../utils/sendEmail");
+var XLSX = require("xlsx");
+var path = require("path");
 
 //REGISTER APPROVAL TEACHER
 exports.registerApprovalTeacher = catchAsyncErrors(async (req, res, next) => {
@@ -325,6 +327,7 @@ exports.updateRoleOfTeacher = catchAsyncErrors(async (req, res, next) => {
     runValidators: true,
     useFindAndModify: false,
   });
+
   res.status(200).json({
     success: true,
     message: "Teacher Role Updated",

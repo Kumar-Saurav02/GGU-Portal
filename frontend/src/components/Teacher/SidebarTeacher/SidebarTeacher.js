@@ -45,7 +45,7 @@ const SidebarTeacher = ({ role }) => {
           </p>
         </Link>
         {role !== "admin" && (
-          <div>
+          <div className="sidebar">
             <Link to="/attendanceEntry">
               <p>
                 <PeopleIcon />

@@ -9,6 +9,7 @@ import Loader from "../../Loader/Loader";
 import { toast } from "react-toastify";
 import { uploadingFees, uploadingMarks } from "../../../actions/studentAction";
 import { clearMessages } from "../../../actions/adminAction";
+import { useDefaultDates } from "@mui/x-date-pickers/internals";
 
 const DocumentUploadStudent = () => {
   const dispatch = useDispatch();
@@ -81,6 +82,8 @@ const DocumentUploadStudent = () => {
       }
     }
   }, [semesterForFees]);
+
+  const [status, setStatus] = useState("1");
 
   const [resultDetails, setResultDetails] = useState({
     semesterForResult: "",
@@ -166,33 +169,157 @@ const DocumentUploadStudent = () => {
     );
   };
 
-  const submitMarksDataChange = () => {
+  const [currentSubjects, setCurrentSubjects] = useState([]);
+  const [assignedSubject, setAssignedSubject] = useState([]);
+  const [isChecked, setIsChecked] = useState(false);
+
+  useEffect(() => {
+    if (student) {
+      setCurrentSubjects([]);
+      setAssignedSubject([]);
+      for (let i = 0; i < student.courseSelected.length; i++) {
+        if (
+          student.courseSelected[i].semester.toString() ===
+          resultDetails.semesterForResult.toString()
+        ) {
+          var tempArrayForSubjects = [];
+          for (let j = 0; j < student.courseSelected[i].subjects.length; j++) {
+            tempArrayForSubjects.push(student.courseSelected[i].subjects[j]);
+          }
+          setCurrentSubjects(tempArrayForSubjects);
+        }
+      }
+    }
+  }, [resultDetails.semesterForResult]);
+
+  const addInput = () => {
     if (semesterForResult.trim() === "") {
-      return toast.error("Fill semester properly");
+      return toast.error("Select semester first");
     }
-    if (
-      sgpaForResult.trim() === "" ||
-      (sgpaForResult.trim() <= "10" && sgpaForResult.trim() >= "0")
-    ) {
-      return toast.error("Value should be between 0 and 10");
+    setAssignedSubject((s) => {
+      return [
+        ...s,
+        {
+          value: "",
+          completeValue: {},
+          required: true,
+        },
+      ];
+    });
+  };
+  const removeInput = (e) => {
+    e.preventDefault();
+
+    const index = e.target.id;
+    setAssignedSubject((s) => {
+      let newArr = [...s];
+      newArr.splice(index, 1);
+      return newArr;
+    });
+  };
+
+  const handleChange = (e) => {
+    e.preventDefault();
+
+    for (let i = 0; i < assignedSubject.length; i++) {
+      if (assignedSubject[i].value.toString() === e.target.value.toString()) {
+        return toast.error("Subject already selected");
+      }
     }
-    if (
-      cgpaForResult.trim() === "" ||
-      (cgpaForResult.trim() <= "10" && cgpaForResult.trim() >= "0")
-    ) {
-      return toast.error("Value should be between 0 and 10");
+
+    const index = e.target.id;
+    setAssignedSubject((s) => {
+      const newArr = s.slice();
+      newArr[index].value = e.target.value;
+      newArr[index].completeValue = JSON.parse(
+        e.target.options[e.target.selectedIndex].dataset.complete
+      );
+
+      return newArr;
+    });
+  };
+
+  const submitMarksDataChange = () => {
+    if (isChecked === false) {
+      return toast.error("Select the undertaking");
     }
-    if (resultUpload.trim() === "") {
-      return toast.error("Upload document properly");
+
+    if (student.marksDetails) {
+      for (let i = 0; i < student.marksDetails.length; i++) {
+        if (
+          student.marksDetails[i].semester.toString() ===
+          semesterForResult.toString()
+        ) {
+          return toast.error("Result is already uploaded for current semester");
+        }
+      }
     }
-    dispatch(
-      uploadingMarks(
-        semesterForResult.trim(),
-        sgpaForResult.trim(),
-        cgpaForResult.trim(),
-        resultUpload
-      )
-    );
+
+    var listOfBackSubjects = [];
+
+    if (status === "1") {
+      if (semesterForResult.trim() === "") {
+        return toast.error("Fill semester properly");
+      }
+      if (
+        sgpaForResult.trim() === "" ||
+        (sgpaForResult.trim() <= "10" && sgpaForResult.trim() >= "0")
+      ) {
+        return toast.error("Value should be between 0 and 10");
+      }
+      if (
+        cgpaForResult.trim() === "" ||
+        (cgpaForResult.trim() <= "10" && cgpaForResult.trim() >= "0")
+      ) {
+        return toast.error("Value should be between 0 and 10");
+      }
+      if (resultUpload.trim() === "") {
+        return toast.error("Upload document properly");
+      }
+      dispatch(
+        uploadingMarks(
+          semesterForResult.trim(),
+          sgpaForResult.trim(),
+          cgpaForResult.trim(),
+          listOfBackSubjects,
+          resultUpload,
+          "Pass"
+        )
+      );
+    } else if (status === "2") {
+      if (semesterForResult.trim() === "") {
+        return toast.error("Fill semester properly");
+      }
+      setResultDetails({ ...resultDetails, cgpaForResult: 0 });
+      setResultDetails({ ...resultDetails, sgpaForResult: 0 });
+
+      for (let i = 0; i < assignedSubject.length; i++) {
+        if (Object.keys(assignedSubject[i].completeValue).length === 0) {
+          return toast.error("Select the subject or remove unwanted subjects");
+        } else {
+          let termOfSubject = assignedSubject[i].completeValue.term.split(" ");
+          listOfBackSubjects.push({
+            subjectCode: assignedSubject[i].completeValue.subjectCode,
+            subjectName: assignedSubject[i].completeValue.subjectName,
+            subjectCredit: assignedSubject[i].completeValue.subjectCredit,
+            semester: termOfSubject[0],
+          });
+        }
+      }
+      if (resultUpload.trim() === "") {
+        return toast.error("Upload document properly");
+      }
+      dispatch(
+        uploadingMarks(
+          semesterForResult.trim(),
+          sgpaForResult.trim(),
+          cgpaForResult.trim(),
+          listOfBackSubjects,
+          resultUpload,
+          "Active Backlog"
+        )
+      );
+    }
   };
 
   return (
@@ -208,74 +335,71 @@ const DocumentUploadStudent = () => {
                 <h2>fee Upload</h2>
                 <hr></hr>
                 <br></br>
-                  
-                      <div className="entry">
-                              <label
-                                className="label_name"
-                                for="{semesterForFees}">
-                                Semester
-                              </label>
-                              <select
-                                id="label_input"
-                                required
-                                name="semesterForFees"
-                                onChange={registerFeeDataChange}>
-                                <option value={semesterForFees}>Semester</option>
-                                {semesters.map((sem) => (
-                                  <option key={sem} value={sem}>
-                                    {sem}
-                                  </option>
-                                ))}
-                              </select>
-                      </div>
 
+                <div className="entry">
+                  <label className="label_name" for="{semesterForFees}">
+                    Semester
+                  </label>
+                  <select
+                    id="label_input"
+                    required
+                    name="semesterForFees"
+                    onChange={registerFeeDataChange}>
+                    <option value={semesterForFees}>Semester</option>
+                    {semesters.map((sem) => (
+                      <option key={sem} value={sem}>
+                        {sem}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-                      <div className="entry">
-                        <label className="label_name" for="{bankNameForFees}">
-                          Bank Name
-                        </label>
-                        <input
-                          id="label_input"
-                          type="text"
-                          placeholder="Bank Name"
-                          required
-                          name="bankNameForFees"
-                          value={bankNameForFees}
-                          onChange={registerFeeDataChange}
-                        />
-                      </div>
+                <div className="entry">
+                  <label className="label_name" for="{bankNameForFees}">
+                    Bank Name
+                  </label>
+                  <input
+                    id="label_input"
+                    type="text"
+                    placeholder="Bank Name"
+                    required
+                    name="bankNameForFees"
+                    value={bankNameForFees}
+                    onChange={registerFeeDataChange}
+                  />
+                </div>
 
-                      <div className="entry">
-                        <label className="label_name" for="{ifscCodeForFees}">
-                          IFSC Code
-                        </label>
-                        <input
-                          id="label_input"
-                          type="text"
-                          placeholder="IFSC Code"
-                          required
-                          name="ifscCodeForFees"
-                          value={ifscCodeForFees}
-                          onChange={registerFeeDataChange}
-                        />
-                      </div>
+                <div className="entry">
+                  <label className="label_name" for="{ifscCodeForFees}">
+                    IFSC Code
+                  </label>
+                  <input
+                    id="label_input"
+                    type="text"
+                    placeholder="IFSC Code"
+                    required
+                    name="ifscCodeForFees"
+                    value={ifscCodeForFees}
+                    onChange={registerFeeDataChange}
+                  />
+                </div>
 
-                    <div className="entry">
-                        <label className="label_name" for="{amountForFees}">
-                          Amount
-                        </label>
-                        <input
-                          id="label_input"
-                          type="number"
-                          placeholder="Amount"
-                          required
-                          name="amountForFees"
-                          value={amountForFees}
-                          onChange={registerFeeDataChange}
-                        />
-                    </div>
+                <div className="entry">
+                  <label className="label_name" for="{amountForFees}">
+                    Amount
+                  </label>
+                  <input
+                    id="label_input"
+                    type="number"
+                    placeholder="Amount"
+                    required
+                    name="amountForFees"
+                    value={amountForFees}
+                    onChange={registerFeeDataChange}
+                  />
+                </div>
 
-                      {/* <div>
+                {/* <div>
                         <label>Challan ID</label>
                         <input
                           type="text"
@@ -287,7 +411,7 @@ const DocumentUploadStudent = () => {
                         />
                       </div> */}
 
-                      {/* <div>
+                {/* <div>
                         <label>Account Number</label>
                         <input
                           type="number"
@@ -298,130 +422,206 @@ const DocumentUploadStudent = () => {
                           onChange={registerFeeDataChange}
                         />
                       </div> */}
-                      
+
+                <div className="entry">
+                  <label className="label_name" for="{dateOfPaymentForFees}">
+                    Date of Payment
+                  </label>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      id="label_input"
+                      label="Date Of Payment"
+                      value={dateOfPaymentForFees}
+                      onChange={(newValue) => setDateOfPaymentForFees(newValue)}
+                    />
+                  </LocalizationProvider>
+                </div>
+
+                <div className="entry">
+                  <label className="label_name" for="{amountForFees}">
+                    Fee Upload
+                  </label>
+
+                  <input
+                    id="label_input"
+                    type="file"
+                    required
+                    name="feeUploadDocument"
+                    value={feeUploadDocument}
+                    accept="pdf/*"
+                    onChange={registerFeeDataChange}
+                  />
+                  <br></br>
+                  <p>File:- {previewFeeUpload}</p>
+                </div>
+                <br></br>
+                <div className="btn">
+                  <button
+                    className="signInbtn border hover"
+                    onClick={submitFeeDataChange}>
+                    Submit
+                  </button>
+                </div>
+              </div>
+
+              <div className="subsection">
+                <h2>Result Upload</h2>
+                <hr></hr>
+                <br></br>
+
+                <div className="entry">
+                  <label className="label_name" for="{semesterForResult">
+                    Semester
+                  </label>
+                  <select
+                    id="label_input"
+                    required
+                    name="semesterForResult"
+                    onChange={registerResultDataChange}>
+                    <option value={semesterForResult}>Semester</option>
+                    {semesters.map((sem) => (
+                      <option key={sem} value={sem}>
+                        {sem}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <p> Status</p>
+                  <select required onChange={(e) => setStatus(e.target.value)}>
+                    <option value={1}>Pass</option>
+                    <option value={2}>Active Backlog</option>
+                  </select>
+                </div>
+                {status === "1" && (
+                  <div>
+                    <div className="entry">
+                      <label className="label_name" for="{cgpaForResult}">
+                        CGPA
+                      </label>
+                      <input
+                        id="label_input"
+                        type="number"
+                        placeholder="CGPA"
+                        required
+                        name="cgpaForResult"
+                        value={cgpaForResult}
+                        onChange={registerResultDataChange}
+                      />
+                    </div>
+
+                    <div className="entry">
+                      <label className="label_name" for="{sgpaForResult}">
+                        SGPA
+                      </label>
+                      <input
+                        id="label_input"
+                        type="number"
+                        placeholder="SGPA"
+                        required
+                        name="sgpaForResult"
+                        value={sgpaForResult}
+                        onChange={registerResultDataChange}
+                      />
+                    </div>
+                  </div>
+                )}
+                {status === "2" && (
+                  <div>
+                    {assignedSubject.map((item, uid) => {
+                      return (
+                        <div key={uid}>
+                          <select
+                            value={item.value}
+                            id={uid}
+                            onChange={handleChange}>
+                            <option value="">Subjects</option>
+                            {currentSubjects.map((subject) => (
+                              <option
+                                key={subject.subjectCode}
+                                value={subject.subjectName}
+                                data-complete={JSON.stringify(subject)}>
+                                {subject.subjectName}
+                              </option>
+                            ))}
+                          </select>
+                          <button id={uid} onClick={removeInput}>
+                            Remove
+                          </button>
+                        </div>
+                      );
+                    })}
+
+                    <button onClick={addInput}>Add Backlog Subject</button>
+
+                    <div>
                       <div className="entry">
-                        <label className="label_name" for="{dateOfPaymentForFees}">
-                          Date of Payment
+                        <label className="label_name" for="{cgpaForResult}">
+                          CGPA
                         </label>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                          <DatePicker
-                            id="label_input"
-                            label="Date Of Payment"
-                            value={dateOfPaymentForFees}
-                            onChange={(newValue) =>
-                              setDateOfPaymentForFees(newValue)
-                            }
-                          />
-                        </LocalizationProvider>
-                      </div>
-                      
-                      <div className="entry">
-                        <label className="label_name" for="{amountForFees}">
-                          Fee Upload
-                        </label>
-                            
                         <input
                           id="label_input"
-                          type="file"
+                          type="number"
+                          disabled
+                          placeholder="CGPA"
                           required
-                          name="feeUploadDocument"
-                          value={feeUploadDocument}
-                          accept="pdf/*"
-                          onChange={registerFeeDataChange}
+                          value="0"
                         />
-                        <br></br>
-                        <p >File:- {previewFeeUpload}</p>
                       </div>
-                      <br></br>
-                      <div className="btn">
-                        <button 
-                          className="signInbtn border hover"
-                          onClick={submitFeeDataChange}>Submit
-                          </button>
+
+                      <div className="entry">
+                        <label className="label_name" for="{sgpaForResult}">
+                          SGPA
+                        </label>
+                        <input
+                          id="label_input"
+                          type="number"
+                          placeholder="SGPA"
+                          required
+                          disabled
+                          value="0"
+                        />
                       </div>
-                
+                    </div>
+                  </div>
+                )}
+
+                <div className="entry">
+                  <label className="label_name" for="{amountForFees}">
+                    Result Upload
+                  </label>
+
+                  <input
+                    id="label_input"
+                    type="file"
+                    required
+                    name="resultUploadForResult"
+                    value={resultUploadForResult}
+                    accept="pdf/*"
+                    onChange={registerResultDataChange}
+                  />
+                  <p>File:- {previewResultUpload}</p>
+                </div>
+                <div>
+                  <input
+                    type="checkbox"
+                    onChange={(e) => setIsChecked(!isChecked)}
+                  />
+                  <p>
+                    I am responsible for all the information filled by me. If
+                    any information is found false or invalid then I will be
+                    solely responsible.
+                  </p>
+                </div>
+                <br></br>
+                <div className="btn">
+                  <button
+                    className="signInbtn border hover"
+                    onClick={submitMarksDataChange}>
+                    Submit
+                  </button>
+                </div>
               </div>
-              
-              <div className="subsection">
-                  <h2>Result Upload</h2>
-                  <hr></hr>
-                  <br></br>
-
-                  <div className="entry">
-                    <label
-                      className="label_name"
-                      for="{semesterForResult">
-                      Semester
-                    </label>
-                    <select
-                      id="label_input"
-                      required
-                      name="semesterForResult"
-                      onChange={registerResultDataChange}>
-                      <option value={semesterForResult}>Semester</option>
-                      {semesters.map((sem) => (
-                        <option key={sem} value={sem}>
-                          {sem}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="entry">
-                    <label className="label_name" for="{cgpaForResult}">
-                      Enter CGPA
-                    </label>
-                    <input
-                      id="label_input"
-                      type="number"
-                      placeholder="CGPA"
-                      required
-                      name="cgpaForResult"
-                      value={cgpaForResult}
-                      onChange={registerResultDataChange}
-                    />
-                  </div>
-
-                  <div className="entry">
-                    <label className="label_name" for="{sgpaForResult}">
-                      SGPA
-                    </label>
-                    <input
-                      id="label_input"
-                      type="number"
-                      placeholder="SGPA"
-                      required
-                      name="sgpaForResult"
-                      value={sgpaForResult}
-                      onChange={registerResultDataChange}
-                    />
-                  </div>
-                  
-                  <div className="entry">
-                    <label className="label_name" for="{amountForFees}">
-                      Result Upload
-                    </label>
-                        
-                    <input
-                      id="label_input"
-                      type="file"
-                      required
-                      name="resultUploadForResult"
-                      value={resultUploadForResult}
-                      accept="pdf/*"
-                      onChange={registerResultDataChange}
-                    />
-                    <p>File:- {previewResultUpload}</p>
-                  </div>
-                  <br></br>
-                  <div className="btn">
-                        <button 
-                          className="signInbtn border hover"
-                          onClick={submitMarksDataChange}>Submit
-                          </button>
-                      </div>
-              </div>
-              
             </div>
           </div>
         </Fragment>
