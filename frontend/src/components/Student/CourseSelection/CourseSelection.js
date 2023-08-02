@@ -12,6 +12,8 @@ import { clearMessages } from "../../../actions/adminAction";
 import { toast } from "react-toastify";
 
 const CourseSelection = () => {
+  // Approval me hai to usme bhi course load nii hoga
+
   const dispatch = useDispatch();
 
   const { course, loading: courseLoading } = useSelector(
@@ -33,6 +35,8 @@ const CourseSelection = () => {
   const [attendance, setAttendance] = useState();
   const [courseSelected, setCourseSelected] = useState(false);
   const [credits, setCredits] = useState(0);
+  const [courseChecked, setCourseChecked] = useState([]);
+  const [undertakingChecked, setUndertakingChecked] = useState(false);
 
   useEffect(() => {
     if (error) {
@@ -79,6 +83,20 @@ const CourseSelection = () => {
   }, [student]);
 
   const submitCourseDetails = () => {
+    if (undertakingChecked === false) {
+      return toast.error("Select the undertaking");
+    }
+    const checkingUncheckedState = [];
+    if (courseChecked) {
+      for (let i = 0; i < courseChecked.length; i++) {
+        if (courseChecked[i] === false) {
+          return toast.error("Please select all subjects");
+        }
+        checkingUncheckedState[i] = false;
+      }
+    }
+    setCourseChecked(checkingUncheckedState);
+    setUndertakingChecked(false);
     dispatch(submitCourse(course));
   };
 
@@ -91,12 +109,23 @@ const CourseSelection = () => {
       course.course
     ) {
       var totalCredits = 0;
+      var checkedBoxTemp = [];
       for (let i = 0; i < course.course.length; i++) {
+        checkedBoxTemp[i] = false;
         totalCredits += course.course[i].subjectCredit;
       }
       setCredits(totalCredits);
     }
+    setCourseChecked(checkedBoxTemp);
   }, [course]);
+
+  const handleCourseSelectChange = (index) => {
+    const checkingUncheckedState = courseChecked.map((checkValue, id) =>
+      id === index ? !checkValue : checkValue
+    );
+
+    setCourseChecked(checkingUncheckedState);
+  };
 
   return (
     <Fragment>
@@ -159,7 +188,11 @@ const CourseSelection = () => {
                               <h4>{i + 1}</h4>
                             </span>
                             <span>
-                              <input type="checkbox" />
+                              <input
+                                type="checkbox"
+                                id={i}
+                                onChange={(e) => handleCourseSelectChange(i)}
+                              />
                             </span>
                             <span>
                               <h4> {courses.subjectName}</h4>
@@ -245,6 +278,19 @@ const CourseSelection = () => {
                 )}
                 {!courseSelected && (
                   <div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        onChange={(e) =>
+                          setUndertakingChecked(!undertakingChecked)
+                        }
+                      />
+                      <p>
+                        I hereby declare that the entries made by me in the
+                        aforesaid form are complete and true to the best of my
+                        knowledge.
+                      </p>
+                    </div>
                     <button onClick={submitCourseDetails}>Submit Course</button>
                   </div>
                 )}
