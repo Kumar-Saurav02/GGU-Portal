@@ -32,6 +32,9 @@ import {
   COURSE_SUBJECT_LIST_REQUEST,
   COURSE_SUBJECT_LIST_SUCCESS,
   COURSE_SUBJECT_LIST_FAIL,
+  CHECK_COURSE_APPROVAL_REQUEST,
+  CHECK_COURSE_APPROVAL_SUCCESS,
+  CHECK_COURSE_APPROVAL_FAIL,
 } from "../constants/studentConstant";
 
 export const registerLoginStudentsReducer = (
@@ -210,6 +213,40 @@ export const getCourseSubjectsListReducer = (
     case CLEAR_MESSAGES:
       return {
         ...state,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+export const checkIfCourseIsSentForApprovalToClassInchargeReducer = (
+  state = { isPresent: {} },
+  action
+) => {
+  switch (action.type) {
+    case CHECK_COURSE_APPROVAL_REQUEST:
+      return {
+        loading: true,
+      };
+    case CHECK_COURSE_APPROVAL_SUCCESS:
+      return {
+        loading: false,
+        isPresent: action.payload.isPresent,
+        message: action.payload.message,
+      };
+    case CHECK_COURSE_APPROVAL_FAIL:
+      return {
+        ...state,
+        loading: false,
+        isPresent: null,
+        error: action.payload,
+      };
+    case CLEAR_MESSAGES:
+      return {
+        ...state,
+        message: null,
+        isPresent: null,
         error: null,
       };
     default:

@@ -15,6 +15,7 @@ const {
   rejectApprovalStudent,
   getAllStudentsApproval,
   getCourseSubjectList,
+  checkIfCourseSentForApproval,
 } = require("../controllers/studentController");
 const {
   isAuthenticatedUser,
@@ -45,9 +46,14 @@ router.route("/loginStudent").post(loginStudent);
 router.route("/logoutStudent").get(logout);
 router.route("/updateStudent").put(isAuthenticatedUser, updateDetails);
 router.route("/getStudentDetail").get(isAuthenticatedUser, getStudent);
+
 router
   .route("/getCourseForSelection")
   .get(isAuthenticatedUser, getCourseSelectionForSemester);
+router
+  .route("/checkIfCourseSentForApproval")
+  .get(isAuthenticatedUser, checkIfCourseSentForApproval);
+
 router
   .route("/getAllStudents")
   .get(

@@ -31,6 +31,9 @@ import {
   COURSE_SUBJECT_LIST_REQUEST,
   COURSE_SUBJECT_LIST_SUCCESS,
   COURSE_SUBJECT_LIST_FAIL,
+  CHECK_COURSE_APPROVAL_REQUEST,
+  CHECK_COURSE_APPROVAL_SUCCESS,
+  CHECK_COURSE_APPROVAL_FAIL,
 } from "../constants/studentConstant";
 import {
   REGISTER_STUDENT_REQUEST,
@@ -417,3 +420,19 @@ export const getCourseSubjectsList =
       });
     }
   };
+
+//CHECK IS COURSE SENT FOR APPROVAL
+export const checkIfCourseIsSentForApproval = () => async (dispatch) => {
+  try {
+    dispatch({ type: CHECK_COURSE_APPROVAL_REQUEST });
+
+    const { data } = await axios.get(`/api/checkIfCourseSentForApproval`);
+
+    dispatch({ type: CHECK_COURSE_APPROVAL_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: CHECK_COURSE_APPROVAL_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};

@@ -766,6 +766,25 @@ exports.getCourseSelectionForSemester = catchAsyncErrors(
   }
 );
 
+//CHECK IF COURSE IS SENT FOR APPROVAL
+exports.checkIfCourseSentForApproval = catchAsyncErrors(
+  async (req, res, next) => {
+    const enrollmentNumber = req.user.enrollmentNo;
+
+    const isPresent = await ApproveCourse.findOne({ enrollmentNumber });
+
+    if (!isPresent) {
+      return next(new ErrorHandler("Not sent for approval", 401));
+    }
+    res.status(200).json({
+      success: true,
+      isPresent,
+      message: "Course is already sent for approval",
+    });
+  }
+);
+
+//GET COURSE SUBJECT LIST
 exports.getCourseSubjectList = catchAsyncErrors(async (req, res, next) => {
   const sem = req.params.semester;
   const depart = req.params.department;

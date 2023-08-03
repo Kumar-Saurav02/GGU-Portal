@@ -2,6 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import {
+  checkIfCourseIsSentForApprovalToClassInchargeReducer,
   getCourseForStudentReducer,
   getCourseSubjectsListReducer,
   getStudentsBaseOnSemesterAndDepartmentReducer,
@@ -60,6 +61,8 @@ const reducer = combineReducers({
   getAttendanceEntryBySubject: getAttendanceEntryBySubjectReducer,
   getMarksEntryBySubject: getMarksEntryBySubjectReducer,
   updateTeacherDetails: updateTeacherDetailsReducer,
+  checkIfCourseIsSentForApprovalToClassIncharge:
+    checkIfCourseIsSentForApprovalToClassInchargeReducer,
 });
 
 let initialState = {};

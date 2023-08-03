@@ -36,6 +36,25 @@ const approveCourseSchema = new mongoose.Schema({
       },
     },
   ],
+  backSubjects: [
+    {
+      subjectName: {
+        type: String,
+      },
+      subjectCode: {
+        type: String,
+      },
+      subjectCredit: {
+        type: Number,
+      },
+      category: {
+        type: String,
+      },
+      term: {
+        type: String,
+      },
+    },
+  ],
 });
 
 module.exports = mongoose.model("ApproveCourse", approveCourseSchema);

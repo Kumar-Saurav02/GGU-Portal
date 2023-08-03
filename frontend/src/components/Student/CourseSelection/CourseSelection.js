@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  checkIfCourseIsSentForApproval,
   getCourseForStudent,
   submitCourse,
 } from "../../../actions/studentAction";
@@ -10,14 +11,23 @@ import "../StudentScholarship/StudentScholarship.css";
 import SidebarStudent from "../SidebarStudent/SidebarStudent";
 import { clearMessages } from "../../../actions/adminAction";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const CourseSelection = () => {
-  // Approval me hai to usme bhi course load nii hoga
-
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { course, loading: courseLoading } = useSelector(
     (state) => state.courseForStudents
+  );
+
+  const {
+    isPresent,
+    message: approvalMessage,
+    loading: approvalLoading,
+    error: approvalError,
+  } = useSelector(
+    (state) => state.checkIfCourseIsSentForApprovalToClassIncharge
   );
 
   const {
@@ -37,6 +47,11 @@ const CourseSelection = () => {
   const [credits, setCredits] = useState(0);
   const [courseChecked, setCourseChecked] = useState([]);
   const [undertakingChecked, setUndertakingChecked] = useState(false);
+  const [sentForApproval, setSentForApproval] = useState();
+
+  useEffect(() => {
+    setSentForApproval(approvalMessage);
+  }, [approvalMessage]);
 
   useEffect(() => {
     if (error) {
@@ -46,11 +61,13 @@ const CourseSelection = () => {
     if (message) {
       toast.success(message);
       dispatch(clearMessages());
+      navigate("/studentProfile");
     }
   }, [error, message]);
 
   useEffect(() => {
     dispatch(getCourseForStudent());
+    dispatch(checkIfCourseIsSentForApproval());
 
     if (
       student !== undefined &&
@@ -129,19 +146,21 @@ const CourseSelection = () => {
 
   return (
     <Fragment>
-      {courseLoading || studentLoading || uploading ? (
+      {courseLoading || studentLoading || uploading || approvalLoading ? (
         <Loader />
       ) : (
         <Fragment>
           <div className="courseSelectionMain">
             <SidebarStudent />
-            <div className="courseSelection">
+            <div>
               <h1>Course Selection</h1>
-              <div className="detailsOfStudent">
-                <p>Name: {student.name}</p>
-                <p>Enrollment Number: {student.enrollmentNo}</p>
-                <p>Current Semester: {student.currentSemester}</p>
-                {/* <p>
+              {courseSelected === false && sentForApproval === undefined && (
+                <div className="courseSelection">
+                  <div className="detailsOfStudent">
+                    <p>Name: {student.name}</p>
+                    <p>Enrollment Number: {student.enrollmentNo}</p>
+                    <p>Current Semester: {student.currentSemester}</p>
+                    {/* <p>
                   <p>Attendance: </p>
                   <p>
                     {attendance === undefined ? (
@@ -151,150 +170,154 @@ const CourseSelection = () => {
                     )}
                   </p>
                 </p> */}
-              </div>
-              <div className="courseDetails">
-                <h2>Courses</h2>
-                <div>
-                  <div className="showdata">
-                    <div className="Field_data_val">
-                      <span>
-                        <h4>S. No</h4>
-                      </span>
-                      <span>
-                        <h4>Select</h4>
-                      </span>
-                      <span>
-                        <h4>Subject Name</h4>
-                      </span>
-                      <span>
-                        <h4>Subject Code</h4>
-                      </span>
-                      <span>
-                        <h4>Credits</h4>
-                      </span>
-                      <span>
-                        <h4>Category</h4>
-                      </span>
-                      <span>
-                        <h4>Term</h4>
-                      </span>
-                    </div>
-                    {course &&
-                      course.course &&
-                      course.course.map((courses, i) => {
-                        return (
-                          <div key={i} className="show_data_val">
-                            <span>
-                              <h4>{i + 1}</h4>
-                            </span>
-                            <span>
-                              <input
-                                type="checkbox"
-                                id={i}
-                                onChange={(e) => handleCourseSelectChange(i)}
-                              />
-                            </span>
-                            <span>
-                              <h4> {courses.subjectName}</h4>
-                            </span>
-                            <span>
-                              <h4> {courses.subjectCode}</h4>
-                            </span>
-                            <span>
-                              <h4> {courses.subjectCredit}</h4>
-                            </span>
-                            <span>
-                              <h4> {courses.category}</h4>
-                            </span>
-                            <span>
-                              <h4> {student.currentSemester} Semester</h4>
-                            </span>
-                          </div>
-                        );
-                      })}
                   </div>
-                </div>
-              </div>
-              {student.currentSemester !== "1" ||
-                (student.currentSemester !== "2" && (
-                  <div className="backSubjects">
-                    <h2>Back Subjects</h2>
+                  <div className="courseDetails">
+                    <h2>Courses</h2>
                     <div>
-                      {student.backSubject &&
-                      student.backSubject.length === 0 ? (
-                        <p>No active backlogs</p>
-                      ) : (
-                        <div className="showdata">
-                          <div className="Field_data_val">
-                            <span>
-                              <h4>S. No</h4>
-                            </span>
-                            <span>
-                              <h4>Select</h4>
-                            </span>
-                            <span>
-                              <h4>Subject Name</h4>
-                            </span>
-                            <span>
-                              <h4>Subject Code</h4>
-                            </span>
-                            <span>
-                              <h4>Credits</h4>
-                            </span>
-                          </div>
-                          {student.backSubject &&
-                            student.backSubject.map((back, i) => (
+                      <div className="showdata">
+                        <div className="Field_data_val">
+                          <span>
+                            <h4>S. No</h4>
+                          </span>
+                          <span>
+                            <h4>Select</h4>
+                          </span>
+                          <span>
+                            <h4>Subject Name</h4>
+                          </span>
+                          <span>
+                            <h4>Subject Code</h4>
+                          </span>
+                          <span>
+                            <h4>Credits</h4>
+                          </span>
+                          <span>
+                            <h4>Category</h4>
+                          </span>
+                          <span>
+                            <h4>Term</h4>
+                          </span>
+                        </div>
+                        {course &&
+                          course.course &&
+                          course.course.map((courses, i) => {
+                            return (
                               <div key={i} className="show_data_val">
                                 <span>
-                                  <h4> {back.semester}</h4>
+                                  <h4>{i + 1}</h4>
                                 </span>
                                 <span>
-                                  <h4>{back.subjectName} </h4>
+                                  <input
+                                    type="checkbox"
+                                    id={i}
+                                    onChange={(e) =>
+                                      handleCourseSelectChange(i)
+                                    }
+                                  />
                                 </span>
                                 <span>
-                                  <h4>{back.subjectCode} </h4>
+                                  <h4> {courses.subjectName}</h4>
                                 </span>
                                 <span>
-                                  <h4>{back.subjectCredit} </h4>
+                                  <h4> {courses.subjectCode}</h4>
+                                </span>
+                                <span>
+                                  <h4> {courses.subjectCredit}</h4>
+                                </span>
+                                <span>
+                                  <h4> {courses.category}</h4>
+                                </span>
+                                <span>
+                                  <h4> {student.currentSemester} Semester</h4>
                                 </span>
                               </div>
-                            ))}
-                        </div>
-                      )}
+                            );
+                          })}
+                      </div>
                     </div>
                   </div>
-                ))}
+                  {student.currentSemester !== "1" ||
+                    (student.currentSemester !== "2" && (
+                      <div className="backSubjects">
+                        <h2>Back Subjects</h2>
+                        <div>
+                          {student.backSubject &&
+                          student.backSubject.length === 0 ? (
+                            <p>No active backlogs</p>
+                          ) : (
+                            <div className="showdata">
+                              <div className="Field_data_val">
+                                <span>
+                                  <h4>S. No</h4>
+                                </span>
+                                <span>
+                                  <h4>Select</h4>
+                                </span>
+                                <span>
+                                  <h4>Subject Name</h4>
+                                </span>
+                                <span>
+                                  <h4>Subject Code</h4>
+                                </span>
+                                <span>
+                                  <h4>Credits</h4>
+                                </span>
+                              </div>
+                              {student.backSubject &&
+                                student.backSubject.map((back, i) => (
+                                  <div key={i} className="show_data_val">
+                                    <span>
+                                      <h4> {back.semester}</h4>
+                                    </span>
+                                    <span>
+                                      <h4>{back.subjectName} </h4>
+                                    </span>
+                                    <span>
+                                      <h4>{back.subjectCode} </h4>
+                                    </span>
+                                    <span>
+                                      <h4>{back.subjectCredit} </h4>
+                                    </span>
+                                  </div>
+                                ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
 
-              <div>
-                <h5>Total Credits</h5>
-                <p>{credits}</p>
-              </div>
-
-              <div>
-                {courseSelected && (
                   <div>
-                    <h3>Course is already submitted.</h3>
+                    <h5>Total Credits</h5>
+                    <p>{credits}</p>
                   </div>
-                )}
-                {!courseSelected && (
+
                   <div>
                     <div>
-                      <input
-                        type="checkbox"
-                        onChange={(e) =>
-                          setUndertakingChecked(!undertakingChecked)
-                        }
-                      />
-                      <p>
-                        I hereby declare that the entries made by me in the
-                        aforesaid form are complete and true to the best of my
-                        knowledge.
-                      </p>
+                      <div>
+                        <input
+                          type="checkbox"
+                          onChange={(e) =>
+                            setUndertakingChecked(!undertakingChecked)
+                          }
+                        />
+                        <p>
+                          I hereby declare that the entries made by me in the
+                          aforesaid form are complete and true to the best of my
+                          knowledge.
+                        </p>
+                      </div>
+                      <button onClick={submitCourseDetails}>
+                        Submit Course
+                      </button>
                     </div>
-                    <button onClick={submitCourseDetails}>Submit Course</button>
                   </div>
-                )}
-              </div>
+                </div>
+              )}
+              {(courseSelected || sentForApproval !== undefined) && (
+                <div>
+                  <h3>Course is already submitted for current semester.</h3>
+                </div>
+              )}
             </div>
           </div>
         </Fragment>
