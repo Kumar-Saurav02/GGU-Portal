@@ -588,10 +588,12 @@ exports.updateDetails = catchAsyncErrors(async (req, res, next) => {
       semester: courseSubmission.semester,
       subjects: subjects,
     });
-    res.status(200).json({
-      success: true,
-      message: "Course Selection sent for approval",
-    });
+
+    await req.user.save({ validateBeforeSave: false });
+    // res.status(200).json({
+    //   success: true,
+    //   message: "Course Selection sent for approval",
+    // });
   }
 
   if (scholarshipSession !== undefined) {
@@ -628,10 +630,12 @@ exports.updateDetails = catchAsyncErrors(async (req, res, next) => {
     //     scholarship: scholarshipName,
     //   });
     // }
-    res.status(200).json({
-      success: true,
-      message: "Scholarship details sent for approval",
-    });
+
+    await req.user.save({ validateBeforeSave: false });
+    // res.status(200).json({
+    //   success: true,
+    //   message: "Scholarship details sent for approval",
+    // });
   }
 
   await Student.findByIdAndUpdate(req.user.id, updatedData, {
@@ -776,6 +780,7 @@ exports.checkIfCourseSentForApproval = catchAsyncErrors(
     if (!isPresent) {
       return next(new ErrorHandler("Not sent for approval", 401));
     }
+
     res.status(200).json({
       success: true,
       isPresent,

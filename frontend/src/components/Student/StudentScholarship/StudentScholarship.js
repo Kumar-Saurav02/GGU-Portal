@@ -11,9 +11,12 @@ import { clearMessages } from "../../../actions/adminAction";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { useNavigate } from "react-router-dom";
 
 const StudentScholarship = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [studentState, setStudentState] = useState();
   const [session, setSession] = useState();
   const [name, setName] = useState();
@@ -35,6 +38,7 @@ const StudentScholarship = () => {
     if (message) {
       toast.success(message);
       dispatch(clearMessages());
+      navigate("/studentProfile");
     }
   }, [error, message]);
 
@@ -56,11 +60,11 @@ const StudentScholarship = () => {
       return toast.error("Select the undertaking");
     }
     if (
-      session !== undefined ||
-      studentState !== undefined ||
-      district !== undefined ||
-      name !== undefined ||
-      document !== undefined
+      session === undefined ||
+      studentState === undefined ||
+      district === undefined ||
+      name === undefined ||
+      document === undefined
     ) {
       return toast.error("Fill information properly");
     }
