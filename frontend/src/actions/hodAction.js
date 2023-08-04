@@ -11,6 +11,9 @@ import {
   GET_SUBJECT_REQUEST,
   GET_SUBJECT_SUCCESS,
   GET_SUBJECT_FAIL,
+  UPDATE_SUBJECT_ASSIGNED_REQUEST,
+  UPDATE_SUBJECT_ASSIGNED_SUCCESS,
+  UPDATE_SUBJECT_ASSIGNED_FAIL,
 } from "../constants/hodConstant";
 import axios from "axios";
 
@@ -72,3 +75,29 @@ export const getAllSubjects = () => async (dispatch) => {
     dispatch({ type: GET_SUBJECT_FAIL, payload: error.response.data.message });
   }
 };
+
+//UPDATE ASSIGN SUBJECT FOR TEACHER
+export const updateAssignSubjectToTeacher =
+  (listOfAssignedSubjects, id) => async (dispatch) => {
+    try {
+      dispatch({ type: UPDATE_SUBJECT_ASSIGNED_REQUEST });
+
+      const config = { headers: { "Content-Type": "application/json" } };
+
+      const { data } = await axios.put(
+        `/api/updateAssignSubjectForTeacher`,
+        { listOfAssignedSubjects, id },
+        config
+      );
+
+      dispatch({
+        type: UPDATE_SUBJECT_ASSIGNED_SUCCESS,
+        payload: data.message,
+      });
+    } catch (error) {
+      dispatch({
+        type: UPDATE_SUBJECT_ASSIGNED_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };

@@ -274,6 +274,10 @@ const studentSchema = new mongoose.Schema({
       semester: {
         type: Number,
       },
+      attendanceDetails: {
+        type: String,
+        default: "",
+      },
       subjects: [
         {
           subjectName: {

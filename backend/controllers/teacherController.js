@@ -384,7 +384,8 @@ exports.getTeacher = catchAsyncErrors(async (req, res, next) => {
 
 //ACCEPT COURSE DETAILS
 exports.acceptCourseSelection = catchAsyncErrors(async (req, res, next) => {
-  const { enrollmentNumber, courseSubmission, id } = req.body;
+  const { enrollmentNumber, courseSubmission, id, attendanceDetails } =
+    req.body;
 
   const student = await Student.findOne({ enrollmentNo: enrollmentNumber });
   if (!student) {
@@ -407,6 +408,7 @@ exports.acceptCourseSelection = catchAsyncErrors(async (req, res, next) => {
   student.courseSelected.push({
     semester: courseSubmission.semester,
     subjects,
+    attendanceDetails,
   });
 
   await student.save({ validateBeforeSave: false });

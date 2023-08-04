@@ -32,47 +32,47 @@ const ProfileTeacher = () => {
                 <h2>Teacher's Profile</h2>
                 <hr></hr>
                 <br></br>
-               <div className="entry">
-                <label  className="label_name">Employee ID</label>
-                <p>{teacher.employeeID}</p>
-               </div>
+                <div className="entry">
+                  <label className="label_name">Employee ID</label>
+                  <p>{teacher.employeeID}</p>
+                </div>
 
-              <div className="entry">
-                <label className="label_name">Name</label>
-                <p>{teacher.name}</p>
-              </div>
+                <div className="entry">
+                  <label className="label_name">Name</label>
+                  <p>{teacher.name}</p>
+                </div>
 
-              <div className="entry">
-                <label className="label_name">Email</label>
-                <p>{teacher.email}</p>
-              </div>
+                <div className="entry">
+                  <label className="label_name">Email</label>
+                  <p>{teacher.email}</p>
+                </div>
 
-              <div className="entry">
-                <label className="label_name">Mobile Number</label>
-                <p>{teacher.mobileNumber}</p>
-              </div>
-              <div className="entry">
-                <label className="label_name">Gender</label>
-                <p>{teacher.gender}</p>
-              </div>
-              <div className="entry">
-                <label className="label_name"> Department</label>
-                <p>{teacher.department}</p>
-              </div>
-              <div className="entry">
-                <label className="label_name">Designation</label>
-                <p>{teacher.designation}</p>
-              </div>
+                <div className="entry">
+                  <label className="label_name">Mobile Number</label>
+                  <p>{teacher.mobileNumber}</p>
+                </div>
+                <div className="entry">
+                  <label className="label_name">Gender</label>
+                  <p>{teacher.gender}</p>
+                </div>
+                <div className="entry">
+                  <label className="label_name"> Department</label>
+                  <p>{teacher.department}</p>
+                </div>
+                <div className="entry">
+                  <label className="label_name">Designation</label>
+                  <p>{teacher.designation}</p>
+                </div>
 
-              <div className="entry">
-                <label className="label_name">Date OF Birth</label>
-                <p>{teacher.dateOfBirth}</p>
-              </div>
-              <div className="entry">
-                <label className="label_name">Qualification</label>
-                <p>{teacher.qualification}</p>
-              </div>
-              <div className="entry">
+                <div className="entry">
+                  <label className="label_name">Date OF Birth</label>
+                  <p>{teacher.dateOfBirth}</p>
+                </div>
+                <div className="entry">
+                  <label className="label_name">Qualification</label>
+                  <p>{teacher.qualification}</p>
+                </div>
+                {/* <div className="entry">
                 <label className="label_name">Assigned Subjects</label>
                 <div className="address">
                 {teacher.assignSubject &&
@@ -86,35 +86,38 @@ const ProfileTeacher = () => {
                   </div>
                   ))}
                 </div>
+              </div> */}
+                {teacher.resume && (
+                  <div className="entry">
+                    <label className="label_name">Resume</label>
+                    <br></br>
+                    <a
+                      target="_blank"
+                      rel="noreferrer"
+                      href={teacher.resume.url}>
+                      View
+                    </a>
+                  </div>
+                )}
               </div>
-              {teacher.resume && (
-                <div  className="entry">
-                  <label className="label_name">Resume</label>
-                  <br></br>
-                  <a target="_blank" rel="noreferrer" href={teacher.resume.url}>
-                    View
-                  </a>
-                </div>
-              )}
-              </div> 
-          <div className="subsection">
+              <div className="subsection">
                 <div>
-                <h2>Photograph & Signature</h2>
+                  <h2>Photograph & Signature</h2>
                   <hr></hr>
-                  <br></br> 
-              {teacher.profilePhoto && (
-                <div className="entry">
-                  <label className="label_name">Profile Photo</label>
-                  <img src={teacher.profilePhoto.url} />
-                </div>
-              )}
-              {teacher.signature && (
-                <div className="entry">
-                  <label className="label_name">Signature</label>
-                  <img src={teacher.signature.url} />
-                </div>
-              )}
-              {/* {teacher.resume && (
+                  <br></br>
+                  {teacher.profilePhoto && (
+                    <div className="entry">
+                      <label className="label_name">Profile Photo</label>
+                      <img src={teacher.profilePhoto.url} />
+                    </div>
+                  )}
+                  {teacher.signature && (
+                    <div className="entry">
+                      <label className="label_name">Signature</label>
+                      <img src={teacher.signature.url} />
+                    </div>
+                  )}
+                  {/* {teacher.resume && (
                 <div className="entry">
                   <label className="label_name">Resume</label>
                   <a target="_blank" rel="noreferrer" href={teacher.resume.url}>
@@ -123,11 +126,11 @@ const ProfileTeacher = () => {
                 
                 </div>
               )} */}
-              <div>
-                <button onClick={editProfile}>Edit</button>
-              </div>
+                  <div>
+                    <button onClick={editProfile}>Edit</button>
+                  </div>
                 </div>
-          </div>
+              </div>
             </div>
           </div>
         </Fragment>

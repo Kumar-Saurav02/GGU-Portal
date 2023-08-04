@@ -2,6 +2,7 @@ const ErrorHandler = require("../utils/errorhandler");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const Subject = require("../models/subjectModel");
 const CourseSelection = require("../models/courseSelectionModel");
+const Teacher = require("../models/teacherModel");
 
 exports.createSubject = catchAsyncErrors(async (req, res, next) => {
   const { subjectName, subjectCode, subjectCredit } = req.body;
@@ -67,6 +68,26 @@ exports.createCourse = catchAsyncErrors(async (req, res, next) => {
   res.status(201).json({
     success: true,
     message: `Course Created for semester ${semester}`,
+  });
+});
+
+//ASSIGNING SUBJECT TO TEACHERS
+exports.assignSubjectToTeacher = catchAsyncErrors(async (req, res, next) => {
+  const { listOfAssignedSubjects, id } = req.body;
+
+  await Teacher.findByIdAndUpdate(
+    id,
+    { assignSubject: listOfAssignedSubjects },
+    {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+    }
+  );
+
+  res.status(200).json({
+    success: true,
+    message: "Details Updated Successfully",
   });
 });
 

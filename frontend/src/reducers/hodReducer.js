@@ -12,6 +12,9 @@ import {
   GET_SUBJECT_REQUEST,
   GET_SUBJECT_SUCCESS,
   GET_SUBJECT_FAIL,
+  UPDATE_SUBJECT_ASSIGNED_REQUEST,
+  UPDATE_SUBJECT_ASSIGNED_SUCCESS,
+  UPDATE_SUBJECT_ASSIGNED_FAIL,
 } from "../constants/hodConstant";
 
 //CREATE COURSE
@@ -99,6 +102,37 @@ export const getAllSubjectsReducer = (state = { subjects: [] }, action) => {
     case CLEAR_MESSAGES:
       return {
         ...state,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+//CREATE COURSE
+export const assignSubjectsToTeacherReducer = (state = {}, action) => {
+  switch (action.type) {
+    case UPDATE_SUBJECT_ASSIGNED_REQUEST:
+      return {
+        loading: true,
+      };
+    case UPDATE_SUBJECT_ASSIGNED_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        message: action.payload,
+      };
+    case UPDATE_SUBJECT_ASSIGNED_FAIL:
+      return {
+        ...state,
+        loading: false,
+        message: null,
+        error: action.payload,
+      };
+    case CLEAR_MESSAGES:
+      return {
+        ...state,
+        message: null,
         error: null,
       };
     default:

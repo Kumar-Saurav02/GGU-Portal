@@ -29,6 +29,7 @@ import {
   updateTeacherRoleReducer,
 } from "./reducers/adminReducer";
 import {
+  assignSubjectsToTeacherReducer,
   createCourseByHODReducer,
   createSubjectByHODReducer,
   getAllSubjectsReducer,
@@ -63,6 +64,7 @@ const reducer = combineReducers({
   updateTeacherDetails: updateTeacherDetailsReducer,
   checkIfCourseIsSentForApprovalToClassIncharge:
     checkIfCourseIsSentForApprovalToClassInchargeReducer,
+  assignSubjectsToTeacher: assignSubjectsToTeacherReducer,
 });
 
 let initialState = {};

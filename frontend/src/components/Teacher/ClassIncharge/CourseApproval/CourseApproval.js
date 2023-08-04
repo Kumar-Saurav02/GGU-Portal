@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { clearMessages } from "../../../../actions/adminAction";
@@ -24,6 +24,10 @@ const CourseApproval = () => {
   } = useSelector((state) => state.courseScholarshipCheck);
 
   const { teacher } = useSelector((state) => state.registerLoginTeachers);
+
+  const semesters = [1, 2, 3, 4, 5, 6, 7, 8];
+
+  const [selectedSemester, setSelectedSemester] = useState("");
 
   useEffect(() => {
     dispatch(courseApprovalByIncharge());
@@ -60,12 +64,31 @@ const CourseApproval = () => {
                 <h1>Course Approval</h1>
                 <hr></hr>
                 <br></br>
+                <div>
+                  <select onChange={(e) => setSelectedSemester(e.target.value)}>
+                    <option value="">Semester</option>
+                    {semesters.map((sem) => (
+                      <option key={sem} value={sem}>
+                        {sem}
+                      </option>
+                    ))}
+                  </select>
+                </div>
                 {courses &&
-                  courses.map((course, i) => (
-                    <div key={i}>
-                      <CourseApprovalMapping data={course} />
-                    </div>
-                  ))}
+                  courses
+                    .filter((courseDepartment) =>
+                      courseDepartment.department.includes(teacher.department)
+                    )
+                    .filter((courseDepartment) =>
+                      courseDepartment.semester
+                        .toString()
+                        .includes(selectedSemester.toString())
+                    )
+                    .map((course, i) => (
+                      <div key={i}>
+                        <CourseApprovalMapping data={course} />
+                      </div>
+                    ))}
               </div>
             </div>
           </div>

@@ -414,6 +414,7 @@ const Register = () => {
       )
     );
   };
+
   const registerTeacherDetails = (e) => {
     e.preventDefault();
 
@@ -444,9 +445,9 @@ const Register = () => {
     if (qualificationTeacher.trim() === "") {
       return toast.error("Fill the qualification");
     }
-    if (assignedSubject.length === 0) {
-      return toast.error("Fill the assigned subject");
-    }
+    // if (assignedSubject.length === 0) {
+    //   return toast.error("Fill the assigned subject");
+    // }
     if (resumeFileTeacher.trim() === "") {
       return toast.error("Upload your resume");
     }
@@ -503,41 +504,41 @@ const Register = () => {
 
   const [assignedSubject, setAssignedSubject] = useState([]);
 
-  const addInput = () => {
-    setAssignedSubject((s) => {
-      return [
-        ...s,
-        {
-          type: "text",
-          value: "",
-          placeholder: "Assigned Subject",
-          required: true,
-        },
-      ];
-    });
-  };
-  const removeInput = (e) => {
-    e.preventDefault();
+  // const addInput = () => {
+  //   setAssignedSubject((s) => {
+  //     return [
+  //       ...s,
+  //       {
+  //         type: "text",
+  //         value: "",
+  //         placeholder: "Assigned Subject",
+  //         required: true,
+  //       },
+  //     ];
+  //   });
+  // };
+  // const removeInput = (e) => {
+  //   e.preventDefault();
 
-    const index = e.target.id;
-    setAssignedSubject((s) => {
-      let newArr = [...s];
-      newArr.splice(index, 1);
-      return newArr;
-    });
-  };
+  //   const index = e.target.id;
+  //   setAssignedSubject((s) => {
+  //     let newArr = [...s];
+  //     newArr.splice(index, 1);
+  //     return newArr;
+  //   });
+  // };
 
-  const handleChange = (e) => {
-    e.preventDefault();
+  // const handleChange = (e) => {
+  //   e.preventDefault();
 
-    const index = e.target.id;
-    setAssignedSubject((s) => {
-      const newArr = s.slice();
-      newArr[index].value = e.target.value;
+  //   const index = e.target.id;
+  //   setAssignedSubject((s) => {
+  //     const newArr = s.slice();
+  //     newArr[index].value = e.target.value;
 
-      return newArr;
-    });
-  };
+  //     return newArr;
+  //   });
+  // };
 
   return (
     <Fragment>
@@ -1271,7 +1272,7 @@ const Register = () => {
                     </select>
                   </div>
 
-                  <div className="entry">
+                  {/* <div className="entry">
                     <label className="label_name" for="{item.value}">
                       Assigned Subject
                     </label>
@@ -1295,7 +1296,7 @@ const Register = () => {
 
                       <button onClick={addInput}>Add another field</button>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="subsection">

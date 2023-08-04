@@ -23,6 +23,7 @@ const {
   createCourse,
   updateCourse,
   getAllSubjects,
+  assignSubjectToTeacher,
 } = require("../controllers/hodController");
 const {
   isAuthenticatedUser,
@@ -75,12 +76,7 @@ router
   .get(isAuthenticatedUser, authorizeRolesTeacher("teacher"), getTeacher);
 router
   .route("/getAllTeachers")
-  .get(
-    isAuthenticatedUser,
-    authorizeRolesTeacher("teacher"),
-    authorizeSubRolesTeacher("admin"),
-    getAllTeachers
-  );
+  .get(isAuthenticatedUser, authorizeRolesTeacher("teacher"), getAllTeachers);
 router
   .route("/getAllRequestsTeachers")
   .get(
@@ -122,6 +118,14 @@ router.route("/getAllSubjects").get(
   // authorizeSubRolesTeacher("hod"),
   getAllSubjects
 );
+router
+  .route("/updateAssignSubjectForTeacher")
+  .put(
+    isAuthenticatedUser,
+    authorizeRolesTeacher("teacher"),
+    authorizeSubRolesTeacher("hod"),
+    assignSubjectToTeacher
+  );
 
 //CLASS INCHARGE
 router

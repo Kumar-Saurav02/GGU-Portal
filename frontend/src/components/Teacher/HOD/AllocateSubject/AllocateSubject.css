@@ -1,0 +1,19 @@
+.allocateSubject {
+  width: 100vw;
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  position: absolute;
+  font-size: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .allocateSubject {
+    margin-top: 40px;
+    width: 100vw;
+    max-width: 100%;
+    display: flex;
+    position: absolute;
+    font-size: 20px;
+  }
+}

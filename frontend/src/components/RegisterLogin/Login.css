@@ -1,59 +1,52 @@
-
 /* yah mera hai */
 
-.border
-{
-    border: 2px solid;
-    border-radius: 5px;
-    padding: 2px;
-    background: #f4f2ff;
-    text-align: center;
-    margin: 2px;
-    width: 80%;
+.border {
+  border: 2px solid;
+  border-radius: 5px;
+  padding: 2px;
+  background: #f4f2ff;
+  text-align: center;
+  margin: 2px;
+  width: 80%;
 }
 
-body
-{
-  background: no-repeat url("../../Images/bg.jpg");
-  background-size: cover ;
+body {
+  background: repeat url("../../Images/bg.jpg");
+  background-size: cover;
   font-size: 14px;
-  
-
 }
 
 .forlin {
   margin-left: 10%;
 }
 
-.fullContainer{
-  position : relative;
-    height : 100vh;
-    display : flex;
-    align-items : top;
-    justify-content : center;
-    
+.fullContainer {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: top;
+  justify-content: center;
 }
-.fullContainer ::before{
-  background-position : top;
-  background-size : cover;
-  background-repeat : no-repeat;
-  
-  content : "";
-  position : absolute;
-  top : 0;
-  left : 0;
-  right : 0;
-  bottom : 0;
-  z-index : -1;
+.fullContainer ::before {
+  background-position: top;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
 }
-.ggulogo
-{
+.ggulogo {
   width: 63px;
   padding: 1rem;
   border-radius: 2rem;
   margin-right: 5px;
 }
-.loginBox{
+.loginBox {
   background-color: white;
   flex-direction: row;
   margin: auto;
@@ -67,8 +60,7 @@ body
   padding: 2%;
 }
 
-.loginImg
-{
+.loginImg {
   width: 75%;
   padding: 10px;
 }
@@ -82,102 +74,94 @@ body
 /* .lefthalf >img{
   height: 180px;
   width: 186px; */
-  /* margin-right: 20px; */
-  /* padding: 10px;
+/* margin-right: 20px; */
+/* padding: 10px;
 } */
-.righthalf{
-  display : flex;
+.righthalf {
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 .welcome {
-  display : flex;
+  display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
 }
-.full{
-  display : flex;
+.full {
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-.toggleForLogin{
-  min-width : 232px;
-  margin-bottom : 5px;
+.toggleForLogin {
+  min-width: 232px;
+  margin-bottom: 5px;
 }
-.input_sections{
-  min-width : 225px;
-  margin-bottom : 5px;
+.input_sections {
+  min-width: 225px;
+  margin-bottom: 5px;
 }
-.sign_in{
+.sign_in {
   margin-top: 5%;
-  min-width : 100px;
-  margin-bottom : 5px;
-  margin-top : 5px;
+  min-width: 100px;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 
-.regandfor{
-   display: flex;
-   flex-direction: row; 
-  margin: 10%
+.regandfor {
+  display: flex;
+  flex-direction: row;
+  margin: 10%;
 }
 
+.signInbtn {
+  width: 43%;
+}
 
-.signInbtn
-  {
-    width: 43%;
-  }
+#user {
+  width: 100%;
+}
 
+.register {
+  margin-top: 30px;
+}
 
-#user
-  {
-    width: 100%;
-  }
+.signInbtn:hover {
+  box-shadow: 3px 3px black;
+  transform: scale(1.1);
+}
 
-  .register
-  {
-   margin-top: 30px;
-  }
-  
-  .signInbtn:hover 
-  {
-    box-shadow: 3px 3px black;
-    transform: scale(1.1);
-  }
+.register:hover {
+  box-shadow: 0 -3px 3px 1px #848ee6;
+}
 
-  .register:hover 
-  {
-    box-shadow: 0 -3px 3px 1px #848ee6;
-  }
-
-@media screen and (max-width : 700px) {
-  .loginBox{
+@media screen and (max-width: 700px) {
+  .loginBox {
     display: flex;
     flex-direction: column;
   }
 
-  .lefthalf >img{
-    height : 0px;
-    width : 0px;
-    margin-right :20px
+  .lefthalf > img {
+    height: 0px;
+    width: 0px;
+    margin-right: 20px;
   }
-  .loginBox{
+  .loginBox {
     background-color: white;
     padding: 20px;
     margin: auto;
-    margin : auto;
+    margin: auto;
     border: 1.5px solid;
-    display : flex;
+    display: flex;
     min-width: 250px;
     align-items: center;
     justify-content: center;
   }
 }
 
-
-.btn > button:hover{
+.btn > button:hover {
   background-color: rgb(239, 235, 235);
   font-weight: 540;
   color: black;

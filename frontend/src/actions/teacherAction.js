@@ -203,7 +203,8 @@ export const courseApprovalByIncharge = () => async (dispatch) => {
 
 //COURSE ACCEPT
 export const courseAcceptByIncharge =
-  (courseSubmission, id, enrollmentNumber) => async (dispatch) => {
+  (courseSubmission, id, enrollmentNumber, attendanceDetails) =>
+  async (dispatch) => {
     try {
       dispatch({ type: COURSE_ACCEPT_REQUEST });
 
@@ -215,6 +216,7 @@ export const courseAcceptByIncharge =
           courseSubmission,
           id,
           enrollmentNumber,
+          attendanceDetails,
         },
         config
       );

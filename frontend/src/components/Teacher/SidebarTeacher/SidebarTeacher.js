@@ -75,6 +75,12 @@ const SidebarTeacher = ({ role }) => {
                 Create Course
               </p>
             </Link>
+            <Link to="/hod/allocateSubject">
+              <p>
+                <PeopleIcon />
+                Allocate Subject
+              </p>
+            </Link>
           </div>
         )}
 

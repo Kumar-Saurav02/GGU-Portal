@@ -19,6 +19,7 @@ import ProfileTeacher from "./components/Teacher/Profile/ProfileTeacher";
 import HODApproval from "./components/Admin/HOD/HODApproval";
 import CreateSubject from "./components/Teacher/HOD/CreateSubject/CreateSubject";
 import CreateCourse from "./components/Teacher/HOD/CreateCourse/CreateCourse";
+import AllocateSubject from "./components/Teacher/HOD/AllocateSubject/AllocateSubject";
 import ChangingTeacherRole from "./components/Admin/Roles/ChangingTeacherRole";
 import CourseApproval from "./components/Teacher/ClassIncharge/CourseApproval/CourseApproval";
 import ScholarshipApproval from "./components/Teacher/ClassIncharge/ScholarshipApproval/ScholarshipApproval";
@@ -31,6 +32,7 @@ import StudentList from "./components/Admin/StudentList/StudentList";
 import StudentListDetails from "./components/Admin/StudentList/StudentListDetails";
 import TeacherList from "./components/Admin/TeacherList/TeacherList";
 import TeacherListDetails from "./components/Admin/TeacherList/TeacherListDetails";
+import NotFound from "../src/components/Layout/NotFound";
 
 function App() {
   useEffect(() => {
@@ -268,6 +270,16 @@ function App() {
             />
           }
         />
+        <Route
+          path="/hod/allocateSubject"
+          element={
+            <ProtectedRoute
+              role="teacher"
+              subRole="hod"
+              Component={AllocateSubject}
+            />
+          }
+        />
 
         {/* Class Incharge */}
         <Route
@@ -290,6 +302,7 @@ function App() {
             />
           }
         />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );
