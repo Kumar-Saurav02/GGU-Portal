@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { removeStudentByAdmin } from "../../../actions/adminAction";
 
 const StudentListMapping = ({ data }) => {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ const StudentListMapping = ({ data }) => {
   };
 
   const removeStudent = () => {
-    console.log("Deleted");
+    dispatch(removeStudentByAdmin(data._id));
   };
 
   return (

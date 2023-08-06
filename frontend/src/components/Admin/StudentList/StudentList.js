@@ -18,6 +18,12 @@ const StudentList = () => {
   const { teacher } = useSelector((state) => state.registerLoginTeachers);
 
   const {
+    loading: studentRemoveLoading,
+    message: studentRemoveMessage,
+    error: studentRemoveError,
+  } = useSelector((state) => state.removeStudentTeacher);
+
+  const {
     students,
     loading: studentListLoading,
     error,
@@ -26,12 +32,23 @@ const StudentList = () => {
   const [searchResult, setSearchResult] = useState("");
 
   useEffect(() => {
+    if (studentRemoveMessage) {
+      toast.success(studentRemoveMessage);
+      dispatch(clearMessages());
+    }
+    if (studentRemoveError) {
+      toast.error(studentRemoveError);
+      dispatch(clearMessages());
+    }
+  }, [studentRemoveMessage, studentRemoveError]);
+
+  useEffect(() => {
     dispatch(getAllStudentDetail());
   }, []);
 
   return (
     <Fragment>
-      {studentListLoading ? (
+      {studentListLoading || studentRemoveLoading ? (
         <Loader />
       ) : (
         <Fragment>

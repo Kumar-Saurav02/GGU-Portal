@@ -26,6 +26,7 @@ import {
   getAllTeacherDetailsReducer,
   getStudentApprovalRequestReducer,
   getTeacherApprovalRequestReducer,
+  removeStudentTeacherReducer,
   updateTeacherRoleReducer,
 } from "./reducers/adminReducer";
 import {
@@ -65,6 +66,7 @@ const reducer = combineReducers({
   checkIfCourseIsSentForApprovalToClassIncharge:
     checkIfCourseIsSentForApprovalToClassInchargeReducer,
   assignSubjectsToTeacher: assignSubjectsToTeacherReducer,
+  removeStudentTeacher: removeStudentTeacherReducer,
 });
 
 let initialState = {};

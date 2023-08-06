@@ -27,6 +27,12 @@ import {
   GET_ALL_STUDENTS_REQUEST,
   GET_ALL_STUDENTS_SUCCESS,
   GET_ALL_STUDENTS_FAIL,
+  REMOVE_TEACHER_REQUEST,
+  REMOVE_TEACHER_SUCCESS,
+  REMOVE_TEACHER_FAIL,
+  REMOVE_STUDENT_REQUEST,
+  REMOVE_STUDENT_SUCCESS,
+  REMOVE_STUDENT_FAIL,
 } from "../constants/adminConstant";
 import axios from "axios";
 
@@ -202,6 +208,44 @@ export const getAllStudentDetail = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: GET_ALL_STUDENTS_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+//REMOVE TEACHER
+export const removeTeacherByAdmin = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: REMOVE_TEACHER_REQUEST });
+
+    const { data } = await axios.delete(`/api/removeTeacher/${id}`);
+
+    dispatch({
+      type: REMOVE_TEACHER_SUCCESS,
+      payload: data.message,
+    });
+  } catch (error) {
+    dispatch({
+      type: REMOVE_TEACHER_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+//REMOVE STUDENT
+export const removeStudentByAdmin = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: REMOVE_STUDENT_REQUEST });
+
+    const { data } = await axios.delete(`/api/removeStudent/${id}`);
+
+    dispatch({
+      type: REMOVE_STUDENT_SUCCESS,
+      payload: data.message,
+    });
+  } catch (error) {
+    dispatch({
+      type: REMOVE_STUDENT_FAIL,
       payload: error.response.data.message,
     });
   }
