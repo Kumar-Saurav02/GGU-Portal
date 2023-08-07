@@ -28,12 +28,16 @@ const TeacherDetails = ({ key, data }) => {
     <Fragment>
       <div className="subsection">
         <div className="entry">
-        <label className="label_name">Employee ID.</label>
+          <label className="label_name">Employee ID.</label>
           <p>{data.employeeID}</p>
         </div>
         <div className="entry">
-        <label className="label_name">Name</label>
+          <label className="label_name">Name</label>
           <p>{data.name}</p>
+        </div>
+        <div className="entry">
+          <label className="label_name">Department</label>
+          <p>{data.department}</p>
         </div>
         {data.subRole === "hod" && (
           <div className="entry">
@@ -72,8 +76,10 @@ const TeacherDetails = ({ key, data }) => {
             ))}
           </select>
         </div>
-        <button className="signInbtn border hover" onClick={updateRole}>Update</button>
-       </div>
+        <button className="signInbtn border hover" onClick={updateRole}>
+          Update
+        </button>
+      </div>
     </Fragment>
   );
 };

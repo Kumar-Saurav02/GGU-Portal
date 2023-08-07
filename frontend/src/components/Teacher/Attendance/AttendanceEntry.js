@@ -58,18 +58,18 @@ const AttendanceEntry = () => {
     "November",
     "December",
   ];
-  const departments = [
-    "Department of Computer Science and Engineering",
-    "Department of Information Technology",
-    "Department of Electronics & Communication Engineering",
-    "Department of Chemical Engineering",
-    "Department of Civil Engineering",
-    "Department of Mechanical Engineering",
-    "Department of Industrial & Production Engineering",
-  ];
+  // const departments = [
+  //   "Department of Computer Science and Engineering",
+  //   "Department of Information Technology",
+  //   "Department of Electronics & Communication Engineering",
+  //   "Department of Chemical Engineering",
+  //   "Department of Civil Engineering",
+  //   "Department of Mechanical Engineering",
+  //   "Department of Industrial & Production Engineering",
+  // ];
   const [semester, setSemester] = useState(1);
-  const [department, setDepartment] = useState("");
   const [subject, setSubject] = useState("");
+  const [listOfSubjects, setListOfSubjects] = useState([]);
   const [monthName, setMonthName] = useState();
   const [loadInput, setLoadInput] = useState(false);
   const [totalAttendance, setTotalAttendance] = useState(0);
@@ -116,13 +116,17 @@ const AttendanceEntry = () => {
         totalAttendance: Number(totalAttendance),
       });
     }
-    dispatch(attendanceEntryBySubjectTeacher(semester, department, allDetails));
+    dispatch(
+      attendanceEntryBySubjectTeacher(semester, teacher.department, allDetails)
+    );
   };
 
   const getStudentListForAttendance = () => {
-    dispatch(getStudentSemesterDepartment(semester, department));
-    dispatch(getCourseSubjectsList(semester, department));
+    dispatch(getStudentSemesterDepartment(semester, teacher.department));
+    dispatch(getCourseSubjectsList(semester, teacher.department));
   };
+  console.log(subjects);
+  console.log(teacher);
 
   useEffect(() => {
     if (
@@ -133,6 +137,18 @@ const AttendanceEntry = () => {
       studentDetails.length > 0 &&
       subjects.length > 0
     ) {
+      let tempSubjects = [];
+      for (let i = 0; i < subjects.length; i++) {
+        for (let j = 0; j < teacher.assignSubject.length; j++) {
+          if (
+            teacher.assignSubject[j].subjectCode.toString() ===
+            subjects[i].subjectCode.toString()
+          ) {
+            tempSubjects.push(subjects[i]);
+          }
+        }
+      }
+      setListOfSubjects(tempSubjects);
       setLoadInput(true);
     }
   }, [subjects, studentDetails]);
@@ -163,8 +179,10 @@ const AttendanceEntry = () => {
   ]);
 
   useEffect(() => {
-    if (department.trim() !== "" && subject.trim() !== "") {
-      dispatch(getAttendanceDetailBySubject(semester, department, subject));
+    if (teacher.department.trim() !== "" && subject.trim() !== "") {
+      dispatch(
+        getAttendanceDetailBySubject(semester, teacher.department, subject)
+      );
     }
   }, [subject]);
 
@@ -206,17 +224,7 @@ const AttendanceEntry = () => {
                   <label className="label_name" for="">
                     Department
                   </label>
-                  <select
-                    id="label_input"
-                    required
-                    onChange={(e) => setDepartment(e.target.value)}>
-                    <option>Department</option>
-                    {departments.map((depart) => (
-                      <option key={depart} value={depart}>
-                        {depart}
-                      </option>
-                    ))}
-                  </select>
+                  <p>{teacher.department}</p>
                 </div>
                 <br></br>
                 <div className="">
@@ -234,7 +242,7 @@ const AttendanceEntry = () => {
                     <br></br>
                     <h2>Semester : {semester}</h2>
                     <br></br>
-                    <h2>Department : {department}</h2>
+                    <h2>Department : {teacher.department}</h2>
                     <br></br>
                   </div>
                   <div className="entry">
@@ -264,8 +272,8 @@ const AttendanceEntry = () => {
                       value={subject}
                       onChange={(e) => setSubject(e.target.value)}>
                       <option>Subjects</option>
-                      {subjects &&
-                        subjects.map((sub, i) => (
+                      {listOfSubjects &&
+                        listOfSubjects.map((sub, i) => (
                           <option key={i} value={sub.subjectName}>
                             {sub.subjectName}
                           </option>
