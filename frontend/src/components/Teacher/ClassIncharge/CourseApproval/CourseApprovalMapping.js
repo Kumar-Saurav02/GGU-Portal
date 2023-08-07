@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   courseAcceptByIncharge,
@@ -7,10 +7,15 @@ import {
 import "./CourseApproval.css";
 import { toast } from "react-toastify";
 
-const CourseApprovalMapping = ({ data }) => {
+const CourseApprovalMapping = ({ data, attendanceDetails }) => {
   const dispatch = useDispatch();
 
+  // console.log(attendanceDetails);
+  // console.log(data);
+
   const [attendanceSelect, setAttendanceSelect] = useState("");
+  const [attendanceFinder, setAttendanceFinder] = useState();
+  const [attendanceSubject, setAttendanceSubject] = useState([]);
 
   const acceptCourse = () => {
     if (attendanceSelect.trim() === "") {
@@ -34,6 +39,51 @@ const CourseApprovalMapping = ({ data }) => {
     "Attendance more than 75%",
     "Attendance more than 66%",
   ];
+
+  useEffect(() => {
+    for (let i = 0; i < attendanceDetails.length; i++) {
+      if (
+        attendanceDetails[i].semester.toString() === data.semester.toString()
+      ) {
+        for (let j = 0; j < attendanceDetails[i].students.length; j++) {
+          if (
+            attendanceDetails[i].students[j].enrollmentNumber.toString() ===
+            data.enrollmentNumber.toString()
+          ) {
+            setAttendanceFinder(attendanceDetails[i].students[j]);
+          }
+        }
+        break;
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (attendanceFinder !== null && attendanceFinder !== undefined) {
+      let updatingSubjectsAttendance = [];
+      for (let i = 0; i < attendanceFinder.subjects.length; i++) {
+        var totalAttendanceForSubject = 0;
+        var acquiredAttendanceForSubject = 0;
+        for (let j = 0; j < attendanceFinder.subjects[i].months.length; j++) {
+          acquiredAttendanceForSubject += Number(
+            attendanceFinder.subjects[i].months[j].attendance
+          );
+          totalAttendanceForSubject += Number(
+            attendanceFinder.subjects[i].months[j].totalAttendance
+          );
+        }
+        updatingSubjectsAttendance.push({
+          subjectName: attendanceFinder.subjects[i].subjectName,
+          totalAttendance: totalAttendanceForSubject,
+          acquiredAttendance: acquiredAttendanceForSubject,
+          percentageCalculation: Number(
+            (acquiredAttendanceForSubject / totalAttendanceForSubject) * 100
+          ),
+        });
+      }
+      setAttendanceSubject(updatingSubjectsAttendance);
+    }
+  }, [attendanceFinder]);
 
   return (
     <Fragment>
@@ -104,6 +154,22 @@ const CourseApprovalMapping = ({ data }) => {
           </div>
           <br></br>
           <br></br>
+
+          <div>
+            {attendanceSubject && (
+              <div>
+                {attendanceSubject &&
+                  attendanceSubject.map((attendance) => (
+                    <div>
+                      <p>Subject: {attendance.subjectName}</p>
+                      <p>Attendance: {attendance.acquiredAttendance}</p>
+                      <p>Total Attendance: {attendance.totalAttendance}</p>
+                      <p>Percentage: {attendance.percentageCalculation}%</p>
+                    </div>
+                  ))}
+              </div>
+            )}
+          </div>
 
           <div>
             <select

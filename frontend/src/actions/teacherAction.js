@@ -40,6 +40,9 @@ import {
   UPDATE_TEACHER_DETAILS_REQUEST,
   UPDATE_TEACHER_DETAILS_SUCCESS,
   UPDATE_TEACHER_DETAILS_FAIL,
+  GET_ATTENDANCE_BY_DEPARTMENT_REQUEST,
+  GET_ATTENDANCE_BY_DEPARTMENT_SUCCESS,
+  GET_ATTENDANCE_BY_DEPARTMENT_FAIL,
 } from "../constants/teacherConstant";
 import {
   REGISTER_TEACHER_REQUEST,
@@ -438,6 +441,28 @@ export const getMarksDetailBySubject =
     } catch (error) {
       dispatch({
         type: GET_MARKS_BY_SUBJECT_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };
+
+//GET ATTENDANCE DETAILS BY SUBJECT
+export const getAttendanceDetailByDepartment =
+  (department) => async (dispatch) => {
+    try {
+      dispatch({ type: GET_ATTENDANCE_BY_DEPARTMENT_REQUEST });
+
+      const { data } = await axios.get(
+        `/api/getAttendanceDetailsOfParticularDepartment/${department}`
+      );
+
+      dispatch({
+        type: GET_ATTENDANCE_BY_DEPARTMENT_SUCCESS,
+        payload: data.attendanceDetails,
+      });
+    } catch (error) {
+      dispatch({
+        type: GET_ATTENDANCE_BY_DEPARTMENT_FAIL,
         payload: error.response.data.message,
       });
     }

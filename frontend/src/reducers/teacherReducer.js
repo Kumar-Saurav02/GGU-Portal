@@ -41,6 +41,9 @@ import {
   UPDATE_TEACHER_DETAILS_REQUEST,
   UPDATE_TEACHER_DETAILS_SUCCESS,
   UPDATE_TEACHER_DETAILS_FAIL,
+  GET_ATTENDANCE_BY_DEPARTMENT_REQUEST,
+  GET_ATTENDANCE_BY_DEPARTMENT_SUCCESS,
+  GET_ATTENDANCE_BY_DEPARTMENT_FAIL,
 } from "../constants/teacherConstant";
 
 export const registerLoginTeachersReducer = (
@@ -230,15 +233,18 @@ export const getAttendanceEntryBySubjectReducer = (
 ) => {
   switch (action.type) {
     case GET_ATTENDANCE_BY_SUBJECT_REQUEST:
+    case GET_ATTENDANCE_BY_DEPARTMENT_REQUEST:
       return {
         loading: true,
       };
     case GET_ATTENDANCE_BY_SUBJECT_SUCCESS:
+    case GET_ATTENDANCE_BY_DEPARTMENT_SUCCESS:
       return {
         loading: false,
         attendanceDetails: action.payload,
       };
     case GET_ATTENDANCE_BY_SUBJECT_FAIL:
+    case GET_ATTENDANCE_BY_DEPARTMENT_FAIL:
       return {
         ...state,
         loading: false,

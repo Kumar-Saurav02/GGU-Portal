@@ -43,6 +43,8 @@ const AttendanceEntry = () => {
     error: attendanceDetailsError,
   } = useSelector((state) => state.getAttendanceEntryBySubject);
 
+  console.log(attendanceDetails);
+
   const semesters = [1, 2, 3, 4, 5, 6, 7, 8];
   const months = [
     "January",
@@ -125,8 +127,6 @@ const AttendanceEntry = () => {
     dispatch(getStudentSemesterDepartment(semester, teacher.department));
     dispatch(getCourseSubjectsList(semester, teacher.department));
   };
-  console.log(subjects);
-  console.log(teacher);
 
   useEffect(() => {
     if (
@@ -185,6 +185,23 @@ const AttendanceEntry = () => {
       );
     }
   }, [subject]);
+
+  useEffect(() => {
+    if (
+      studentDetails !== null &&
+      attendanceDetails !== null &&
+      studentDetails !== undefined &&
+      attendanceDetails !== undefined &&
+      studentDetails.length > 0
+    ) {
+      studentDetails.sort(function (a, b) {
+        return a.rollNo - b.rollNo;
+      });
+      attendanceDetails.students.sort(function (a, b) {
+        return a.rollNumber - b.rollNumber;
+      });
+    }
+  }, [attendanceDetails]);
 
   return (
     <Fragment>

@@ -2,7 +2,10 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { clearMessages } from "../../../../actions/adminAction";
-import { courseApprovalByIncharge } from "../../../../actions/teacherAction";
+import {
+  courseApprovalByIncharge,
+  getAttendanceDetailByDepartment,
+} from "../../../../actions/teacherAction";
 import Loader from "../../../Loader/Loader";
 import SidebarTeacher from "../../SidebarTeacher/SidebarTeacher";
 import "./CourseApproval.css";
@@ -23,6 +26,12 @@ const CourseApproval = () => {
     error: ApproveRejectError,
   } = useSelector((state) => state.courseScholarshipCheck);
 
+  const {
+    loading: attendanceDetailsLoading,
+    attendanceDetails,
+    error: attendanceDetailsError,
+  } = useSelector((state) => state.getAttendanceEntryBySubject);
+
   const { teacher } = useSelector((state) => state.registerLoginTeachers);
 
   const semesters = [1, 2, 3, 4, 5, 6, 7, 8];
@@ -30,6 +39,8 @@ const CourseApproval = () => {
   const [selectedSemester, setSelectedSemester] = useState("");
 
   useEffect(() => {
+    dispatch(getAttendanceDetailByDepartment(teacher.department));
+
     dispatch(courseApprovalByIncharge());
   }, [dispatch]);
 
@@ -53,7 +64,7 @@ const CourseApproval = () => {
 
   return (
     <Fragment>
-      {courseLoading || loading ? (
+      {courseLoading || loading || attendanceDetailsLoading ? (
         <Loader />
       ) : (
         <Fragment>
@@ -86,7 +97,10 @@ const CourseApproval = () => {
                     )
                     .map((course, i) => (
                       <div key={i}>
-                        <CourseApprovalMapping data={course} />
+                        <CourseApprovalMapping
+                          data={course}
+                          attendanceDetails={attendanceDetails}
+                        />
                       </div>
                     ))}
               </div>

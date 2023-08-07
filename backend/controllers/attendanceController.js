@@ -195,3 +195,23 @@ exports.studentsBasedOnSemesterAndDepartment = catchAsyncErrors(
     });
   }
 );
+
+//GET ATTENDANCE DETAILS DEPARTMENT
+exports.getAttendanceDetailsOfParticularDepartment = catchAsyncErrors(
+  async (req, res, next) => {
+    const { department } = req.params;
+
+    const attendanceDetails = await Attendance.find({
+      department,
+    });
+
+    if (!attendanceDetails) {
+      next(new ErrorHandler("No Attendance Found", 401));
+    }
+
+    res.status(200).json({
+      success: true,
+      attendanceDetails,
+    });
+  }
+);

@@ -33,6 +33,7 @@ const {
 const {
   fillAttendanceDetails,
   getAttendanceDetailsOfParticularSubject,
+  getAttendanceDetailsOfParticularDepartment,
 } = require("../controllers/attendanceController");
 const {
   fillMarksDetails,
@@ -188,7 +189,19 @@ router
   .route(
     "/getAttendanceDetailsOfParticularSubject/:semester/:department/:subject"
   )
-  .get(getAttendanceDetailsOfParticularSubject);
+  .get(
+    isAuthenticatedUser,
+    authorizeRolesTeacher("teacher"),
+    getAttendanceDetailsOfParticularSubject
+  );
+
+router
+  .route("/getAttendanceDetailsOfParticularDepartment/:department")
+  .get(
+    isAuthenticatedUser,
+    authorizeRolesTeacher("teacher"),
+    getAttendanceDetailsOfParticularDepartment
+  );
 
 //MARKS
 router.route("/marksEntryByTeacher").put(fillMarksDetails);
