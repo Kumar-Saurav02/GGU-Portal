@@ -31,7 +31,7 @@ router
   .post(
     isAuthenticatedUser,
     authorizeRolesTeacher("teacher"),
-    authorizeSubRolesTeacher("admin"),
+    authorizeSubRolesTeacher("hod"),
     registerStudentAccept
   );
 router
@@ -39,7 +39,7 @@ router
   .delete(
     isAuthenticatedUser,
     authorizeRolesTeacher("teacher"),
-    authorizeSubRolesTeacher("admin"),
+    authorizeSubRolesTeacher("hod"),
     rejectApprovalStudent
   );
 router.route("/loginStudent").post(loginStudent);
@@ -54,15 +54,18 @@ router
   .route("/checkIfCourseSentForApproval")
   .get(isAuthenticatedUser, checkIfCourseSentForApproval);
 
-router
-  .route("/getAllStudents")
-  .get(
-    isAuthenticatedUser,
-    authorizeRolesTeacher("teacher"),
-    authorizeSubRolesTeacher("admin"),
-    getAllStudents
-  );
-router.route("/getAllRequestsStudents").get(getAllStudentsApproval);
+router.route("/getAllStudents").get(
+  isAuthenticatedUser,
+  authorizeRolesTeacher("teacher"),
+  // authorizeSubRolesTeacher("hod"),
+  getAllStudents
+);
+router.route("/getAllRequestsStudents").get(
+  isAuthenticatedUser,
+  authorizeRolesTeacher("teacher"),
+  // authorizeSubRolesTeacher("admin"),
+  getAllStudentsApproval
+);
 router.route("/getParticularStudent").get(getParticularStudent);
 router
   .route("/studentsBasedOnSemesterAndDepartment/:semester/:department")

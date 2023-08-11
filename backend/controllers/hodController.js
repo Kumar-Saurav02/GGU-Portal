@@ -14,17 +14,53 @@ exports.createSubject = catchAsyncErrors(async (req, res, next) => {
   ) {
     return next(new ErrorHandler("Enter details properly", 401));
   }
-  const subjectExist = await Subject.findOne({ subjectCode });
+
+  const subjectExist = await Subject.findOne({
+    course: req.user.course,
+    department: req.user.department,
+  });
 
   if (subjectExist) {
-    return next(new ErrorHandler("Subject already exists", 401));
+    for (let i = 0; i < subjectExist.subjects.length; i++) {
+      if (
+        subjectExist.subjects[i].subjectCode.toString() ===
+          subjectCode.toString() ||
+        subjectExist.subjects[i].subjectName.toString() ===
+          subjectName.toString()
+      ) {
+        return next(
+          new ErrorHandler(
+            `Subject exist with subject code ${subjectCode} or subject name ${subjectName}`,
+            401
+          )
+        );
+      }
+    }
+    await Subject.updateOne(
+      { course: req.user.course, department: req.user.department },
+      {
+        $push: {
+          subjects: {
+            subjectCode: subjectCode,
+            subjectName: subjectName,
+            subjectCredit: subjectCredit,
+          },
+        },
+      }
+    );
+  } else {
+    await Subject.create({
+      course: req.user.course,
+      department: req.user.department,
+      subjects: [
+        {
+          subjectName,
+          subjectCode,
+          subjectCredit,
+        },
+      ],
+    });
   }
-
-  await Subject.create({
-    subjectName,
-    subjectCode,
-    subjectCredit,
-  });
 
   res.status(201).json({
     success: true,
@@ -33,7 +69,10 @@ exports.createSubject = catchAsyncErrors(async (req, res, next) => {
 });
 
 exports.getAllSubjects = catchAsyncErrors(async (req, res, next) => {
-  const subjects = await Subject.find();
+  const subjects = await Subject.findOne({
+    course: req.user.course,
+    department: req.user.department,
+  });
 
   res.status(200).json({
     success: true,
@@ -41,15 +80,53 @@ exports.getAllSubjects = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
+//
+exports.removeSubject = catchAsyncErrors(async (req, res, next) => {
+  const { subjectName, subjectCode } = req.body;
+
+  const subjectExist = await Subject.findOne({
+    course: req.user.course,
+    department: req.user.department,
+  });
+
+  if (subjectExist) {
+    for (let i = 0; i < subjectExist.subjects.length; i++) {
+      if (
+        subjectExist.subjects[i].subjectCode.toString() ===
+          subjectCode.toString() ||
+        subjectExist.subjects[i].subjectName.toString() ===
+          subjectName.toString()
+      ) {
+        await Subject.updateOne(
+          { course: req.user.course, department: req.user.department },
+          {
+            $pull: {
+              subjects: {
+                subjectCode: subjectCode,
+                subjectName: subjectName,
+              },
+            },
+          }
+        );
+      }
+    }
+  }
+
+  res.status(200).json({
+    success: true,
+    message: "Subject removed successfully",
+  });
+});
+
 exports.createCourse = catchAsyncErrors(async (req, res, next) => {
-  const { semester, department, courses } = req.body;
+  const { session, semester, courses } = req.body;
 
   const getCourse = await CourseSelection.findOne({ semester, department });
   if (getCourse) {
     return next(new ErrorHandler("Course already exists", 401));
   }
 
-  const coursesDetails = [];
+  let coursesDetails = [];
   for (let i = 0; i < courses.length; i++) {
     coursesDetails.push({
       subjectName: courses[i][0],
@@ -60,8 +137,10 @@ exports.createCourse = catchAsyncErrors(async (req, res, next) => {
   }
 
   await CourseSelection.create({
+    session,
+    course: req.user.course,
     semester,
-    department,
+    department: req.user.department,
     course: coursesDetails,
   });
 

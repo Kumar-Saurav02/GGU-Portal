@@ -5,11 +5,13 @@ const Student = require("../models/studentModel");
 
 //ATTENDANCE DETAILS FILL
 exports.fillAttendanceDetails = catchAsyncErrors(async (req, res, next) => {
-  const { semester, department, students } = req.body;
+  const { session, semester, students } = req.body;
 
   const details = await Attendance.findOne({
+    session: session,
+    course: req.user.course,
     semester: semester,
-    department: department,
+    department: req.user.department,
   });
 
   students.sort(function (a, b) {
@@ -39,8 +41,10 @@ exports.fillAttendanceDetails = catchAsyncErrors(async (req, res, next) => {
       });
     }
     await Attendance.create({
+      session,
+      course: req.user.course,
       semester,
-      department,
+      department: req.user.department,
       students: studentsDetails,
     });
   } else {
@@ -135,11 +139,20 @@ exports.fillAttendanceDetails = catchAsyncErrors(async (req, res, next) => {
         });
       }
     }
-    await Attendance.findOneAndUpdate({ semester, department }, details, {
-      new: true,
-      runValidators: true,
-      useFindAndModify: false,
-    });
+    await Attendance.findOneAndUpdate(
+      {
+        session,
+        course: req.user.course,
+        department: req.user.department,
+        semester,
+      },
+      details,
+      {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false,
+      }
+    );
   }
 
   res.status(200).json({

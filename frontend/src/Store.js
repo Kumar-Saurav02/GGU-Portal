@@ -14,6 +14,7 @@ import {
   getAttendanceEntryBySubjectReducer,
   getCoursesForApprovalReducer,
   getMarksEntryBySubjectReducer,
+  getPresentSessionOfWorkReducer,
   getScholarshipsForApprovalReducer,
   registerLoginTeachersReducer,
   submitAttendanceEntryBySubjectTeacherReducer,
@@ -67,6 +68,7 @@ const reducer = combineReducers({
     checkIfCourseIsSentForApprovalToClassInchargeReducer,
   assignSubjectsToTeacher: assignSubjectsToTeacherReducer,
   removeStudentTeacher: removeStudentTeacherReducer,
+  getPresentSessionOfWork: getPresentSessionOfWorkReducer,
 });
 
 let initialState = {};

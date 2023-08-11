@@ -5,6 +5,7 @@ import {
   getCourseForStudent,
   submitCourse,
 } from "../../../actions/studentAction";
+import { getPresentSession } from "../../../actions/teacherAction";
 import Loader from "../../Loader/Loader";
 import "./CourseSelection.css";
 import "../StudentScholarship/StudentScholarship.css";
@@ -42,6 +43,10 @@ const CourseSelection = () => {
     error,
   } = useSelector((state) => state.marksFeesCourseUpdate);
 
+  const { session, loading: sessionLoading } = useSelector(
+    (state) => state.getPresentSessionOfWork
+  );
+
   const [attendance, setAttendance] = useState();
   const [courseSelected, setCourseSelected] = useState(false);
   const [credits, setCredits] = useState(0);
@@ -66,7 +71,14 @@ const CourseSelection = () => {
   }, [error, message]);
 
   useEffect(() => {
-    dispatch(getCourseForStudent());
+    if (
+      session === null ||
+      session === undefined ||
+      Object.keys(session).length === 0
+    ) {
+      dispatch(getPresentSession());
+    }
+    dispatch(getCourseForStudent(session));
     dispatch(checkIfCourseIsSentForApproval());
 
     if (
@@ -97,7 +109,7 @@ const CourseSelection = () => {
         }
       }
     }
-  }, [student]);
+  }, [student, session]);
 
   const submitCourseDetails = () => {
     if (undertakingChecked === false) {
@@ -146,7 +158,11 @@ const CourseSelection = () => {
 
   return (
     <Fragment>
-      {courseLoading || studentLoading || uploading || approvalLoading ? (
+      {courseLoading ||
+      studentLoading ||
+      uploading ||
+      approvalLoading ||
+      sessionLoading ? (
         <Loader />
       ) : (
         <Fragment>

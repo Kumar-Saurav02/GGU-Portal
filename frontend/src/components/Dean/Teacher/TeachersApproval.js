@@ -57,11 +57,16 @@ const TeachersApproval = () => {
         <Fragment>
           <div className="teacherDetails">
             <SidebarTeacher role={teacher.subRole} />
-             <div className="approvBox">
+            <div className="approvBox">
               <div className="request">
                 <h1> Teacher's Approval</h1>
                 <hr></hr>
                 <br></br>
+                {teacherApproval && teacherApproval.length === 0 && (
+                  <div>
+                    <h3>Nothing to show here.</h3>
+                  </div>
+                )}
                 {teacherApproval &&
                   teacherApproval.map((teacherData, i) => {
                     if (teacherData.designation !== "HOD") {
@@ -74,7 +79,7 @@ const TeachersApproval = () => {
                     }
                   })}
               </div>
-             </div>
+            </div>
           </div>
         </Fragment>
       )}

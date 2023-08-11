@@ -5,6 +5,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import SidebarTeacher from "../../Teacher/SidebarTeacher/SidebarTeacher";
 import Loader from "../../Loader/Loader";
 import { State } from "country-state-city";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 const StudentListDetails = () => {
   const { state } = useLocation();
@@ -15,8 +18,12 @@ const StudentListDetails = () => {
 
   const { teacher } = useSelector((state) => state.registerLoginTeachers);
 
+  const genders = ["Male", "Female"];
   const semesters = [1, 2, 3, 4, 5, 6, 7, 8];
+  const religions = ["Hindu", "Christians", "Sikh", "Muslim", "Jain", "Others"];
   const bloodGroups = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
+  const categories = ["OPEN", "OBC", "OBC(NCL)", "SC", "ST", "EWS"];
+  const yesNo = ["Yes", "No"];
   const departments = [
     "Department of Computer Science and Engineering",
     "Department of Information Technology",
@@ -26,16 +33,33 @@ const StudentListDetails = () => {
     "Department of Mechanical Engineering",
     "Department of Industrial & Production Engineering",
   ];
+  const courses = ["Bachelor's Of Technology"];
 
   const [newName, setNewName] = useState(state.name);
+  const [newEnrollmentNumber, setNewEnrollmentNumber] = useState(
+    state.enrollmentNo
+  );
   const [newRollNumber, setNewRollNumber] = useState(state.rollNo);
   const [newAadhar, setNewAadhar] = useState(state.aadharNumber);
   const [newEmail, setNewEmail] = useState(state.email);
+  const [newCourse, setNewCourse] = useState(state.course);
   const [newDepartment, setNewDepartment] = useState(state.department);
   const [newSemester, setNewSemester] = useState(state.currentSemester);
   const [newFatherName, setNewFatherName] = useState(state.fatherName);
   const [newMotherName, setNewMotherName] = useState(state.motherName);
   const [newBloodGroup, setNewBloodGroup] = useState(state.bloodGroup);
+  const [newGender, setNewGender] = useState(state.gender);
+  const [newReligion, setNewReligion] = useState(state.religion);
+  const [newCategory, setNewCategory] = useState(state.category);
+  const [newHosteler, setNewHosteler] = useState(state.hosteler);
+  const [newDateOfBirthStudent, setNewDateOfBirthStudent] = useState(
+    state.dateOfBirth
+  );
+  const [settingNewDateOfBirthStudent, setSettingNewDateOfBirthStudent] =
+    useState();
+  const [newPhysicallyHandicapped, setNewPhysicallyHandicapped] = useState(
+    state.physicallyHandicapped
+  );
   const [newLocalAddress, setNewLocalAddress] = useState(
     state.localAddress.address
   );
@@ -50,6 +74,24 @@ const StudentListDetails = () => {
   const [newPermanentPinCode, setPermanentNewPinCode] = useState(
     state.permanentAddress.pinCode
   );
+
+  useEffect(() => {
+    if (
+      settingNewDateOfBirthStudent !== undefined &&
+      settingNewDateOfBirthStudent !== null
+    ) {
+      const updatingDateOfBirth = settingNewDateOfBirthStudent.$d
+        .toString()
+        .split(" ");
+      const updatedDateOfBirth =
+        updatingDateOfBirth[1] +
+        " " +
+        updatingDateOfBirth[2] +
+        " " +
+        updatingDateOfBirth[3];
+      setNewDateOfBirthStudent(updatedDateOfBirth);
+    }
+  }, [settingNewDateOfBirthStudent]);
 
   const updateData = () => {};
 
@@ -69,6 +111,17 @@ const StudentListDetails = () => {
                 name="nameStudent"
                 value={newName}
                 onChange={(e) => setNewName(e.target.value)}
+              />
+            </div>
+            <div>
+              <p>Enrollment Number</p>
+              <input
+                type="text"
+                placeholder="EnrollmentNumber"
+                required
+                name="nameStudent"
+                value={newEnrollmentNumber}
+                onChange={(e) => setNewEnrollmentNumber(e.target.value)}
               />
             </div>
             <div>
@@ -105,6 +158,22 @@ const StudentListDetails = () => {
               />
             </div>
             <div>
+              <p>Course</p>
+              <select
+                id="label_input"
+                required
+                name="courseStudent"
+                value={newCourse}
+                onChange={(e) => setNewCourse(e.target.value)}>
+                {/* <option value={courseStudent}>Courses</option> */}
+                {courses.map((course) => (
+                  <option key={course} value={course}>
+                    {course}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
               <p>Department</p>
               <select
                 id="label_input"
@@ -121,7 +190,7 @@ const StudentListDetails = () => {
               </select>
             </div>
             <div>
-              <p>Semester : {state.currentSemester}</p>
+              <p>Semester</p>
               <select
                 id="label_input"
                 required
@@ -172,6 +241,104 @@ const StudentListDetails = () => {
                   </option>
                 ))}
               </select>
+            </div>
+            <div>
+              <p>Gender</p>
+              <select
+                id="label_input"
+                required
+                name="genderStudent"
+                value={newGender}
+                onChange={(e) => setNewGender(e.target.value)}>
+                {/* <option value="">Department</option> */}
+                {genders.map((gender) => (
+                  <option key={gender} value={gender}>
+                    {gender}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <p>Religion</p>
+              <select
+                id="label_input"
+                required
+                name="religionStudent"
+                value={newReligion}
+                onChange={(e) => setNewReligion(e.target.value)}>
+                {/* <option value="">Department</option> */}
+                {religions.map((religion) => (
+                  <option key={religion} value={religion}>
+                    {religion}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <p>Category</p>
+              <select
+                id="label_input"
+                required
+                name="categoryStudent"
+                value={newCategory}
+                onChange={(e) => setNewCategory(e.target.value)}>
+                {/* <option value="">Department</option> */}
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <p>Physically Handicapped</p>
+              <select
+                id="label_input"
+                required
+                name="physicallyHandicappedStudent"
+                value={newPhysicallyHandicapped}
+                onChange={(e) => setNewPhysicallyHandicapped(e.target.value)}>
+                {/* <option value="">Department</option> */}
+                {yesNo.map((physicallyHandicapped) => (
+                  <option
+                    key={physicallyHandicapped}
+                    value={physicallyHandicapped}>
+                    {physicallyHandicapped}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <p>Hosteler</p>
+              <select
+                id="label_input"
+                required
+                name="hostelerStudent"
+                value={newHosteler}
+                onChange={(e) => setNewHosteler(e.target.value)}>
+                {/* <option value="">Department</option> */}
+                {yesNo.map((hosteler) => (
+                  <option key={hosteler} value={hosteler}>
+                    {hosteler}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label for="{dateOfBirthStudent}">
+                Date Of Birth: {newDateOfBirthStudent}
+              </label>
+
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  id="label_input"
+                  label="Date Of Birth"
+                  value={settingNewDateOfBirthStudent}
+                  onChange={(newValue) =>
+                    setSettingNewDateOfBirthStudent(newValue)
+                  }
+                />
+              </LocalizationProvider>
             </div>
             <div>
               <p>Local Address</p>

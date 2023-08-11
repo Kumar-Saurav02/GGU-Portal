@@ -1,13 +1,21 @@
 const mongoose = require("mongoose");
 
 const attendanceSchema = new mongoose.Schema({
-  semester: {
-    type: Number,
-    require: [true, "Enter the semester."],
+  session: {
+    type: String,
+    required: true,
+  },
+  course: {
+    type: String,
+    required: true,
   },
   department: {
     type: String,
     require: [true, "Enter the department"],
+  },
+  semester: {
+    type: Number,
+    require: [true, "Enter the semester."],
   },
   students: [
     {

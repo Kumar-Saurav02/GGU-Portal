@@ -5,15 +5,29 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../Loader/Loader";
 import { toast } from "react-toastify";
 import { Navigate, useNavigate } from "react-router-dom";
-import { loadTeacher } from "../../../actions/teacherAction";
+import { getPresentSession, loadTeacher } from "../../../actions/teacherAction";
 
 const ProfileTeacher = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { teacher, loading, isAuthenticated } = useSelector(
+  const { teacher, loading } = useSelector(
     (state) => state.registerLoginTeachers
   );
+
+  const { session, loading: sessionLoading } = useSelector(
+    (state) => state.getPresentSessionOfWork
+  );
+
+  useEffect(() => {
+    if (
+      session === null ||
+      session === undefined ||
+      Object.keys(session).length === 0
+    ) {
+      dispatch(getPresentSession());
+    }
+  }, [session]);
 
   const editProfile = () => {
     navigate("/editTeacherProfile");
@@ -21,7 +35,7 @@ const ProfileTeacher = () => {
 
   return (
     <Fragment>
-      {loading ? (
+      {loading || sessionLoading ? (
         <Loader />
       ) : (
         <Fragment>

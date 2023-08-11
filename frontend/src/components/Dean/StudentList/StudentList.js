@@ -67,15 +67,44 @@ const StudentList = () => {
               </div>
 
               {students &&
+                teacher.subRole === "dean" &&
                 students
                   .filter((students) =>
                     students.enrollmentNo.includes(searchResult)
                   )
                   .map((student, i) => (
                     <div key={i}>
-                      <StudentListMapping data={student} />
+                      <StudentListMapping
+                        data={student}
+                        role={teacher.subRole}
+                      />
                     </div>
                   ))}
+
+              {students &&
+                teacher.subRole === "hod" &&
+                students
+                  .filter((students) =>
+                    students.enrollmentNo.includes(searchResult)
+                  )
+                  // .filter((student) => {
+                  //   student.department.includes(teacher.department.toString());
+                  // })
+                  .map((student, i) => {
+                    if (
+                      student.department.toString() ===
+                      teacher.department.toString()
+                    ) {
+                      return (
+                        <div key={i}>
+                          <StudentListMapping
+                            data={student}
+                            role={teacher.subRole}
+                          />
+                        </div>
+                      );
+                    }
+                  })}
             </div>
           </div>
         </Fragment>

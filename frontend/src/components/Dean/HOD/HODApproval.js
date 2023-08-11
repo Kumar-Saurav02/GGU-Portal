@@ -13,7 +13,7 @@ const HODApproval = () => {
   const navigate = useNavigate();
 
   const { teacher } = useSelector((state) => state.registerLoginTeachers);
-  
+
   const {
     teacherApproval,
     loading: teacherApprovalLoading,
@@ -35,18 +35,22 @@ const HODApproval = () => {
       ) : (
         <Fragment>
           <div className="teacherDetails">
-          <SidebarTeacher role={teacher.subRole} />
+            <SidebarTeacher role={teacher.subRole} />
             <div className="approvBox">
               <div className="request">
                 <h1> HOD's Approval</h1>
                 <hr></hr>
                 <br></br>
+                {teacherApproval && teacherApproval.length === 0 && (
+                  <div>
+                    <h3>Nothing to show here.</h3>
+                  </div>
+                )}
                 {teacherApproval &&
                   teacherApproval.map((teacherData, i) => {
                     if (teacherData.designation === "HOD") {
                       return (
                         <div>
-                          
                           <TeacherApprovalDataMapping data={teacherData} />
                         </div>
                       );

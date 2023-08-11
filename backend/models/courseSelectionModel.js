@@ -1,25 +1,39 @@
 const mongoose = require("mongoose");
 
 const courseSelectionSchema = new mongoose.Schema({
-  semester: {
-    type: Number,
+  session: {
+    type: String,
+    required: true,
+  },
+  course: {
+    type: String,
+    required: true,
   },
   department: {
     type: String,
+    required: true,
+  },
+  semester: {
+    type: Number,
+    required: true,
   },
   course: [
     {
       subjectName: {
         type: String,
+        required: true,
       },
       subjectCode: {
         type: String,
+        required: true,
       },
       subjectCredit: {
         type: Number,
+        required: true,
       },
       category: {
         type: String,
+        required: true,
       },
     },
   ],

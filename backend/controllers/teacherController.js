@@ -10,6 +10,7 @@ const cloudinary = require("cloudinary").v2;
 const sendEmail = require("../utils/sendEmail");
 var XLSX = require("xlsx");
 var path = require("path");
+const Session = require("../models/currentSessionModel");
 
 //REGISTER APPROVAL TEACHER
 exports.registerApprovalTeacher = catchAsyncErrors(async (req, res, next) => {
@@ -19,6 +20,7 @@ exports.registerApprovalTeacher = catchAsyncErrors(async (req, res, next) => {
     name,
     gender,
     mobileNumber,
+    course,
     department,
     designation,
     dateOfBirth,
@@ -55,6 +57,7 @@ exports.registerApprovalTeacher = catchAsyncErrors(async (req, res, next) => {
     password,
     gender,
     mobileNumber,
+    course,
     department,
     designation,
     dateOfBirth,
@@ -122,6 +125,7 @@ exports.registerTeacherAccept = catchAsyncErrors(async (req, res, next) => {
     name,
     gender,
     mobileNumber,
+    course,
     department,
     designation,
     dateOfBirth,
@@ -153,6 +157,7 @@ exports.registerTeacherAccept = catchAsyncErrors(async (req, res, next) => {
     name,
     gender,
     mobileNumber,
+    course,
     department,
     designation,
     dateOfBirth,
@@ -228,9 +233,7 @@ exports.loginTeacher = catchAsyncErrors(async (req, res, next) => {
   const { employeeID, password } = req.body;
 
   if (!employeeID || !password) {
-    return next(
-      new ErrorHandler("Please enter employeeID and password both", 400)
-    );
+    return next(new ErrorHandler("Invalid employeeID or password", 400));
   }
 
   const teacher = await Teacher.findOne({

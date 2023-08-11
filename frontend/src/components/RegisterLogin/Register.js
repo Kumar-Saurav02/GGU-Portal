@@ -119,6 +119,7 @@ const Register = () => {
     nameTeacher: "",
     genderTeacher: "",
     mobileNumberTeacher: "",
+    courseTeacher: "",
     departmentTeacher: "",
     designationTeacher: "",
     // dateOfBirthTeacher: "",
@@ -136,6 +137,7 @@ const Register = () => {
     nameTeacher,
     genderTeacher,
     mobileNumberTeacher,
+    courseTeacher,
     departmentTeacher,
     designationTeacher,
     // dateOfBirthTeacher,
@@ -436,6 +438,9 @@ const Register = () => {
     ) {
       return toast.error("Fill the mobile number properly");
     }
+    if (courseTeacher.trim() === "") {
+      return toast.error("Select your course");
+    }
     if (departmentTeacher.trim() === "") {
       return toast.error("Select your department");
     }
@@ -488,6 +493,7 @@ const Register = () => {
         nameTeacher.trim(),
         genderTeacher.trim(),
         mobileNumberTeacher.trim(),
+        courseTeacher.trim(),
         departmentTeacher.trim(),
         designationTeacher.trim(),
         updatedDateOfBirth,
@@ -649,24 +655,6 @@ const Register = () => {
                   </div>
 
                   <div className="entry">
-                    <label className="label_name" for="{departmentStudent}">
-                      Department
-                    </label>
-                    <select
-                      id="label_input"
-                      required
-                      name="departmentStudent"
-                      onChange={registerStudentDataChange}>
-                      <option value={departmentStudent}>Department</option>
-                      {departments.map((department) => (
-                        <option key={department} value={department}>
-                          {department}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="entry">
                     <label className="label_name" for="{courseStudent}">
                       Course
                     </label>
@@ -679,6 +667,24 @@ const Register = () => {
                       {courses.map((course) => (
                         <option key={course} value={course}>
                           {course}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="entry">
+                    <label className="label_name" for="{departmentStudent}">
+                      Department
+                    </label>
+                    <select
+                      id="label_input"
+                      required
+                      name="departmentStudent"
+                      onChange={registerStudentDataChange}>
+                      <option value={departmentStudent}>Department</option>
+                      {departments.map((department) => (
+                        <option key={department} value={department}>
+                          {department}
                         </option>
                       ))}
                     </select>
@@ -771,7 +777,7 @@ const Register = () => {
                   {/* Calendar */}
                   <div className="entry">
                     <label className="label_name" for="{dateOfBirthStudent}">
-                      DoB
+                      Date Of Birth
                     </label>
 
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -1145,7 +1151,7 @@ const Register = () => {
 
                   <div className="entry">
                     <label className="label_name" for="{nameTeacher}">
-                      Emp ID
+                      Employee ID
                     </label>
                     <input
                       type="text"
@@ -1231,6 +1237,24 @@ const Register = () => {
                       {genders.map((gen) => (
                         <option key={gen} value={gen}>
                           {gen}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="entry">
+                    <label className="label_name" for="{courseTeacher}">
+                      Course
+                    </label>
+                    <select
+                      id="label_input"
+                      required
+                      name="courseTeacher"
+                      onChange={registerTeacherDataChange}>
+                      <option value={courseTeacher}>Courses</option>
+                      {courses.map((course) => (
+                        <option key={course} value={course}>
+                          {course}
                         </option>
                       ))}
                     </select>

@@ -43,6 +43,9 @@ import {
   GET_ATTENDANCE_BY_DEPARTMENT_REQUEST,
   GET_ATTENDANCE_BY_DEPARTMENT_SUCCESS,
   GET_ATTENDANCE_BY_DEPARTMENT_FAIL,
+  GET_PRESENT_SESSION_REQUEST,
+  GET_PRESENT_SESSION_SUCCESS,
+  GET_PRESENT_SESSION_FAIL,
 } from "../constants/teacherConstant";
 import {
   REGISTER_TEACHER_REQUEST,
@@ -59,6 +62,7 @@ export const registerTeachers =
     name,
     gender,
     mobileNumber,
+    course,
     department,
     designation,
     dateOfBirth,
@@ -83,6 +87,7 @@ export const registerTeachers =
           name,
           gender,
           mobileNumber,
+          course,
           department,
           designation,
           dateOfBirth,
@@ -155,6 +160,22 @@ export const loadTeacher = () => async (dispatch) => {
     dispatch({ type: LOAD_TEACHER_SUCCESS, payload: data.teacher });
   } catch (error) {
     dispatch({ type: LOAD_TEACHER_FAIL, payload: error.response.data.message });
+  }
+};
+
+// GET PRESENT SESSION
+export const getPresentSession = () => async (dispatch) => {
+  try {
+    dispatch({ type: GET_PRESENT_SESSION_REQUEST });
+
+    const { data } = await axios.get(`/api/getPresentSession`);
+
+    dispatch({ type: GET_PRESENT_SESSION_SUCCESS, payload: data.session });
+  } catch (error) {
+    dispatch({
+      type: GET_PRESENT_SESSION_FAIL,
+      payload: error.response.data.message,
+    });
   }
 };
 

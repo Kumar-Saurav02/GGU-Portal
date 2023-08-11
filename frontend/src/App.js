@@ -8,19 +8,19 @@ import { useEffect } from "react";
 import { loadStudent } from "./actions/studentAction";
 import { loadTeacher } from "./actions/teacherAction";
 import store from "./Store";
-import StudentsApproval from "./components/Admin/Student/StudentsApproval";
-import StudentApprovalDetails from "./components/Admin/Student/StudentApprovalDetails";
-import TeacherApprovalDetails from "./components/Admin/Teacher/TeacherApprovalDetails";
-import TeachersApproval from "./components/Admin/Teacher/TeachersApproval";
-import Dashboard from "./components/Admin/Dashboard/Dashboard";
+import StudentsApproval from "./components/Dean/Student/StudentsApproval";
+import StudentApprovalDetails from "./components/Dean/Student/StudentApprovalDetails";
+import TeacherApprovalDetails from "./components/Dean/Teacher/TeacherApprovalDetails";
+import TeachersApproval from "./components/Dean/Teacher/TeachersApproval";
+// import Dashboard from "./components/Dean/Dashboard/Dashboard";
 import ProfileStudent from "./components/Student/Profile/ProfileStudent";
 import DocumentUploadStudent from "./components/Student/DocumentUploadStudent/DocumentUploadStudent";
 import ProfileTeacher from "./components/Teacher/Profile/ProfileTeacher";
-import HODApproval from "./components/Admin/HOD/HODApproval";
+import HODApproval from "./components/Dean/HOD/HODApproval";
 import CreateSubject from "./components/Teacher/HOD/CreateSubject/CreateSubject";
 import CreateCourse from "./components/Teacher/HOD/CreateCourse/CreateCourse";
 import AllocateSubject from "./components/Teacher/HOD/AllocateSubject/AllocateSubject";
-import ChangingTeacherRole from "./components/Admin/Roles/ChangingTeacherRole";
+import ChangingTeacherRole from "./components/Dean/Roles/ChangingTeacherRole";
 import CourseApproval from "./components/Teacher/ClassIncharge/CourseApproval/CourseApproval";
 import ScholarshipApproval from "./components/Teacher/ClassIncharge/ScholarshipApproval/ScholarshipApproval";
 import AttendanceEntry from "./components/Teacher/Attendance/AttendanceEntry";
@@ -28,10 +28,10 @@ import MarksEntry from "./components/Teacher/Marks/MarksEntry";
 import ProtectedRoute from "./components/Route/ProtectedRoute";
 import EditProfileStudent from "./components/Student/EditProfileStudent/EditProfileStudent";
 import EditProfileTeacher from "./components/Teacher/EditProfileTeacher/EditProfileTeacher";
-import StudentList from "./components/Admin/StudentList/StudentList";
-import StudentListDetails from "./components/Admin/StudentList/StudentListDetails";
-import TeacherList from "./components/Admin/TeacherList/TeacherList";
-import TeacherListDetails from "./components/Admin/TeacherList/TeacherListDetails";
+import StudentList from "./components/Dean/StudentList/StudentList";
+import StudentListDetails from "./components/Dean/StudentList/StudentListDetails";
+import TeacherList from "./components/Dean/TeacherList/TeacherList";
+import TeacherListDetails from "./components/Dean/TeacherList/TeacherListDetails";
 import NotFound from "../src/components/Layout/NotFound";
 
 function App() {
@@ -45,23 +45,23 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Admin */}
-        <Route
-          path="/admin"
+        {/* Dean */}
+        {/* <Route
+          path="/dean"
           element={
             <ProtectedRoute
               role="teacher"
-              subRole="admin"
+              subRole="dean"
               Component={Dashboard}
             />
           }
-        />
+        /> */}
         <Route
           path="/studentsApproval"
           element={
             <ProtectedRoute
               role="teacher"
-              subRole="admin"
+              subRole="hod"
               Component={StudentsApproval}
             />
           }
@@ -71,7 +71,7 @@ function App() {
           element={
             <ProtectedRoute
               role="teacher"
-              subRole="admin"
+              subRole="dean"
               Component={StudentApprovalDetails}
             />
           }
@@ -81,7 +81,7 @@ function App() {
           element={
             <ProtectedRoute
               role="teacher"
-              subRole="admin"
+              subRole="dean"
               Component={TeachersApproval}
             />
           }
@@ -91,7 +91,7 @@ function App() {
           element={
             <ProtectedRoute
               role="teacher"
-              subRole="admin"
+              subRole="dean"
               Component={TeacherApprovalDetails}
             />
           }
@@ -101,7 +101,7 @@ function App() {
           element={
             <ProtectedRoute
               role="teacher"
-              subRole="admin"
+              subRole="dean"
               Component={HODApproval}
             />
           }
@@ -111,7 +111,7 @@ function App() {
           element={
             <ProtectedRoute
               role="teacher"
-              subRole="admin"
+              subRole="dean"
               Component={ChangingTeacherRole}
             />
           }
@@ -120,11 +120,7 @@ function App() {
         <Route
           path="/studentsList"
           element={
-            <ProtectedRoute
-              role="teacher"
-              subRole="admin"
-              Component={StudentList}
-            />
+            <ProtectedRoute role="teacher" subRole="" Component={StudentList} />
           }
         />
         <Route
@@ -132,7 +128,7 @@ function App() {
           element={
             <ProtectedRoute
               role="teacher"
-              subRole="admin"
+              subRole=""
               Component={StudentListDetails}
             />
           }
@@ -143,7 +139,7 @@ function App() {
           element={
             <ProtectedRoute
               role="teacher"
-              subRole="admin"
+              subRole="dean"
               Component={TeacherList}
             />
           }
@@ -153,7 +149,7 @@ function App() {
           element={
             <ProtectedRoute
               role="teacher"
-              subRole="admin"
+              subRole="dean"
               Component={TeacherListDetails}
             />
           }

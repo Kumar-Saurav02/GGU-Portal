@@ -278,9 +278,7 @@ exports.loginStudent = catchAsyncErrors(async (req, res, next) => {
   const { enrollmentNumber, password } = req.body;
 
   if (!enrollmentNumber || !password) {
-    return next(
-      new ErrorHandler("Please enter enrollment number and password both", 400)
-    );
+    return next(new ErrorHandler("Invalid enrollment number or password", 400));
   }
 
   const student = await Student.findOne({
@@ -293,7 +291,7 @@ exports.loginStudent = catchAsyncErrors(async (req, res, next) => {
   const isPasswordMatched = await student.comparePassword(password);
 
   if (!isPasswordMatched) {
-    return next(new ErrorHandler("Invalid email or password", 401));
+    return next(new ErrorHandler("Invalid enrollment number or password", 401));
   }
 
   sendToken(student, 200, res);
@@ -718,7 +716,10 @@ exports.deleteParticularStudent = catchAsyncErrors(async (req, res, next) => {
 
 //GET ALL APPROVAL
 exports.getAllStudentsApproval = catchAsyncErrors(async (req, res, next) => {
-  const requests = await ApproveStudent.find();
+  const requests = await ApproveStudent.find({
+    course: req.user.course,
+    department: req.user.department,
+  });
 
   res.status(200).json({
     success: true,
@@ -755,17 +756,21 @@ exports.getStudent = catchAsyncErrors(async (req, res, next) => {
 //GET COURSE OF STUDENT'S SEMESTER
 exports.getCourseSelectionForSemester = catchAsyncErrors(
   async (req, res, next) => {
-    const semester = req.user.currentSemester;
+    const session = req.body.session;
+    const course = req.user.course;
     const department = req.user.department;
+    const semester = req.user.currentSemester;
 
-    const course = await CourseSelection.findOne({
+    const courseFound = await CourseSelection.findOne({
+      session: session,
+      course: course,
       semester: semester,
       department: department,
     });
 
     res.status(200).json({
       success: true,
-      course,
+      course: courseFound,
     });
   }
 );

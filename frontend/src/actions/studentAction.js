@@ -361,11 +361,17 @@ export const loadStudent = () => async (dispatch) => {
 };
 
 //GET COURSE FOR STUDENT
-export const getCourseForStudent = () => async (dispatch) => {
+export const getCourseForStudent = (session) => async (dispatch) => {
   try {
     dispatch({ type: COURSE_STUDENT_REQUEST });
 
-    const { data } = await axios.get(`/api/getCourseForSelection`);
+    const config = { headers: { "Content-Type": "application/json" } };
+
+    const { data } = await axios.get(
+      `/api/getCourseForSelection`,
+      { session },
+      config
+    );
 
     dispatch({ type: COURSE_STUDENT_SUCCESS, payload: data.course });
   } catch (error) {

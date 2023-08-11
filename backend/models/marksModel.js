@@ -1,14 +1,23 @@
 const mongoose = require("mongoose");
 
 const marksSchema = new mongoose.Schema({
-  semester: {
-    type: Number,
-    required: [true, "Enter the semester."],
+  session: {
+    type: String,
+    required: true,
+  },
+  course: {
+    type: String,
+    required: true,
   },
   department: {
     type: String,
     required: [true, "Enter the department"],
   },
+  semester: {
+    type: Number,
+    required: [true, "Enter the semester."],
+  },
+
   students: [
     {
       name: {

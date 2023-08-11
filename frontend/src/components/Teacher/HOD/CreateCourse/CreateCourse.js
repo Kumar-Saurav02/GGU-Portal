@@ -28,15 +28,6 @@ const CreateCourse = () => {
   } = useSelector((state) => state.getAllSubjects);
 
   const semesters = [1, 2, 3, 4, 5, 6, 7, 8];
-  // const departments = [
-  //   "Department of Computer Science and Engineering",
-  //   "Department of Information Technology",
-  //   "Department of Electronics & Communication Engineering",
-  //   "Department of Chemical Engineering",
-  //   "Department of Civil Engineering",
-  //   "Department of Mechanical Engineering",
-  //   "Department of Industrial & Production Engineering",
-  // ];
   const [semester, setSemester] = useState(1);
   const [course, setCourse] = useState([]);
   const [subjectCode, setSubjectCode] = useState();
@@ -46,7 +37,7 @@ const CreateCourse = () => {
     if (subjectCode.trim() === "") {
       return toast.error("Select Subjects Properly");
     }
-    const data = subjects.filter(function (d) {
+    const data = subjects.subjects.filter(function (d) {
       return d.subjectCode === subjectCode;
     });
 
@@ -120,16 +111,6 @@ const CreateCourse = () => {
                     Department
                   </label>
                   <p>{teacher.department}</p>
-                  {/* <select
-                      className="label_name"
-                    required
-                    onChange={(e) => setDepartment(e.target.value)}>
-                    {departments.map((depart) => (
-                      <option key={depart} value={depart}>
-                        {depart}
-                      </option>
-                    ))}
-                  </select> */}
                 </div>
                 <div className="entry">
                   <label className="label_name" for="{sem}">
@@ -141,7 +122,8 @@ const CreateCourse = () => {
                     onChange={(e) => setSubjectCode(e.target.value)}>
                     <option>Subjects</option>
                     {subjects &&
-                      subjects.map((sub) => (
+                      subjects.subjects &&
+                      subjects.subjects.map((sub) => (
                         <option key={sub._id} value={sub.subjectCode}>
                           {sub.subjectName} - {sub.subjectCode}
                         </option>

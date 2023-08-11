@@ -55,9 +55,13 @@ const AllocateSubjectTeacherMapping = ({ data, subjects }) => {
     setAssignedSubject((s) => {
       const newArr = s.slice();
       newArr[index].value = e.target.value;
-      newArr[index].completeValue = JSON.parse(
-        e.target.options[e.target.selectedIndex].dataset.complete
-      );
+      newArr[index].completeValue =
+        e.target.options[e.target.selectedIndex].dataset.complete !== null &&
+        e.target.options[e.target.selectedIndex].dataset.complete !== undefined
+          ? JSON.parse(
+              e.target.options[e.target.selectedIndex].dataset.complete
+            )
+          : null;
 
       return newArr;
     });
@@ -66,7 +70,11 @@ const AllocateSubjectTeacherMapping = ({ data, subjects }) => {
   const updateAssignedSubject = () => {
     let listOfAssignedSubjects = [];
     for (let i = 0; i < assignedSubject.length; i++) {
-      if (Object.keys(assignedSubject[i].completeValue).length === 0) {
+      if (
+        assignedSubject[i].completeValue === null ||
+        assignedSubject[i].completeValue === undefined ||
+        Object.keys(assignedSubject[i].completeValue).length === 0
+      ) {
         return toast.error("Select the subject or remove unwanted subjects");
       } else {
         listOfAssignedSubjects.push({
@@ -92,6 +100,9 @@ const AllocateSubjectTeacherMapping = ({ data, subjects }) => {
           <p>Designation: {data.designation}</p>
         </div>
         <div>
+          <p>Department: {data.department}</p>
+        </div>
+        <div>
           {data.assignSubject && data.assignSubject.length === 0 && (
             <div>
               <p>No Subjects Assigned</p>
@@ -102,16 +113,25 @@ const AllocateSubjectTeacherMapping = ({ data, subjects }) => {
           {assignedSubject.map((item, uid) => {
             return (
               <div key={uid}>
+                <p>
+                  Subject {uid + 1}: {item.value}
+                </p>
                 <select value={item.value} id={uid} onChange={handleChange}>
                   <option value="">Subjects</option>
-                  {subjects.map((subject) => (
-                    <option
-                      key={subject.subjectCode}
-                      value={subject.subjectName}
-                      data-complete={JSON.stringify(subject)}>
-                      {subject.subjectName}
-                    </option>
-                  ))}
+                  {subjects &&
+                    subjects.subjects &&
+                    subjects.subjects.map((subject) => (
+                      <option
+                        key={subject.subjectCode}
+                        value={subject.subjectName}
+                        data-complete={
+                          subject !== null && subject !== undefined
+                            ? JSON.stringify(subject)
+                            : null
+                        }>
+                        {subject.subjectName}
+                      </option>
+                    ))}
                 </select>
                 <button id={uid} onClick={removeInput}>
                   Remove
