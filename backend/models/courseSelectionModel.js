@@ -17,7 +17,7 @@ const courseSelectionSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  course: [
+  courses: [
     {
       subjectName: {
         type: String,

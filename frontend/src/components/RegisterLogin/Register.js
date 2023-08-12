@@ -308,7 +308,7 @@ const Register = () => {
       aadharNumberStudent.trim() === "" ||
       aadharNumberStudent.length !== 12
     ) {
-      return toast.error("Fill the aadhar number properly");
+      return toast.error("Aadhar number should be of 12 digits");
     }
     if (hostelerStudent.trim() === "") {
       return toast.error("Select your hosteler identity");
@@ -631,7 +631,7 @@ const Register = () => {
                     </label>
                     <input
                       id="label_input"
-                      type="number"
+                      type="text"
                       placeholder="Aadhar Number"
                       required
                       name="aadharNumberStudent"
@@ -745,7 +745,7 @@ const Register = () => {
                     </label>
                     <input
                       id="label_input"
-                      type="number"
+                      type="text"
                       placeholder="Mobile Number"
                       required
                       name="mobileNumberStudent"
@@ -935,7 +935,7 @@ const Register = () => {
                       </label>
                       <input
                         id="label_input"
-                        type="number"
+                        type="text"
                         placeholder="Mother's Mobile Number"
                         required
                         name="motherMobileNumberStudent"
@@ -1019,7 +1019,7 @@ const Register = () => {
                         <br></br>
 
                         <input
-                          type="number"
+                          type="text"
                           placeholder="Pin Code"
                           required
                           name="permanentPinCodeStudent"
@@ -1184,7 +1184,7 @@ const Register = () => {
                     </label>
                     <input
                       id="label_input"
-                      type="number"
+                      type="text"
                       placeholder="Mobile Number"
                       required
                       name="mobileNumberTeacher"

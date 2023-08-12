@@ -1,8 +1,16 @@
 const ErrorHandler = require("../utils/errorhandler");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const Subject = require("../models/subjectModel");
-const CourseSelection = require("../models/courseSelectionModel");
 const Teacher = require("../models/teacherModel");
+const Student = require("../models/studentModel");
+const Session = require("../models/currentSessionModel");
+const ApproveStudent = require("../models/approveStudentModel");
+const ApproveScholarship = require("../models/approveScholarshipModel");
+const CourseSelection = require("../models/courseSelectionModel");
+const ApproveTeacher = require("../models/approveTeacherModel");
+const ApproveCourse = require("../models/approveCourseModel");
+const Marks = require("../models/marksModel");
+const Attendance = require("../models/attendanceModel");
 
 exports.createSubject = catchAsyncErrors(async (req, res, next) => {
   const { subjectName, subjectCode, subjectCredit } = req.body;
@@ -120,8 +128,15 @@ exports.removeSubject = catchAsyncErrors(async (req, res, next) => {
 
 exports.createCourse = catchAsyncErrors(async (req, res, next) => {
   const { session, semester, courses } = req.body;
+  const department = req.user.department;
+  const course = req.user.course;
 
-  const getCourse = await CourseSelection.findOne({ semester, department });
+  const getCourse = await CourseSelection.findOne({
+    session: session,
+    course: course,
+    department: department,
+    semester: semester,
+  });
   if (getCourse) {
     return next(new ErrorHandler("Course already exists", 401));
   }
@@ -137,11 +152,11 @@ exports.createCourse = catchAsyncErrors(async (req, res, next) => {
   }
 
   await CourseSelection.create({
-    session,
-    course: req.user.course,
-    semester,
-    department: req.user.department,
-    course: coursesDetails,
+    session: session,
+    course: course,
+    department: department,
+    semester: semester,
+    courses: coursesDetails,
   });
 
   res.status(201).json({
@@ -169,5 +184,3 @@ exports.assignSubjectToTeacher = catchAsyncErrors(async (req, res, next) => {
     message: "Details Updated Successfully",
   });
 });
-
-exports.updateCourse = catchAsyncErrors(async (req, res, next) => {});

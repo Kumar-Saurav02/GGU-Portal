@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
   clearMessages,
-  getAllTeacherDetails,
+  getAllTeacherDetailsForDean,
 } from "../../../actions/adminAction";
 import { useNavigate } from "react-router-dom";
 import SidebarTeacher from "../../Teacher/SidebarTeacher/SidebarTeacher";
@@ -43,7 +43,7 @@ const TeacherList = () => {
   }, [teacherRemoveMessage, teacherRemoveError]);
 
   useEffect(() => {
-    dispatch(getAllTeacherDetails());
+    dispatch(getAllTeacherDetailsForDean());
   }, []);
 
   return (

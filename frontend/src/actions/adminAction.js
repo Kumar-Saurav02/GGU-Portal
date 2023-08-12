@@ -33,6 +33,12 @@ import {
   REMOVE_STUDENT_REQUEST,
   REMOVE_STUDENT_SUCCESS,
   REMOVE_STUDENT_FAIL,
+  UPDATE_STUDENT_DATA_BY_DEAN_OR_HOD_REQUEST,
+  UPDATE_STUDENT_DATA_BY_DEAN_OR_HOD_SUCCESS,
+  UPDATE_STUDENT_DATA_BY_DEAN_OR_HOD_FAIL,
+  UPDATE_TEACHER_DATA_BY_DEAN_REQUEST,
+  UPDATE_TEACHER_DATA_BY_DEAN_SUCCESS,
+  UPDATE_TEACHER_DATA_BY_DEAN_FAIL,
 } from "../constants/adminConstant";
 import axios from "axios";
 
@@ -151,6 +157,31 @@ export const teacherApprovalRequestReject = (id) => async (dispatch) => {
 };
 
 //UPDATE TEACHER ROLE
+export const updateTeacherRoleByDean = (role, id) => async (dispatch) => {
+  try {
+    dispatch({ type: UPDATE_TEACHER_ROLE_REQUEST });
+
+    const config = { headers: { "Content-Type": "application/json" } };
+
+    const { data } = await axios.put(
+      `/api/updateTeacherRoleByDean/${id}`,
+      { role },
+      config
+    );
+
+    dispatch({
+      type: UPDATE_TEACHER_ROLE_SUCCESS,
+      payload: data.message,
+    });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_TEACHER_ROLE_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+//UPDATE TEACHER ROLE
 export const updateTeacherRoleByAdmin = (role, id) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_TEACHER_ROLE_REQUEST });
@@ -158,7 +189,7 @@ export const updateTeacherRoleByAdmin = (role, id) => async (dispatch) => {
     const config = { headers: { "Content-Type": "application/json" } };
 
     const { data } = await axios.put(
-      `/api/updateTeacherRole/${id}`,
+      `/api/updateTeacherRoleByAdmin/${id}`,
       { role },
       config
     );
@@ -176,11 +207,30 @@ export const updateTeacherRoleByAdmin = (role, id) => async (dispatch) => {
 };
 
 //GET ALL TEACHER DETAILS
-export const getAllTeacherDetails = () => async (dispatch) => {
+export const getAllTeacherDetailsForHOD = () => async (dispatch) => {
   try {
     dispatch({ type: GET_ALL_TEACHER_REQUEST });
 
-    const { data } = await axios.get(`/api/getAllTeachers`);
+    const { data } = await axios.get(`/api/getAllTeachersForHOD`);
+
+    dispatch({
+      type: GET_ALL_TEACHER_SUCCESS,
+      payload: data.teachers,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_ALL_TEACHER_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+//GET ALL TEACHER DETAILS
+export const getAllTeacherDetailsForDean = () => async (dispatch) => {
+  try {
+    dispatch({ type: GET_ALL_TEACHER_REQUEST });
+
+    const { data } = await axios.get(`/api/getAllTeachersForDean`);
 
     dispatch({
       type: GET_ALL_TEACHER_SUCCESS,
@@ -195,11 +245,30 @@ export const getAllTeacherDetails = () => async (dispatch) => {
 };
 
 //GET ALL STUDENTS DETAILS
-export const getAllStudentDetail = () => async (dispatch) => {
+export const getAllStudentDetailForHOD = () => async (dispatch) => {
   try {
     dispatch({ type: GET_ALL_STUDENTS_REQUEST });
 
-    const { data } = await axios.get(`/api/getAllStudents`);
+    const { data } = await axios.get(`/api/getAllStudentsForHOD`);
+
+    dispatch({
+      type: GET_ALL_STUDENTS_SUCCESS,
+      payload: data.students,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_ALL_STUDENTS_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+//GET ALL STUDENTS DETAILS
+export const getAllStudentDetailForDean = () => async (dispatch) => {
+  try {
+    dispatch({ type: GET_ALL_STUDENTS_REQUEST });
+
+    const { data } = await axios.get(`/api/getAllStudentsForDean`);
 
     dispatch({
       type: GET_ALL_STUDENTS_SUCCESS,
@@ -250,6 +319,130 @@ export const removeStudentByAdmin = (id) => async (dispatch) => {
     });
   }
 };
+
+//STUDENT REGISTER
+export const updateStudentDataByDeanOrHOD =
+  (
+    student_id,
+    newEnrollmentNumber,
+    newRollNumber,
+    newName,
+    newFatherName,
+    newMotherName,
+    newSemester,
+    newEmail,
+    newGender,
+    newDepartment,
+    newCourse,
+    newReligion,
+    newBloodGroup,
+    newCategory,
+    newPhysicallyHandicapped,
+    newAadhar,
+    newHosteler,
+    newLocalAddress,
+    newLocalState,
+    newPinCode,
+    newPermanentAddress,
+    newPermanentState,
+    newPermanentPinCode,
+    newDateOfBirthStudent
+  ) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: UPDATE_STUDENT_DATA_BY_DEAN_OR_HOD_REQUEST });
+      const config = { headers: { "Content-Type": "application/json" } };
+
+      const { data } = await axios.put(
+        `/api/updateStudentDataByDeanOrHOD`,
+        {
+          student_id,
+          newEnrollmentNumber,
+          newRollNumber,
+          newName,
+          newFatherName,
+          newMotherName,
+          newSemester,
+          newEmail,
+          newGender,
+          newDepartment,
+          newCourse,
+          newReligion,
+          newBloodGroup,
+          newCategory,
+          newPhysicallyHandicapped,
+          newAadhar,
+          newHosteler,
+          newLocalAddress,
+          newLocalState,
+          newPinCode,
+          newPermanentAddress,
+          newPermanentState,
+          newPermanentPinCode,
+          newDateOfBirthStudent,
+        },
+        config
+      );
+
+      dispatch({
+        type: UPDATE_STUDENT_DATA_BY_DEAN_OR_HOD_SUCCESS,
+        payload: data.message,
+      });
+    } catch (error) {
+      dispatch({
+        type: UPDATE_STUDENT_DATA_BY_DEAN_OR_HOD_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };
+
+//STUDENT REGISTER
+export const updateTeacherDataByDean =
+  (
+    teacher_id,
+    newEmployeeID,
+    newEmail,
+    newName,
+    newGender,
+    newCourse,
+    newDepartment,
+    newDesignation,
+    newQualification,
+    newDateOfBirthTeacher
+  ) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: UPDATE_TEACHER_DATA_BY_DEAN_REQUEST });
+      const config = { headers: { "Content-Type": "application/json" } };
+
+      const { data } = await axios.put(
+        `/api/updateTeacherDataByDean`,
+        {
+          teacher_id,
+          newEmployeeID,
+          newEmail,
+          newName,
+          newGender,
+          newCourse,
+          newDepartment,
+          newDesignation,
+          newQualification,
+          newDateOfBirthTeacher,
+        },
+        config
+      );
+
+      dispatch({
+        type: UPDATE_TEACHER_DATA_BY_DEAN_SUCCESS,
+        payload: data.message,
+      });
+    } catch (error) {
+      dispatch({
+        type: UPDATE_TEACHER_DATA_BY_DEAN_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };
 
 // CLEARING MESSAGES
 export const clearMessages = () => async (dispatch) => {

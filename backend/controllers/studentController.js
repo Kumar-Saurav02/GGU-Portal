@@ -649,8 +649,23 @@ exports.updateDetails = catchAsyncErrors(async (req, res, next) => {
 });
 
 //GET ALL STUDENTS
-exports.getAllStudents = catchAsyncErrors(async (req, res, next) => {
-  const students = await Student.find();
+exports.getAllStudentsForHOD = catchAsyncErrors(async (req, res, next) => {
+  const students = await Student.find({
+    course: req.user.course,
+    department: req.user.department,
+  });
+
+  res.status(200).json({
+    success: true,
+    students,
+  });
+});
+
+//GET ALL STUDENTS
+exports.getAllStudentsForDean = catchAsyncErrors(async (req, res, next) => {
+  const students = await Student.find({
+    course: req.user.course,
+  });
 
   res.status(200).json({
     success: true,

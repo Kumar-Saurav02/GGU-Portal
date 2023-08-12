@@ -7,7 +7,8 @@ const {
   loginStudent,
   logout,
   updateDetails,
-  getAllStudents,
+  getAllStudentsForHOD,
+  getAllStudentsForDean,
   getParticularStudent,
   getStudent,
   getCourseSelectionForSemester,
@@ -54,12 +55,23 @@ router
   .route("/checkIfCourseSentForApproval")
   .get(isAuthenticatedUser, checkIfCourseSentForApproval);
 
-router.route("/getAllStudents").get(
-  isAuthenticatedUser,
-  authorizeRolesTeacher("teacher"),
-  // authorizeSubRolesTeacher("hod"),
-  getAllStudents
-);
+router
+  .route("/getAllStudentsForHOD")
+  .get(
+    isAuthenticatedUser,
+    authorizeRolesTeacher("teacher"),
+    authorizeSubRolesTeacher("hod"),
+    getAllStudentsForHOD
+  );
+
+router
+  .route("/getAllStudentsForDean")
+  .get(
+    isAuthenticatedUser,
+    authorizeRolesTeacher("teacher"),
+    authorizeSubRolesTeacher("dean"),
+    getAllStudentsForDean
+  );
 router.route("/getAllRequestsStudents").get(
   isAuthenticatedUser,
   authorizeRolesTeacher("teacher"),

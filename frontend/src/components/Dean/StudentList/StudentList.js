@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
   clearMessages,
-  getAllStudentDetail,
+  getAllStudentDetailForDean,
+  getAllStudentDetailForHOD,
 } from "../../../actions/adminAction";
 import { useNavigate } from "react-router-dom";
 import SidebarTeacher from "../../Teacher/SidebarTeacher/SidebarTeacher";
@@ -43,7 +44,12 @@ const StudentList = () => {
   }, [studentRemoveMessage, studentRemoveError]);
 
   useEffect(() => {
-    dispatch(getAllStudentDetail());
+    if (teacher.subRole.toString() === "dean") {
+      dispatch(getAllStudentDetailForDean());
+    }
+    if (teacher.subRole.toString() === "hod") {
+      dispatch(getAllStudentDetailForHOD());
+    }
   }, []);
 
   return (
@@ -67,7 +73,6 @@ const StudentList = () => {
               </div>
 
               {students &&
-                teacher.subRole === "dean" &&
                 students
                   .filter((students) =>
                     students.enrollmentNo.includes(searchResult)
@@ -80,31 +85,6 @@ const StudentList = () => {
                       />
                     </div>
                   ))}
-
-              {students &&
-                teacher.subRole === "hod" &&
-                students
-                  .filter((students) =>
-                    students.enrollmentNo.includes(searchResult)
-                  )
-                  // .filter((student) => {
-                  //   student.department.includes(teacher.department.toString());
-                  // })
-                  .map((student, i) => {
-                    if (
-                      student.department.toString() ===
-                      teacher.department.toString()
-                    ) {
-                      return (
-                        <div key={i}>
-                          <StudentListMapping
-                            data={student}
-                            role={teacher.subRole}
-                          />
-                        </div>
-                      );
-                    }
-                  })}
             </div>
           </div>
         </Fragment>

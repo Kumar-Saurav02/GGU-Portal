@@ -5,7 +5,7 @@ import SidebarTeacher from "../../SidebarTeacher/SidebarTeacher";
 import Loader from "../../../Loader/Loader";
 import {
   clearMessages,
-  getAllTeacherDetails,
+  getAllTeacherDetailsForHOD,
 } from "../../../../actions/adminAction";
 import { getAllSubjects } from "../../../../actions/hodAction";
 import AllocateSubjectTeacherMapping from "./AllocateSubjectTeacherMapping";
@@ -37,7 +37,7 @@ const AllocateSubject = () => {
   const [filterEmployeeID, setFilterEmployeeID] = useState("");
 
   useEffect(() => {
-    dispatch(getAllTeacherDetails());
+    dispatch(getAllTeacherDetailsForHOD());
     dispatch(getAllSubjects());
   }, []);
 

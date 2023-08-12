@@ -19,7 +19,7 @@ import axios from "axios";
 
 //CREATE COURSE
 export const createCourseByHOD =
-  (semester, department, courses) => async (dispatch) => {
+  (session, semester, courses) => async (dispatch) => {
     try {
       dispatch({ type: CREATE_COURSE_REQUEST });
 
@@ -27,7 +27,7 @@ export const createCourseByHOD =
 
       const { data } = await axios.post(
         `/api/createCourse`,
-        { semester, department, courses },
+        { session, semester, courses },
         config
       );
 

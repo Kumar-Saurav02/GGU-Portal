@@ -14,6 +14,10 @@ const courseDepartmentSchema = new mongoose.Schema({
       },
     },
   ],
+  maxSemester: {
+    type: Number,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("CourseDepartment", courseDepartmentSchema);

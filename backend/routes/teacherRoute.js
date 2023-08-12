@@ -4,13 +4,14 @@ const {
   registerTeacherAccept,
   loginTeacher,
   updateDetailsTeacher,
-  getAllTeachers,
+  getAllTeachersForDean,
+  getAllTeachersForHOD,
   getParticularTeacher,
   getTeacher,
   registerApprovalTeacher,
   rejectApprovalTeacher,
   getAllTeachersApproval,
-  updateRoleOfTeacher,
+  updateRoleOfTeacherByDean,
   acceptCourseSelection,
   rejectCourseSelection,
   acceptScholarshipSelection,
@@ -21,7 +22,6 @@ const {
 const {
   createSubject,
   createCourse,
-  updateCourse,
   getAllSubjects,
   assignSubjectToTeacher,
   removeSubject,
@@ -31,6 +31,9 @@ const {
   removeStudent,
   createNewSession,
   getPresentSession,
+  getAllStudentsForDean,
+  updateStudentsDataByDeanOrHOD,
+  updateTeachersDataByDean,
 } = require("../controllers/deanController");
 const {
   isAuthenticatedUser,
@@ -75,19 +78,33 @@ router
     updateDetailsTeacher
   );
 router
-  .route("/updateTeacherRole/:id")
+  .route("/updateTeacherRoleByDean/:id")
   .put(
     isAuthenticatedUser,
     authorizeRolesTeacher("teacher"),
     authorizeSubRolesTeacher("dean"),
-    updateRoleOfTeacher
+    updateRoleOfTeacherByDean
   );
 router
   .route("/getTeacherDetail")
   .get(isAuthenticatedUser, authorizeRolesTeacher("teacher"), getTeacher);
 router
-  .route("/getAllTeachers")
-  .get(isAuthenticatedUser, authorizeRolesTeacher("teacher"), getAllTeachers);
+  .route("/getAllTeachersForHOD")
+  .get(
+    isAuthenticatedUser,
+    authorizeRolesTeacher("teacher"),
+    authorizeSubRolesTeacher("hod"),
+    getAllTeachersForHOD
+  );
+
+router
+  .route("/getAllTeachersForDean")
+  .get(
+    isAuthenticatedUser,
+    authorizeRolesTeacher("teacher"),
+    authorizeSubRolesTeacher("dean"),
+    getAllTeachersForDean
+  );
 router
   .route("/getAllRequestsTeachers")
   .get(
@@ -129,12 +146,6 @@ router
     authorizeSubRolesTeacher("hod"),
     createCourse
   );
-router.route("/updateCourse").put(
-  isAuthenticatedUser,
-  authorizeRolesTeacher("teacher"),
-  // authorizeSubRolesTeacher("hod"),
-  updateCourse
-);
 router.route("/getAllSubjects").get(
   isAuthenticatedUser,
   authorizeRolesTeacher("teacher"),
@@ -258,6 +269,31 @@ router
     authorizeRolesTeacher("teacher"),
     authorizeSubRolesTeacher("dean"),
     createNewSession
+  );
+
+router
+  .route("/getAllStudentsForDean")
+  .put(
+    isAuthenticatedUser,
+    authorizeRolesTeacher("teacher"),
+    authorizeSubRolesTeacher("dean"),
+    getAllStudentsForDean
+  );
+
+router
+  .route("/updateStudentDataByDeanOrHOD")
+  .put(
+    isAuthenticatedUser,
+    authorizeRolesTeacher("teacher"),
+    updateStudentsDataByDeanOrHOD
+  );
+
+router
+  .route("/updateTeacherDataByDean")
+  .put(
+    isAuthenticatedUser,
+    authorizeRolesTeacher("teacher"),
+    updateTeachersDataByDean
   );
 
 router.route("/getPresentSession").get(isAuthenticatedUser, getPresentSession);

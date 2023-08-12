@@ -373,7 +373,7 @@ export const getCourseForStudent = (session) => async (dispatch) => {
       config
     );
 
-    dispatch({ type: COURSE_STUDENT_SUCCESS, payload: data.course });
+    dispatch({ type: COURSE_STUDENT_SUCCESS, payload: data.courses });
   } catch (error) {
     dispatch({
       type: COURSE_STUDENT_FAIL,

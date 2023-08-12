@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
   clearMessages,
-  updateTeacherRoleByAdmin,
+  updateTeacherRoleByDean,
 } from "../../../actions/adminAction";
 import Loader from "../../Loader/Loader";
 
@@ -18,11 +18,11 @@ const TeacherDetails = ({ key, data }) => {
     if (role === "Teacher") updatingRole = "teacher";
     if (role === "Class Incharge") updatingRole = "classIncharge";
     if (role === "HOD") updatingRole = "hod";
-    dispatch(updateTeacherRoleByAdmin(updatingRole, data._id));
+    dispatch(updateTeacherRoleByDean(updatingRole, data._id));
   };
 
   const [role, setRole] = useState();
-  const roles = ["Teacher", "Class Incharge", "HOD", "Dean", "Admin"];
+  const roles = ["Teacher", "Class Incharge", "HOD"];
 
   return (
     <Fragment>
@@ -55,18 +55,6 @@ const TeacherDetails = ({ key, data }) => {
           <div className="entry">
             <label className="label_name">Current Designation</label>
             <p>Teacher</p>
-          </div>
-        )}
-        {data.subRole === "dean" && (
-          <div className="entry">
-            <label className="label_name">Current Designation</label>
-            <p>Dean</p>
-          </div>
-        )}
-        {data.subRole === "admin" && (
-          <div className="entry">
-            <label className="label_name">Current Designation</label>
-            <p>Admin</p>
           </div>
         )}
         <div className="entry">

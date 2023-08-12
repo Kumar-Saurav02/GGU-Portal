@@ -39,6 +39,12 @@ import {
   REMOVE_STUDENT_REQUEST,
   REMOVE_STUDENT_SUCCESS,
   REMOVE_STUDENT_FAIL,
+  UPDATE_STUDENT_DATA_BY_DEAN_OR_HOD_REQUEST,
+  UPDATE_STUDENT_DATA_BY_DEAN_OR_HOD_SUCCESS,
+  UPDATE_STUDENT_DATA_BY_DEAN_OR_HOD_FAIL,
+  UPDATE_TEACHER_DATA_BY_DEAN_REQUEST,
+  UPDATE_TEACHER_DATA_BY_DEAN_SUCCESS,
+  UPDATE_TEACHER_DATA_BY_DEAN_FAIL,
 } from "../constants/adminConstant";
 
 //GET ALL STUDENTS APPROVAL REQUESTS
@@ -270,6 +276,68 @@ export const removeStudentTeacherReducer = (state = {}, action) => {
       };
     case REMOVE_STUDENT_FAIL:
     case REMOVE_TEACHER_FAIL:
+      return {
+        ...state,
+        loading: false,
+        message: null,
+        error: action.payload,
+      };
+    case CLEAR_MESSAGES:
+      return {
+        ...state,
+        message: null,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+//UPDATE STUDENT DATA BY DEAN OR HOD
+export const updateStudentsDataByDeanOrHODReducer = (state = {}, action) => {
+  switch (action.type) {
+    case UPDATE_STUDENT_DATA_BY_DEAN_OR_HOD_REQUEST:
+      return {
+        loading: true,
+      };
+    case UPDATE_STUDENT_DATA_BY_DEAN_OR_HOD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        message: action.payload,
+      };
+    case UPDATE_STUDENT_DATA_BY_DEAN_OR_HOD_FAIL:
+      return {
+        ...state,
+        loading: false,
+        message: null,
+        error: action.payload,
+      };
+    case CLEAR_MESSAGES:
+      return {
+        ...state,
+        message: null,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+//UPDATE STUDENT DATA BY DEAN OR HOD
+export const updateTeachersDataByDeanReducer = (state = {}, action) => {
+  switch (action.type) {
+    case UPDATE_TEACHER_DATA_BY_DEAN_REQUEST:
+      return {
+        loading: true,
+      };
+    case UPDATE_TEACHER_DATA_BY_DEAN_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        message: action.payload,
+      };
+    case UPDATE_TEACHER_DATA_BY_DEAN_FAIL:
       return {
         ...state,
         loading: false,

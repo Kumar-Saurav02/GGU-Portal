@@ -9,6 +9,7 @@ import {
 import Loader from "../../../Loader/Loader";
 import { clearMessages } from "../../../../actions/adminAction";
 import SidebarTeacher from "../../SidebarTeacher/SidebarTeacher";
+import { getPresentSession } from "../../../../actions/teacherAction";
 
 const CreateCourse = () => {
   const dispatch = useDispatch();
@@ -27,6 +28,20 @@ const CreateCourse = () => {
     error: subjectError,
   } = useSelector((state) => state.getAllSubjects);
 
+  const { session, loading: sessionLoading } = useSelector(
+    (state) => state.getPresentSessionOfWork
+  );
+
+  useEffect(() => {
+    if (
+      session === null ||
+      session === undefined ||
+      Object.keys(session).length === 0
+    ) {
+      dispatch(getPresentSession());
+    }
+  }, [session]);
+
   const semesters = [1, 2, 3, 4, 5, 6, 7, 8];
   const [semester, setSemester] = useState(1);
   const [course, setCourse] = useState([]);
@@ -40,6 +55,12 @@ const CreateCourse = () => {
     const data = subjects.subjects.filter(function (d) {
       return d.subjectCode === subjectCode;
     });
+
+    for (let i = 0; i < course.length; i++) {
+      if (course[i][1].toString() === subjectCode.toString()) {
+        return toast.error("Same subject selected twice");
+      }
+    }
 
     setCourse((previous) => [
       ...previous,
@@ -56,7 +77,14 @@ const CreateCourse = () => {
     if (semester.trim() === "") {
       return toast.error("Select semester properly");
     }
-    dispatch(createCourseByHOD(semester, teacher.department, course));
+    if (
+      session !== null &&
+      session !== undefined &&
+      session.session.trim() === ""
+    ) {
+      return toast.error("Some error occurred");
+    }
+    dispatch(createCourseByHOD(session.session, semester, course));
   };
 
   useEffect(() => {
@@ -66,6 +94,7 @@ const CreateCourse = () => {
   useEffect(() => {
     if (message) {
       toast.success(message);
+      dispatch(clearMessages());
     }
     if (courseError) {
       toast.error(courseError);
@@ -79,7 +108,7 @@ const CreateCourse = () => {
 
   return (
     <Fragment>
-      {courseLoading || subjectLoading ? (
+      {courseLoading || subjectLoading || sessionLoading ? (
         <Loader />
       ) : (
         <Fragment>

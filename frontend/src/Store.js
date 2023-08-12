@@ -28,7 +28,9 @@ import {
   getStudentApprovalRequestReducer,
   getTeacherApprovalRequestReducer,
   removeStudentTeacherReducer,
+  updateStudentsDataByDeanOrHODReducer,
   updateTeacherRoleReducer,
+  updateTeachersDataByDeanReducer,
 } from "./reducers/adminReducer";
 import {
   assignSubjectsToTeacherReducer,
@@ -69,6 +71,8 @@ const reducer = combineReducers({
   assignSubjectsToTeacher: assignSubjectsToTeacherReducer,
   removeStudentTeacher: removeStudentTeacherReducer,
   getPresentSessionOfWork: getPresentSessionOfWorkReducer,
+  updateStudentsDataByDeanOrHOD: updateStudentsDataByDeanOrHODReducer,
+  updateTeachersDataByDean: updateTeachersDataByDeanReducer,
 });
 
 let initialState = {};
