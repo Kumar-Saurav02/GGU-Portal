@@ -359,6 +359,7 @@ exports.updateDetails = catchAsyncErrors(async (req, res, next) => {
     marksStatus,
     attendance,
     courseSubmission,
+    courseSubmissionSession,
     scholarshipSession,
     scholarshipState,
     scholarshipName,
@@ -580,10 +581,12 @@ exports.updateDetails = catchAsyncErrors(async (req, res, next) => {
       });
     }
     await ApproveCourse.create({
-      name: req.user.name,
-      enrollmentNumber: req.user.enrollmentNo,
+      session: courseSubmissionSession,
+      course: req.user.course,
       department: req.user.department,
       semester: courseSubmission.semester,
+      name: req.user.name,
+      enrollmentNumber: req.user.enrollmentNo,
       subjects: subjects,
     });
 

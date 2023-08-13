@@ -148,7 +148,7 @@ router
   );
 router.route("/getAllSubjects").get(
   isAuthenticatedUser,
-  authorizeRolesTeacher("teacher"),
+  // authorizeRolesTeacher("teacher"),
   // authorizeSubRolesTeacher("hod"),
   getAllSubjects
 );

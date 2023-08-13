@@ -216,67 +216,53 @@ const studentSchema = new mongoose.Schema({
       required: [true, "Please upload the signature"],
     },
   },
-  attendanceDetails: [
-    {
-      semester: {
-        type: Number,
-      },
-      attendance: {
-        type: Number,
-      },
-      // subjects: [
-      //   {
-      //     subjectName: {
-      //       type: String,
-      //     },
-      //     subjectTotalAttendance: {
-      //       type: Number,
-      //       default: 0,
-      //     },
-      //     months: [
-      //       {
-      //         monthName: {
-      //           type: String,
-      //         },
-      //         attendance: {
-      //           type: Number,
-      //         },
-      //         totalAttendance: {
-      //           type: Number,
-      //         },
-      //       },
-      //     ],
-      //   },
-      // ],
-    },
-  ],
-  backSubject: [
-    {
-      semester: {
-        type: Number,
-      },
-      subjectName: {
-        type: String,
-      },
-      subjectCode: {
-        type: String,
-      },
-      subjectCredit: {
-        type: String,
-      },
-      status: {
-        type: String,
-      },
-    },
-  ],
+  // attendanceDetails: [
+  //   {
+  //     semester: {
+  //       type: Number,
+  //     },
+  //     attendance: {
+  //       type: Number,
+  //     },
+  //     // subjects: [
+  //     //   {
+  //     //     subjectName: {
+  //     //       type: String,
+  //     //     },
+  //     //     subjectTotalAttendance: {
+  //     //       type: Number,
+  //     //       default: 0,
+  //     //     },
+  //     //     months: [
+  //     //       {
+  //     //         monthName: {
+  //     //           type: String,
+  //     //         },
+  //     //         attendance: {
+  //     //           type: Number,
+  //     //         },
+  //     //         totalAttendance: {
+  //     //           type: Number,
+  //     //         },
+  //     //       },
+  //     //     ],
+  //     //   },
+  //     // ],
+  //   },
+  // ],
   courseSelected: [
     {
+      session: {
+        type: String,
+        required: true,
+      },
       semester: {
         type: Number,
+        required: true,
       },
       attendanceDetails: {
         type: String,
-        default: "",
+        required: true,
       },
       subjects: [
         {
@@ -293,6 +279,25 @@ const studentSchema = new mongoose.Schema({
             type: String,
           },
           term: {
+            type: String,
+          },
+        },
+      ],
+      backSubject: [
+        {
+          semester: {
+            type: Number,
+          },
+          subjectName: {
+            type: String,
+          },
+          subjectCode: {
+            type: String,
+          },
+          subjectCredit: {
+            type: String,
+          },
+          status: {
             type: String,
           },
         },

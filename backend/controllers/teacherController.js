@@ -426,6 +426,7 @@ exports.acceptCourseSelection = catchAsyncErrors(async (req, res, next) => {
   await ApproveCourse.deleteOne({ _id: id });
 
   student.courseSelected.push({
+    session: courseSubmission.session,
     semester: courseSubmission.semester,
     subjects,
     attendanceDetails,

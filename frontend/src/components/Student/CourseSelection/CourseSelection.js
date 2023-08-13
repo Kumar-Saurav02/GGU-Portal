@@ -47,7 +47,6 @@ const CourseSelection = () => {
     (state) => state.getPresentSessionOfWork
   );
 
-  const [attendance, setAttendance] = useState();
   const [courseSelected, setCourseSelected] = useState(false);
   const [credits, setCredits] = useState(0);
   const [courseChecked, setCourseChecked] = useState([]);
@@ -83,20 +82,6 @@ const CourseSelection = () => {
 
     if (
       student !== undefined &&
-      student.attendanceDetails &&
-      student.attendanceDetails.length != 0
-    ) {
-      for (let i = 0; i < student.attendanceDetails.length; i++) {
-        if (
-          student.attendanceDetails[i].semester.toString() ===
-          student.currentSemester.toString()
-        ) {
-          setAttendance(student.attendanceDetails[i].attendance);
-        }
-      }
-    }
-    if (
-      student !== undefined &&
       student.courseSelected &&
       student.courseSelected.length != 0
     ) {
@@ -126,7 +111,7 @@ const CourseSelection = () => {
     }
     setCourseChecked(checkingUncheckedState);
     setUndertakingChecked(false);
-    dispatch(submitCourse(course));
+    dispatch(submitCourse(course, session));
   };
 
   useEffect(() => {

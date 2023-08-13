@@ -251,26 +251,27 @@ export const uploadingMarks =
   };
 
 //SUBMIT STUDENT COURSE
-export const submitCourse = (courseSubmission) => async (dispatch) => {
-  try {
-    dispatch({ type: SUBMIT_COURSE_REQUEST });
+export const submitCourse =
+  (courseSubmission, courseSubmissionSession) => async (dispatch) => {
+    try {
+      dispatch({ type: SUBMIT_COURSE_REQUEST });
 
-    const config = { headers: { "Content-Type": "application/json" } };
+      const config = { headers: { "Content-Type": "application/json" } };
 
-    const { data } = await axios.put(
-      `/api/updateStudent`,
-      { courseSubmission },
-      config
-    );
+      const { data } = await axios.put(
+        `/api/updateStudent`,
+        { courseSubmission, courseSubmissionSession },
+        config
+      );
 
-    dispatch({ type: SUBMIT_COURSE_SUCCESS, payload: data.message });
-  } catch (error) {
-    dispatch({
-      type: SUBMIT_COURSE_FAIL,
-      payload: error.response.data.message,
-    });
-  }
-};
+      dispatch({ type: SUBMIT_COURSE_SUCCESS, payload: data.message });
+    } catch (error) {
+      dispatch({
+        type: SUBMIT_COURSE_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };
 
 //SUBMIT STUDENT SCHOLARSHIP
 export const submitScholarship =
