@@ -1,53 +1,47 @@
 const Admin = require("../models/adminModel");
 const ErrorHandler = require("../utils/errorhandler");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
-const sendToken = require("../utils/jwtToken");
 const cloudinary = require("cloudinary").v2;
+const Teacher = require("../models/teacherModel");
+const Student = require("../models/studentModel");
+const Session = require("../models/currentSessionModel");
 
-//ADMIN REGISTER
-exports.registerAdmin = catchAsyncErrors(async (req, res, next) => {
-  const { email, name, password, confirmPassword } = req.body;
+//GET ALL STUDENTS
+exports.getAllStudentsByAdmin = catchAsyncErrors(async (req, res, next) => {
+  const students = await Student.find();
 
-  if (password !== confirmPassword) {
-    return next(new ErrorHandler("Password does not match"));
-  }
-
-  const adminExist = await Admin.findOne({
-    email,
+  res.status(200).json({
+    success: true,
+    students,
   });
-  if (adminExist) {
-    return next(new ErrorHandler("Admin already registered"));
-  }
-
-  const admin = await Admin.create({
-    email,
-    name,
-    password,
-    role: "admin",
-  });
-
-  sendToken(admin, 201, res);
 });
 
-//LOGIN ADMIN
-exports.loginAdmin = catchAsyncErrors(async (req, res, next) => {
-  const { email, password } = req.body;
+//GET ALL TEACHER
+exports.getAllTeachersForAdmin = catchAsyncErrors(async (req, res, next) => {
+  const teachers = await Teacher.find();
 
-  if (!email || !password) {
-    return next(new ErrorHandler("Please enter email and password both", 400));
-  }
-
-  const admin = await Admin.findOne({
-    email,
-  }).select("+password");
-  if (!admin) {
-    return next(new ErrorHandler("Invalid email or password", 401));
-  }
-
-  const isPasswordMatched = await admin.comparePassword(password);
-  if (!isPasswordMatched) {
-    return next(new ErrorHandler("Invalid email or password", 401));
-  }
-
-  sendToken(admin, 200, res);
+  res.status(200).json({
+    success: true,
+    teachers,
+  });
 });
+
+//UPDATE TEACHER ROLE
+exports.updateRoleOfTeacherByAdmin = catchAsyncErrors(
+  async (req, res, next) => {
+    const newUserData = {
+      subRole: req.body.role,
+    };
+
+    await Teacher.findByIdAndUpdate(req.params.id, newUserData, {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Teacher Role Updated",
+    });
+  }
+);

@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
   clearMessages,
-  getAllStudentDetail,
+  getAllStudentDetailForDean,
+  getAllStudentDetailForHOD,
 } from "../../../actions/adminAction";
 import { useNavigate } from "react-router-dom";
 import SidebarTeacher from "../../Teacher/SidebarTeacher/SidebarTeacher";
@@ -18,6 +19,12 @@ const StudentList = () => {
   const { teacher } = useSelector((state) => state.registerLoginTeachers);
 
   const {
+    loading: studentRemoveLoading,
+    message: studentRemoveMessage,
+    error: studentRemoveError,
+  } = useSelector((state) => state.removeStudentTeacher);
+
+  const {
     students,
     loading: studentListLoading,
     error,
@@ -26,12 +33,28 @@ const StudentList = () => {
   const [searchResult, setSearchResult] = useState("");
 
   useEffect(() => {
-    dispatch(getAllStudentDetail());
+    if (studentRemoveMessage) {
+      toast.success(studentRemoveMessage);
+      dispatch(clearMessages());
+    }
+    if (studentRemoveError) {
+      toast.error(studentRemoveError);
+      dispatch(clearMessages());
+    }
+  }, [studentRemoveMessage, studentRemoveError]);
+
+  useEffect(() => {
+    if (teacher.subRole.toString() === "dean") {
+      dispatch(getAllStudentDetailForDean());
+    }
+    if (teacher.subRole.toString() === "hod") {
+      dispatch(getAllStudentDetailForHOD());
+    }
   }, []);
 
   return (
     <Fragment>
-      {studentListLoading ? (
+      {studentListLoading || studentRemoveLoading ? (
         <Loader />
       ) : (
         <Fragment>
@@ -56,7 +79,10 @@ const StudentList = () => {
                   )
                   .map((student, i) => (
                     <div key={i}>
-                      <StudentListMapping data={student} />
+                      <StudentListMapping
+                        data={student}
+                        role={teacher.subRole}
+                      />
                     </div>
                   ))}
             </div>

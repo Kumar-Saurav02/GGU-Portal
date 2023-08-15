@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
   clearMessages,
-  updateTeacherRoleByAdmin,
+  updateTeacherRoleByDean,
 } from "../../../actions/adminAction";
 import Loader from "../../Loader/Loader";
 
@@ -18,22 +18,26 @@ const TeacherDetails = ({ key, data }) => {
     if (role === "Teacher") updatingRole = "teacher";
     if (role === "Class Incharge") updatingRole = "classIncharge";
     if (role === "HOD") updatingRole = "hod";
-    dispatch(updateTeacherRoleByAdmin(updatingRole, data._id));
+    dispatch(updateTeacherRoleByDean(updatingRole, data._id));
   };
 
   const [role, setRole] = useState();
-  const roles = ["Teacher", "Class Incharge", "HOD", "Admin"];
+  const roles = ["Teacher", "Class Incharge", "HOD"];
 
   return (
     <Fragment>
       <div className="subsection">
         <div className="entry">
-        <label className="label_name">Employee ID.</label>
+          <label className="label_name">Employee ID.</label>
           <p>{data.employeeID}</p>
         </div>
         <div className="entry">
-        <label className="label_name">Name</label>
+          <label className="label_name">Name</label>
           <p>{data.name}</p>
+        </div>
+        <div className="entry">
+          <label className="label_name">Department</label>
+          <p>{data.department}</p>
         </div>
         {data.subRole === "hod" && (
           <div className="entry">
@@ -53,12 +57,6 @@ const TeacherDetails = ({ key, data }) => {
             <p>Teacher</p>
           </div>
         )}
-        {data.subRole === "admin" && (
-          <div className="entry">
-            <label className="label_name">Current Designation</label>
-            <p>Admin</p>
-          </div>
-        )}
         <div className="entry">
           <select
             id="label_input"
@@ -72,8 +70,10 @@ const TeacherDetails = ({ key, data }) => {
             ))}
           </select>
         </div>
-        <button className="signInbtn border hover" onClick={updateRole}>Update</button>
-       </div>
+        <button className="signInbtn border hover" onClick={updateRole}>
+          Update
+        </button>
+      </div>
     </Fragment>
   );
 };

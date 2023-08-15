@@ -41,7 +41,44 @@ import {
   UPDATE_TEACHER_DETAILS_REQUEST,
   UPDATE_TEACHER_DETAILS_SUCCESS,
   UPDATE_TEACHER_DETAILS_FAIL,
+  GET_ATTENDANCE_BY_DEPARTMENT_REQUEST,
+  GET_ATTENDANCE_BY_DEPARTMENT_SUCCESS,
+  GET_ATTENDANCE_BY_DEPARTMENT_FAIL,
+  GET_PRESENT_SESSION_REQUEST,
+  GET_PRESENT_SESSION_SUCCESS,
+  GET_PRESENT_SESSION_FAIL,
 } from "../constants/teacherConstant";
+
+export const getPresentSessionOfWorkReducer = (
+  state = { session: {} },
+  action
+) => {
+  switch (action.type) {
+    case GET_PRESENT_SESSION_REQUEST:
+      return {
+        loading: true,
+      };
+    case GET_PRESENT_SESSION_SUCCESS:
+      return {
+        loading: false,
+        session: action.payload,
+      };
+    case GET_PRESENT_SESSION_FAIL:
+      return {
+        ...state,
+        loading: false,
+        session: null,
+        error: action.payload,
+      };
+    case CLEAR_MESSAGES:
+      return {
+        ...state,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
 
 export const registerLoginTeachersReducer = (
   state = { teacher: {} },
@@ -230,15 +267,18 @@ export const getAttendanceEntryBySubjectReducer = (
 ) => {
   switch (action.type) {
     case GET_ATTENDANCE_BY_SUBJECT_REQUEST:
+    case GET_ATTENDANCE_BY_DEPARTMENT_REQUEST:
       return {
         loading: true,
       };
     case GET_ATTENDANCE_BY_SUBJECT_SUCCESS:
+    case GET_ATTENDANCE_BY_DEPARTMENT_SUCCESS:
       return {
         loading: false,
         attendanceDetails: action.payload,
       };
     case GET_ATTENDANCE_BY_SUBJECT_FAIL:
+    case GET_ATTENDANCE_BY_DEPARTMENT_FAIL:
       return {
         ...state,
         loading: false,

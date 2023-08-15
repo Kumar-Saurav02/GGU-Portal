@@ -1,6 +1,18 @@
 const mongoose = require("mongoose");
 
 const approveCourseSchema = new mongoose.Schema({
+  session: {
+    type: String,
+    required: true,
+  },
+  course: {
+    type: String,
+    required: true,
+  },
+  department: {
+    type: String,
+    required: [true, "Enter your Department"],
+  },
   semester: {
     type: Number,
     required: [true, "Enter semester"],
@@ -13,10 +25,7 @@ const approveCourseSchema = new mongoose.Schema({
     type: String,
     required: [true, "Enter Your Enrollment Number"],
   },
-  department: {
-    type: String,
-    required: [true, "Enter your Department"],
-  },
+
   subjects: [
     {
       subjectName: {

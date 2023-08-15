@@ -65,6 +65,11 @@ const StudentsApproval = () => {
                 <h1> Student's Approval</h1>
                 <hr></hr>
                 <br></br>
+                {studentApproval && studentApproval.length === 0 && (
+                  <div>
+                    <h3>Nothing to show here.</h3>
+                  </div>
+                )}
                 {studentApproval &&
                   studentApproval.map((studentData, i) => (
                     <div>

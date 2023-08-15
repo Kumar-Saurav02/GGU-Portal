@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
   clearMessages,
-  getAllTeacherDetails,
+  getAllTeacherDetailsForDean,
 } from "../../../actions/adminAction";
 import { useNavigate } from "react-router-dom";
 import SidebarTeacher from "../../Teacher/SidebarTeacher/SidebarTeacher";
@@ -18,6 +18,12 @@ const TeacherList = () => {
   const { teacher } = useSelector((state) => state.registerLoginTeachers);
 
   const {
+    loading: teacherRemoveLoading,
+    message: teacherRemoveMessage,
+    error: teacherRemoveError,
+  } = useSelector((state) => state.removeStudentTeacher);
+
+  const {
     teachers,
     loading: teacherListLoading,
     error,
@@ -26,12 +32,23 @@ const TeacherList = () => {
   const [searchResult, setSearchResult] = useState("");
 
   useEffect(() => {
-    dispatch(getAllTeacherDetails());
+    if (teacherRemoveMessage) {
+      toast.success(teacherRemoveMessage);
+      dispatch(clearMessages());
+    }
+    if (teacherRemoveError) {
+      toast.error(teacherRemoveError);
+      dispatch(clearMessages());
+    }
+  }, [teacherRemoveMessage, teacherRemoveError]);
+
+  useEffect(() => {
+    dispatch(getAllTeacherDetailsForDean());
   }, []);
 
   return (
     <Fragment>
-      {teacherListLoading ? (
+      {teacherListLoading || teacherRemoveLoading ? (
         <Loader />
       ) : (
         <Fragment>

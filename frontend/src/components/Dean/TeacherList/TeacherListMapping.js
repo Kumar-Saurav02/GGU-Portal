@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { removeTeacherByAdmin } from "../../../actions/adminAction";
 
 const TeacherListMapping = ({ data }) => {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ const TeacherListMapping = ({ data }) => {
   };
 
   const removeStudent = () => {
-    console.log("Deleted");
+    dispatch(removeTeacherByAdmin(data._id));
   };
 
   return (
@@ -22,7 +23,8 @@ const TeacherListMapping = ({ data }) => {
         <div className="col">
           <div className="field">Name </div>
           <div className="field">Employee ID</div>
-          <div className="field">designation </div>
+          <div className="field">Designation </div>
+          <div className="field">Department </div>
           <div className="field">Email </div>
         </div>
 
@@ -30,6 +32,7 @@ const TeacherListMapping = ({ data }) => {
           <div className="field">{data.name} </div>
           <div className="field">{data.employeeID} </div>
           <div className="field">{data.designation} </div>
+          <div className="field">{data.department} </div>
           <div className="field">{data.email} </div>
         </div>
 

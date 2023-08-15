@@ -251,26 +251,27 @@ export const uploadingMarks =
   };
 
 //SUBMIT STUDENT COURSE
-export const submitCourse = (courseSubmission) => async (dispatch) => {
-  try {
-    dispatch({ type: SUBMIT_COURSE_REQUEST });
+export const submitCourse =
+  (courseSubmission, courseSubmissionSession) => async (dispatch) => {
+    try {
+      dispatch({ type: SUBMIT_COURSE_REQUEST });
 
-    const config = { headers: { "Content-Type": "application/json" } };
+      const config = { headers: { "Content-Type": "application/json" } };
 
-    const { data } = await axios.put(
-      `/api/updateStudent`,
-      { courseSubmission },
-      config
-    );
+      const { data } = await axios.put(
+        `/api/updateStudent`,
+        { courseSubmission, courseSubmissionSession },
+        config
+      );
 
-    dispatch({ type: SUBMIT_COURSE_SUCCESS, payload: data.message });
-  } catch (error) {
-    dispatch({
-      type: SUBMIT_COURSE_FAIL,
-      payload: error.response.data.message,
-    });
-  }
-};
+      dispatch({ type: SUBMIT_COURSE_SUCCESS, payload: data.message });
+    } catch (error) {
+      dispatch({
+        type: SUBMIT_COURSE_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };
 
 //SUBMIT STUDENT SCHOLARSHIP
 export const submitScholarship =
@@ -361,13 +362,19 @@ export const loadStudent = () => async (dispatch) => {
 };
 
 //GET COURSE FOR STUDENT
-export const getCourseForStudent = () => async (dispatch) => {
+export const getCourseForStudent = (session) => async (dispatch) => {
   try {
     dispatch({ type: COURSE_STUDENT_REQUEST });
 
-    const { data } = await axios.get(`/api/getCourseForSelection`);
+    const config = { headers: { "Content-Type": "application/json" } };
 
-    dispatch({ type: COURSE_STUDENT_SUCCESS, payload: data.course });
+    const { data } = await axios.get(
+      `/api/getCourseForSelection`,
+      { session },
+      config
+    );
+
+    dispatch({ type: COURSE_STUDENT_SUCCESS, payload: data.courses });
   } catch (error) {
     dispatch({
       type: COURSE_STUDENT_FAIL,

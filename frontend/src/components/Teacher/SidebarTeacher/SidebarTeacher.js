@@ -44,7 +44,7 @@ const SidebarTeacher = ({ role }) => {
             Profile
           </p>
         </Link>
-        {role !== "admin" && (
+        {role !== "dean" && (
           <div className="sidebar">
             <Link to="/attendanceEntry">
               <p>
@@ -75,6 +75,18 @@ const SidebarTeacher = ({ role }) => {
                 Create Course
               </p>
             </Link>
+            <Link to="/hod/allocateSubject">
+              <p>
+                <PeopleIcon />
+                Allocate Subject
+              </p>
+            </Link>
+            <Link to="/studentsApproval">
+              <p>
+                <PeopleIcon />
+                Students Approval
+              </p>
+            </Link>
           </div>
         )}
 
@@ -95,20 +107,15 @@ const SidebarTeacher = ({ role }) => {
           </div>
         )}
 
-        {role === "admin" && (
+        {role === "dean" && (
           <div className="sidebar">
-            <Link to="/admin">
+            {/* <Link to="/dean">
               <p>
                 <PeopleIcon />
                 Dashboard
               </p>
-            </Link>
-            <Link to="/studentsApproval">
-              <p>
-                <PeopleIcon />
-                Students Approval
-              </p>
-            </Link>
+            </Link> */}
+
             <Link to="/teachersApproval">
               <p>
                 <PeopleIcon />
@@ -127,12 +134,7 @@ const SidebarTeacher = ({ role }) => {
                 Teacher Role
               </p>
             </Link>
-            <Link to="/studentsList">
-              <p>
-                <PeopleIcon />
-                Student List
-              </p>
-            </Link>
+
             <Link to="/teachersList">
               <p>
                 <PeopleIcon />
@@ -140,6 +142,15 @@ const SidebarTeacher = ({ role }) => {
               </p>
             </Link>
           </div>
+        )}
+
+        {(role === "dean" || role === "hod") && (
+          <Link to="/studentsList">
+            <p>
+              <PeopleIcon />
+              Student List
+            </p>
+          </Link>
         )}
 
         <button class="signInbtn border hover" onClick={logout}>

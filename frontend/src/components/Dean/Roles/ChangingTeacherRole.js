@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
   clearMessages,
-  getAllTeacherDetails,
+  getAllTeacherDetailsForDean,
 } from "../../../actions/adminAction";
 import Loader from "../../Loader/Loader";
 import SidebarTeacher from "../../Teacher/SidebarTeacher/SidebarTeacher";
@@ -28,7 +28,7 @@ const ChangingTeacherRole = () => {
   } = useSelector((state) => state.updateTeacherRole);
 
   useEffect(() => {
-    dispatch(getAllTeacherDetails());
+    dispatch(getAllTeacherDetailsForDean());
   }, []);
 
   useEffect(() => {
@@ -53,24 +53,22 @@ const ChangingTeacherRole = () => {
       ) : (
         <Fragment>
           <div className="teacherDetails">
-            
             <SidebarTeacher role={teacher.subRole} />
-            <div className="approvBox"> 
+            <div className="approvBox">
               <div className="request">
                 <h1> Role Management</h1>
                 <hr></hr>
                 <br></br>
-                
-                  {teachers &&
-                    teachers.map((teacher, i) => (
-                      <div key={i}>
-                        <TeacherDetails data={teacher} />
-                      </div>
-                    ))}
-                
+
+                {teachers &&
+                  teachers.map((teacher, i) => (
+                    <div key={i}>
+                      <TeacherDetails data={teacher} />
+                    </div>
+                  ))}
               </div>
             </div>
-            </div>
+          </div>
         </Fragment>
       )}
     </Fragment>

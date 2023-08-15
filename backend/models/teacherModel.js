@@ -30,6 +30,10 @@ const teacherSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please enter your gender"],
   },
+  course: {
+    type: String,
+    required: [true, "Please select your course"],
+  },
   department: {
     type: String,
     required: [true, "Please enter your department"],
@@ -48,8 +52,18 @@ const teacherSchema = new mongoose.Schema({
   },
   assignSubject: [
     {
-      type: String,
-      required: [true, "Please enter your assigned subject"],
+      subjectName: {
+        type: String,
+        required: [true, "Subject name required"],
+      },
+      subjectCode: {
+        type: String,
+        required: [true, "Subject code required"],
+      },
+      subjectCredit: {
+        type: Number,
+        required: [true, "Subject credit required"],
+      },
     },
   ],
   resume: {

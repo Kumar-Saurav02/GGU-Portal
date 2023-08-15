@@ -119,6 +119,7 @@ const Register = () => {
     nameTeacher: "",
     genderTeacher: "",
     mobileNumberTeacher: "",
+    courseTeacher: "",
     departmentTeacher: "",
     designationTeacher: "",
     // dateOfBirthTeacher: "",
@@ -136,6 +137,7 @@ const Register = () => {
     nameTeacher,
     genderTeacher,
     mobileNumberTeacher,
+    courseTeacher,
     departmentTeacher,
     designationTeacher,
     // dateOfBirthTeacher,
@@ -306,7 +308,7 @@ const Register = () => {
       aadharNumberStudent.trim() === "" ||
       aadharNumberStudent.length !== 12
     ) {
-      return toast.error("Fill the aadhar number properly");
+      return toast.error("Aadhar number should be of 12 digits");
     }
     if (hostelerStudent.trim() === "") {
       return toast.error("Select your hosteler identity");
@@ -414,6 +416,7 @@ const Register = () => {
       )
     );
   };
+
   const registerTeacherDetails = (e) => {
     e.preventDefault();
 
@@ -435,6 +438,9 @@ const Register = () => {
     ) {
       return toast.error("Fill the mobile number properly");
     }
+    if (courseTeacher.trim() === "") {
+      return toast.error("Select your course");
+    }
     if (departmentTeacher.trim() === "") {
       return toast.error("Select your department");
     }
@@ -444,9 +450,9 @@ const Register = () => {
     if (qualificationTeacher.trim() === "") {
       return toast.error("Fill the qualification");
     }
-    if (assignedSubject.length === 0) {
-      return toast.error("Fill the assigned subject");
-    }
+    // if (assignedSubject.length === 0) {
+    //   return toast.error("Fill the assigned subject");
+    // }
     if (resumeFileTeacher.trim() === "") {
       return toast.error("Upload your resume");
     }
@@ -487,6 +493,7 @@ const Register = () => {
         nameTeacher.trim(),
         genderTeacher.trim(),
         mobileNumberTeacher.trim(),
+        courseTeacher.trim(),
         departmentTeacher.trim(),
         designationTeacher.trim(),
         updatedDateOfBirth,
@@ -503,41 +510,41 @@ const Register = () => {
 
   const [assignedSubject, setAssignedSubject] = useState([]);
 
-  const addInput = () => {
-    setAssignedSubject((s) => {
-      return [
-        ...s,
-        {
-          type: "text",
-          value: "",
-          placeholder: "Assigned Subject",
-          required: true,
-        },
-      ];
-    });
-  };
-  const removeInput = (e) => {
-    e.preventDefault();
+  // const addInput = () => {
+  //   setAssignedSubject((s) => {
+  //     return [
+  //       ...s,
+  //       {
+  //         type: "text",
+  //         value: "",
+  //         placeholder: "Assigned Subject",
+  //         required: true,
+  //       },
+  //     ];
+  //   });
+  // };
+  // const removeInput = (e) => {
+  //   e.preventDefault();
 
-    const index = e.target.id;
-    setAssignedSubject((s) => {
-      let newArr = [...s];
-      newArr.splice(index, 1);
-      return newArr;
-    });
-  };
+  //   const index = e.target.id;
+  //   setAssignedSubject((s) => {
+  //     let newArr = [...s];
+  //     newArr.splice(index, 1);
+  //     return newArr;
+  //   });
+  // };
 
-  const handleChange = (e) => {
-    e.preventDefault();
+  // const handleChange = (e) => {
+  //   e.preventDefault();
 
-    const index = e.target.id;
-    setAssignedSubject((s) => {
-      const newArr = s.slice();
-      newArr[index].value = e.target.value;
+  //   const index = e.target.id;
+  //   setAssignedSubject((s) => {
+  //     const newArr = s.slice();
+  //     newArr[index].value = e.target.value;
 
-      return newArr;
-    });
-  };
+  //     return newArr;
+  //   });
+  // };
 
   return (
     <Fragment>
@@ -624,7 +631,7 @@ const Register = () => {
                     </label>
                     <input
                       id="label_input"
-                      type="number"
+                      type="text"
                       placeholder="Aadhar Number"
                       required
                       name="aadharNumberStudent"
@@ -648,24 +655,6 @@ const Register = () => {
                   </div>
 
                   <div className="entry">
-                    <label className="label_name" for="{departmentStudent}">
-                      Department
-                    </label>
-                    <select
-                      id="label_input"
-                      required
-                      name="departmentStudent"
-                      onChange={registerStudentDataChange}>
-                      <option value={departmentStudent}>Department</option>
-                      {departments.map((department) => (
-                        <option key={department} value={department}>
-                          {department}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="entry">
                     <label className="label_name" for="{courseStudent}">
                       Course
                     </label>
@@ -678,6 +667,24 @@ const Register = () => {
                       {courses.map((course) => (
                         <option key={course} value={course}>
                           {course}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="entry">
+                    <label className="label_name" for="{departmentStudent}">
+                      Department
+                    </label>
+                    <select
+                      id="label_input"
+                      required
+                      name="departmentStudent"
+                      onChange={registerStudentDataChange}>
+                      <option value={departmentStudent}>Department</option>
+                      {departments.map((department) => (
+                        <option key={department} value={department}>
+                          {department}
                         </option>
                       ))}
                     </select>
@@ -738,7 +745,7 @@ const Register = () => {
                     </label>
                     <input
                       id="label_input"
-                      type="number"
+                      type="text"
                       placeholder="Mobile Number"
                       required
                       name="mobileNumberStudent"
@@ -770,7 +777,7 @@ const Register = () => {
                   {/* Calendar */}
                   <div className="entry">
                     <label className="label_name" for="{dateOfBirthStudent}">
-                      DoB
+                      Date Of Birth
                     </label>
 
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -928,7 +935,7 @@ const Register = () => {
                       </label>
                       <input
                         id="label_input"
-                        type="number"
+                        type="text"
                         placeholder="Mother's Mobile Number"
                         required
                         name="motherMobileNumberStudent"
@@ -1012,7 +1019,7 @@ const Register = () => {
                         <br></br>
 
                         <input
-                          type="number"
+                          type="text"
                           placeholder="Pin Code"
                           required
                           name="permanentPinCodeStudent"
@@ -1144,7 +1151,7 @@ const Register = () => {
 
                   <div className="entry">
                     <label className="label_name" for="{nameTeacher}">
-                      Emp ID
+                      Employee ID
                     </label>
                     <input
                       type="text"
@@ -1177,7 +1184,7 @@ const Register = () => {
                     </label>
                     <input
                       id="label_input"
-                      type="number"
+                      type="text"
                       placeholder="Mobile Number"
                       required
                       name="mobileNumberTeacher"
@@ -1236,6 +1243,24 @@ const Register = () => {
                   </div>
 
                   <div className="entry">
+                    <label className="label_name" for="{courseTeacher}">
+                      Course
+                    </label>
+                    <select
+                      id="label_input"
+                      required
+                      name="courseTeacher"
+                      onChange={registerTeacherDataChange}>
+                      <option value={courseTeacher}>Courses</option>
+                      {courses.map((course) => (
+                        <option key={course} value={course}>
+                          {course}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="entry">
                     <label className="label_name" for="{departmentTeacher}">
                       Department
                     </label>
@@ -1271,7 +1296,7 @@ const Register = () => {
                     </select>
                   </div>
 
-                  <div className="entry">
+                  {/* <div className="entry">
                     <label className="label_name" for="{item.value}">
                       Assigned Subject
                     </label>
@@ -1295,7 +1320,7 @@ const Register = () => {
 
                       <button onClick={addInput}>Add another field</button>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="subsection">

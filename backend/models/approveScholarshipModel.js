@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 
 const approveScholarshipSchema = new mongoose.Schema({
-  name: {
+  session: {
     type: String,
-    required: [true, "Enter Your Name"],
+    required: [true, "Enter session"],
   },
-  enrollmentNumber: {
+  course: {
     type: String,
-    required: [true, "Enter Your Enrollment Number"],
+    required: true,
   },
   department: {
     type: String,
@@ -17,10 +17,15 @@ const approveScholarshipSchema = new mongoose.Schema({
     type: Number,
     required: [true, "Enter Your Semester"],
   },
-  session: {
+  name: {
     type: String,
-    required: [true, "Enter session"],
+    required: [true, "Enter Your Name"],
   },
+  enrollmentNumber: {
+    type: String,
+    required: [true, "Enter Your Enrollment Number"],
+  },
+
   state: {
     type: String,
     required: [true, "Enter state"],

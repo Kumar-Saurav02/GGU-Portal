@@ -5,6 +5,7 @@ import {
   getCourseForStudent,
   submitCourse,
 } from "../../../actions/studentAction";
+import { getPresentSession } from "../../../actions/teacherAction";
 import Loader from "../../Loader/Loader";
 import "./CourseSelection.css";
 import "../StudentScholarship/StudentScholarship.css";
@@ -42,7 +43,10 @@ const CourseSelection = () => {
     error,
   } = useSelector((state) => state.marksFeesCourseUpdate);
 
-  const [attendance, setAttendance] = useState();
+  const { session, loading: sessionLoading } = useSelector(
+    (state) => state.getPresentSessionOfWork
+  );
+
   const [courseSelected, setCourseSelected] = useState(false);
   const [credits, setCredits] = useState(0);
   const [courseChecked, setCourseChecked] = useState([]);
@@ -66,23 +70,16 @@ const CourseSelection = () => {
   }, [error, message]);
 
   useEffect(() => {
-    dispatch(getCourseForStudent());
+    if (
+      session === null ||
+      session === undefined ||
+      Object.keys(session).length === 0
+    ) {
+      dispatch(getPresentSession());
+    }
+    dispatch(getCourseForStudent(session));
     dispatch(checkIfCourseIsSentForApproval());
 
-    if (
-      student !== undefined &&
-      student.attendanceDetails &&
-      student.attendanceDetails.length != 0
-    ) {
-      for (let i = 0; i < student.attendanceDetails.length; i++) {
-        if (
-          student.attendanceDetails[i].semester.toString() ===
-          student.currentSemester.toString()
-        ) {
-          setAttendance(student.attendanceDetails[i].attendance);
-        }
-      }
-    }
     if (
       student !== undefined &&
       student.courseSelected &&
@@ -97,7 +94,7 @@ const CourseSelection = () => {
         }
       }
     }
-  }, [student]);
+  }, [student, session]);
 
   const submitCourseDetails = () => {
     if (undertakingChecked === false) {
@@ -114,7 +111,7 @@ const CourseSelection = () => {
     }
     setCourseChecked(checkingUncheckedState);
     setUndertakingChecked(false);
-    dispatch(submitCourse(course));
+    dispatch(submitCourse(course, session));
   };
 
   useEffect(() => {
@@ -146,7 +143,11 @@ const CourseSelection = () => {
 
   return (
     <Fragment>
-      {courseLoading || studentLoading || uploading || approvalLoading ? (
+      {courseLoading ||
+      studentLoading ||
+      uploading ||
+      approvalLoading ||
+      sessionLoading ? (
         <Loader />
       ) : (
         <Fragment>

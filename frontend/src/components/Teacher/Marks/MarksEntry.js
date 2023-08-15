@@ -45,17 +45,17 @@ const MarksEntry = () => {
   } = useSelector((state) => state.submitMarksEntryBySubjectTeacher);
 
   const semesters = [1, 2, 3, 4, 5, 6, 7, 8];
-  const departments = [
-    "Department of Computer Science and Engineering",
-    "Department of Information Technology",
-    "Department of Electronics & Communication Engineering",
-    "Department of Chemical Engineering",
-    "Department of Civil Engineering",
-    "Department of Mechanical Engineering",
-    "Department of Industrial & Production Engineering",
-  ];
+  // const departments = [
+  //   "Department of Computer Science and Engineering",
+  //   "Department of Information Technology",
+  //   "Department of Electronics & Communication Engineering",
+  //   "Department of Chemical Engineering",
+  //   "Department of Civil Engineering",
+  //   "Department of Mechanical Engineering",
+  //   "Department of Industrial & Production Engineering",
+  // ];
   const [semester, setSemester] = useState(1);
-  const [department, setDepartment] = useState("");
+  const [listOfSubjects, setListOfSubjects] = useState([]);
   const [subject, setSubject] = useState("");
   const [loadInput, setLoadInput] = useState(false);
   const [marksClassTest1, setMarksClassTest1Student] = useState([]);
@@ -122,15 +122,17 @@ const MarksEntry = () => {
       });
     }
 
-    dispatch(marksEntryBySubjectTeacher(semester, department, allDetails));
+    dispatch(
+      marksEntryBySubjectTeacher(semester, teacher.department, allDetails)
+    );
   };
 
   const getStudentListForMarks = () => {
-    if (semester.trim() === "" || department.trim() === "") {
+    if (semester.trim() === "" || teacher.department.trim() === "") {
       return toast.error("Select semester and department properly");
     }
-    dispatch(getStudentSemesterDepartment(semester, department));
-    dispatch(getCourseSubjectsList(semester, department));
+    dispatch(getStudentSemesterDepartment(semester, teacher.department));
+    dispatch(getCourseSubjectsList(semester, teacher.department));
   };
 
   useEffect(() => {
@@ -142,6 +144,18 @@ const MarksEntry = () => {
       studentDetails.length > 0 &&
       subjects.length > 0
     ) {
+      let tempSubjects = [];
+      for (let i = 0; i < subjects.length; i++) {
+        for (let j = 0; j < teacher.assignSubject.length; j++) {
+          if (
+            teacher.assignSubject[j].subjectCode.toString() ===
+            subjects[i].subjectCode.toString()
+          ) {
+            tempSubjects.push(subjects[i]);
+          }
+        }
+      }
+      setListOfSubjects(tempSubjects);
       setLoadInput(true);
     }
   }, [subjects, studentDetails]);
@@ -177,8 +191,8 @@ const MarksEntry = () => {
   ]);
 
   useEffect(() => {
-    if (department.trim() !== "" && subject.trim() !== "") {
-      dispatch(getMarksDetailBySubject(semester, department, subject));
+    if (teacher.department.trim() !== "" && subject.trim() !== "") {
+      dispatch(getMarksDetailBySubject(semester, teacher.department, subject));
     }
   }, [subject]);
 
@@ -246,56 +260,46 @@ const MarksEntry = () => {
           <div className="marksEntry">
             <SidebarTeacher role={teacher.subRole} />
             <div className="approvBox">
-              <div className="subsection" >
+              <div className="subsection">
                 <h1>Mark's Entry</h1>
                 <hr></hr>
                 <br></br>
-                  <div className="entry">
-                    <label className="label_name" for="">
-                        Semester
-                    </label>
-                    <select
-                      id="label_input"
-                        required
-                        onChange={(e) => setSemester(e.target.value)}>
-                        <option>Semester</option>
-                        {semesters.map((sem) => (
-                          <option key={sem} value={sem}>
-                            {sem}
-                          </option>
-                      ))}
-                    </select>
-                  </div>
-                <div div className="entry">
-                    <label className="label_name" for="">
-                          Semester
-                    </label>
+                <div className="entry">
+                  <label className="label_name" for="">
+                    Semester
+                  </label>
                   <select
                     id="label_input"
                     required
-                    onChange={(e) => setDepartment(e.target.value)}>
-                    <option>Department</option>
-                    {departments.map((depart) => (
-                      <option key={depart} value={depart}>
-                        {depart}
+                    onChange={(e) => setSemester(e.target.value)}>
+                    <option>Semester</option>
+                    {semesters.map((sem) => (
+                      <option key={sem} value={sem}>
+                        {sem}
                       </option>
                     ))}
                   </select>
                 </div>
+                <div div className="entry">
+                  <label className="label_name" for="">
+                    Semester
+                  </label>
+                  <p>{teacher.department}</p>
+                </div>
                 <br></br>
                 <div className="btn">
-                  <button 
-                    className="signInbtn border hover" 
+                  <button
+                    className="signInbtn border hover"
                     onClick={getStudentListForMarks}>
                     Get Students Lists
-                </button>
+                  </button>
                 </div>
               </div>
               {loadInput && (
                 <div>
                   <div>
                     <h3>Semester : {semester}</h3>
-                    <h3>Department : {department}</h3>
+                    <h3>Department : {teacher.department}</h3>
                   </div>
                   <div>
                     <h2>LIST OF SUBJECTS</h2>
@@ -304,8 +308,8 @@ const MarksEntry = () => {
                         value={subject}
                         onChange={(e) => setSubject(e.target.value)}>
                         <option>Subjects</option>
-                        {subjects &&
-                          subjects.map((sub, i) => (
+                        {listOfSubjects &&
+                          listOfSubjects.map((sub, i) => (
                             <option key={i} value={sub.subjectName}>
                               {sub.subjectName}
                             </option>

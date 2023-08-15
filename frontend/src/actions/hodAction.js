@@ -11,12 +11,15 @@ import {
   GET_SUBJECT_REQUEST,
   GET_SUBJECT_SUCCESS,
   GET_SUBJECT_FAIL,
+  UPDATE_SUBJECT_ASSIGNED_REQUEST,
+  UPDATE_SUBJECT_ASSIGNED_SUCCESS,
+  UPDATE_SUBJECT_ASSIGNED_FAIL,
 } from "../constants/hodConstant";
 import axios from "axios";
 
 //CREATE COURSE
 export const createCourseByHOD =
-  (semester, department, courses) => async (dispatch) => {
+  (session, semester, courses) => async (dispatch) => {
     try {
       dispatch({ type: CREATE_COURSE_REQUEST });
 
@@ -24,7 +27,7 @@ export const createCourseByHOD =
 
       const { data } = await axios.post(
         `/api/createCourse`,
-        { semester, department, courses },
+        { session, semester, courses },
         config
       );
 
@@ -67,8 +70,34 @@ export const getAllSubjects = () => async (dispatch) => {
 
     const { data } = await axios.get(`/api/getAllSubjects`);
 
-    dispatch({ type: GET_SUBJECT_SUCCESS, payload: data.subjects });
+    dispatch({ type: GET_SUBJECT_SUCCESS, payload: data.subjects.subjects });
   } catch (error) {
     dispatch({ type: GET_SUBJECT_FAIL, payload: error.response.data.message });
   }
 };
+
+//UPDATE ASSIGN SUBJECT FOR TEACHER
+export const updateAssignSubjectToTeacher =
+  (listOfAssignedSubjects, id) => async (dispatch) => {
+    try {
+      dispatch({ type: UPDATE_SUBJECT_ASSIGNED_REQUEST });
+
+      const config = { headers: { "Content-Type": "application/json" } };
+
+      const { data } = await axios.put(
+        `/api/updateAssignSubjectForTeacher`,
+        { listOfAssignedSubjects, id },
+        config
+      );
+
+      dispatch({
+        type: UPDATE_SUBJECT_ASSIGNED_SUCCESS,
+        payload: data.message,
+      });
+    } catch (error) {
+      dispatch({
+        type: UPDATE_SUBJECT_ASSIGNED_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };

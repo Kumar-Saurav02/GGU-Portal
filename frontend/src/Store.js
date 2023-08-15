@@ -14,6 +14,7 @@ import {
   getAttendanceEntryBySubjectReducer,
   getCoursesForApprovalReducer,
   getMarksEntryBySubjectReducer,
+  getPresentSessionOfWorkReducer,
   getScholarshipsForApprovalReducer,
   registerLoginTeachersReducer,
   submitAttendanceEntryBySubjectTeacherReducer,
@@ -26,9 +27,13 @@ import {
   getAllTeacherDetailsReducer,
   getStudentApprovalRequestReducer,
   getTeacherApprovalRequestReducer,
+  removeStudentTeacherReducer,
+  updateStudentsDataByDeanOrHODReducer,
   updateTeacherRoleReducer,
+  updateTeachersDataByDeanReducer,
 } from "./reducers/adminReducer";
 import {
+  assignSubjectsToTeacherReducer,
   createCourseByHODReducer,
   createSubjectByHODReducer,
   getAllSubjectsReducer,
@@ -63,6 +68,11 @@ const reducer = combineReducers({
   updateTeacherDetails: updateTeacherDetailsReducer,
   checkIfCourseIsSentForApprovalToClassIncharge:
     checkIfCourseIsSentForApprovalToClassInchargeReducer,
+  assignSubjectsToTeacher: assignSubjectsToTeacherReducer,
+  removeStudentTeacher: removeStudentTeacherReducer,
+  getPresentSessionOfWork: getPresentSessionOfWorkReducer,
+  updateStudentsDataByDeanOrHOD: updateStudentsDataByDeanOrHODReducer,
+  updateTeachersDataByDean: updateTeachersDataByDeanReducer,
 });
 
 let initialState = {};

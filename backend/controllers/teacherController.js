@@ -10,6 +10,7 @@ const cloudinary = require("cloudinary").v2;
 const sendEmail = require("../utils/sendEmail");
 var XLSX = require("xlsx");
 var path = require("path");
+const Session = require("../models/currentSessionModel");
 
 //REGISTER APPROVAL TEACHER
 exports.registerApprovalTeacher = catchAsyncErrors(async (req, res, next) => {
@@ -19,6 +20,7 @@ exports.registerApprovalTeacher = catchAsyncErrors(async (req, res, next) => {
     name,
     gender,
     mobileNumber,
+    course,
     department,
     designation,
     dateOfBirth,
@@ -55,6 +57,7 @@ exports.registerApprovalTeacher = catchAsyncErrors(async (req, res, next) => {
     password,
     gender,
     mobileNumber,
+    course,
     department,
     designation,
     dateOfBirth,
@@ -122,6 +125,7 @@ exports.registerTeacherAccept = catchAsyncErrors(async (req, res, next) => {
     name,
     gender,
     mobileNumber,
+    course,
     department,
     designation,
     dateOfBirth,
@@ -153,6 +157,7 @@ exports.registerTeacherAccept = catchAsyncErrors(async (req, res, next) => {
     name,
     gender,
     mobileNumber,
+    course,
     department,
     designation,
     dateOfBirth,
@@ -228,9 +233,7 @@ exports.loginTeacher = catchAsyncErrors(async (req, res, next) => {
   const { employeeID, password } = req.body;
 
   if (!employeeID || !password) {
-    return next(
-      new ErrorHandler("Please enter employeeID and password both", 400)
-    );
+    return next(new ErrorHandler("Invalid employeeID or password", 400));
   }
 
   const teacher = await Teacher.findOne({
@@ -317,7 +320,7 @@ exports.updateDetailsTeacher = catchAsyncErrors(async (req, res, next) => {
 });
 
 //UPDATE TEACHER ROLE
-exports.updateRoleOfTeacher = catchAsyncErrors(async (req, res, next) => {
+exports.updateRoleOfTeacherByDean = catchAsyncErrors(async (req, res, next) => {
   const newUserData = {
     subRole: req.body.role,
   };
@@ -335,8 +338,23 @@ exports.updateRoleOfTeacher = catchAsyncErrors(async (req, res, next) => {
 });
 
 //GET ALL TEACHER
-exports.getAllTeachers = catchAsyncErrors(async (req, res, next) => {
-  const teachers = await Teacher.find();
+exports.getAllTeachersForDean = catchAsyncErrors(async (req, res, next) => {
+  const teachers = await Teacher.find({
+    course: req.user.course,
+  });
+
+  res.status(200).json({
+    success: true,
+    teachers,
+  });
+});
+
+//GET ALL TEACHER
+exports.getAllTeachersForHOD = catchAsyncErrors(async (req, res, next) => {
+  const teachers = await Teacher.find({
+    course: req.user.course,
+    department: req.user.department,
+  });
 
   res.status(200).json({
     success: true,
@@ -346,7 +364,9 @@ exports.getAllTeachers = catchAsyncErrors(async (req, res, next) => {
 
 //GET ALL APPROVAL
 exports.getAllTeachersApproval = catchAsyncErrors(async (req, res, next) => {
-  const requests = await ApproveTeacher.find();
+  const requests = await ApproveTeacher.find({
+    course: req.user.course,
+  });
 
   res.status(200).json({
     success: true,
@@ -384,7 +404,8 @@ exports.getTeacher = catchAsyncErrors(async (req, res, next) => {
 
 //ACCEPT COURSE DETAILS
 exports.acceptCourseSelection = catchAsyncErrors(async (req, res, next) => {
-  const { enrollmentNumber, courseSubmission, id } = req.body;
+  const { enrollmentNumber, courseSubmission, id, attendanceDetails } =
+    req.body;
 
   const student = await Student.findOne({ enrollmentNo: enrollmentNumber });
   if (!student) {
@@ -405,8 +426,10 @@ exports.acceptCourseSelection = catchAsyncErrors(async (req, res, next) => {
   await ApproveCourse.deleteOne({ _id: id });
 
   student.courseSelected.push({
+    session: courseSubmission.session,
     semester: courseSubmission.semester,
     subjects,
+    attendanceDetails,
   });
 
   await student.save({ validateBeforeSave: false });
@@ -429,7 +452,10 @@ exports.rejectCourseSelection = catchAsyncErrors(async (req, res, next) => {
 
 //GET ALL COURSES APPROVAL
 exports.getAllCoursesApproval = catchAsyncErrors(async (req, res, next) => {
-  const courses = await ApproveCourse.find();
+  const courses = await ApproveCourse.find({
+    course: req.user.course,
+    department: req.user.department,
+  });
 
   res.status(200).json({
     success: true,
@@ -491,7 +517,10 @@ exports.rejectScholarshipSelection = catchAsyncErrors(
 //GET ALL SCHOLARSHIP APPROVAL
 exports.getAllScholarshipsApproval = catchAsyncErrors(
   async (req, res, next) => {
-    const scholarships = await ApproveScholarship.find();
+    const scholarships = await ApproveScholarship.find({
+      course: req.user.course,
+      department: req.user.department,
+    });
 
     res.status(200).json({
       success: true,

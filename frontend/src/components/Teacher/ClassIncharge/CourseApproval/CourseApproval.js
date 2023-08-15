@@ -1,8 +1,11 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { clearMessages } from "../../../../actions/adminAction";
-import { courseApprovalByIncharge } from "../../../../actions/teacherAction";
+import {
+  courseApprovalByIncharge,
+  getAttendanceDetailByDepartment,
+} from "../../../../actions/teacherAction";
 import Loader from "../../../Loader/Loader";
 import SidebarTeacher from "../../SidebarTeacher/SidebarTeacher";
 import "./CourseApproval.css";
@@ -23,9 +26,21 @@ const CourseApproval = () => {
     error: ApproveRejectError,
   } = useSelector((state) => state.courseScholarshipCheck);
 
+  const {
+    loading: attendanceDetailsLoading,
+    attendanceDetails,
+    error: attendanceDetailsError,
+  } = useSelector((state) => state.getAttendanceEntryBySubject);
+
   const { teacher } = useSelector((state) => state.registerLoginTeachers);
 
+  const semesters = [1, 2, 3, 4, 5, 6, 7, 8];
+
+  const [selectedSemester, setSelectedSemester] = useState("");
+
   useEffect(() => {
+    dispatch(getAttendanceDetailByDepartment(teacher.department));
+
     dispatch(courseApprovalByIncharge());
   }, [dispatch]);
 
@@ -49,7 +64,7 @@ const CourseApproval = () => {
 
   return (
     <Fragment>
-      {courseLoading || loading ? (
+      {courseLoading || loading || attendanceDetailsLoading ? (
         <Loader />
       ) : (
         <Fragment>
@@ -60,12 +75,34 @@ const CourseApproval = () => {
                 <h1>Course Approval</h1>
                 <hr></hr>
                 <br></br>
+                <div>
+                  <select onChange={(e) => setSelectedSemester(e.target.value)}>
+                    <option value="">Semester</option>
+                    {semesters.map((sem) => (
+                      <option key={sem} value={sem}>
+                        {sem}
+                      </option>
+                    ))}
+                  </select>
+                </div>
                 {courses &&
-                  courses.map((course, i) => (
-                    <div key={i}>
-                      <CourseApprovalMapping data={course} />
-                    </div>
-                  ))}
+                  courses
+                    .filter((courseDepartment) =>
+                      courseDepartment.department.includes(teacher.department)
+                    )
+                    .filter((courseDepartment) =>
+                      courseDepartment.semester
+                        .toString()
+                        .includes(selectedSemester.toString())
+                    )
+                    .map((course, i) => (
+                      <div key={i}>
+                        <CourseApprovalMapping
+                          data={course}
+                          attendanceDetails={attendanceDetails}
+                        />
+                      </div>
+                    ))}
               </div>
             </div>
           </div>

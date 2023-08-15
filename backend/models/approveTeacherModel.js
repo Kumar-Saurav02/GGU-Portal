@@ -27,6 +27,10 @@ const approveTeacherSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please enter your gender"],
   },
+  course: {
+    type: String,
+    required: [true, "Please select your course"],
+  },
   department: {
     type: String,
     required: [true, "Please enter your department"],

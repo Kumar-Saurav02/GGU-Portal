@@ -40,6 +40,12 @@ import {
   UPDATE_TEACHER_DETAILS_REQUEST,
   UPDATE_TEACHER_DETAILS_SUCCESS,
   UPDATE_TEACHER_DETAILS_FAIL,
+  GET_ATTENDANCE_BY_DEPARTMENT_REQUEST,
+  GET_ATTENDANCE_BY_DEPARTMENT_SUCCESS,
+  GET_ATTENDANCE_BY_DEPARTMENT_FAIL,
+  GET_PRESENT_SESSION_REQUEST,
+  GET_PRESENT_SESSION_SUCCESS,
+  GET_PRESENT_SESSION_FAIL,
 } from "../constants/teacherConstant";
 import {
   REGISTER_TEACHER_REQUEST,
@@ -56,6 +62,7 @@ export const registerTeachers =
     name,
     gender,
     mobileNumber,
+    course,
     department,
     designation,
     dateOfBirth,
@@ -80,6 +87,7 @@ export const registerTeachers =
           name,
           gender,
           mobileNumber,
+          course,
           department,
           designation,
           dateOfBirth,
@@ -155,6 +163,22 @@ export const loadTeacher = () => async (dispatch) => {
   }
 };
 
+// GET PRESENT SESSION
+export const getPresentSession = () => async (dispatch) => {
+  try {
+    dispatch({ type: GET_PRESENT_SESSION_REQUEST });
+
+    const { data } = await axios.get(`/api/getPresentSession`);
+
+    dispatch({ type: GET_PRESENT_SESSION_SUCCESS, payload: data.session });
+  } catch (error) {
+    dispatch({
+      type: GET_PRESENT_SESSION_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
 // UPDATE TEACHER DETAILS
 export const updateTeacherDetails =
   (mobileNumber, profilePhoto, signature, resume) => async (dispatch) => {
@@ -203,7 +227,8 @@ export const courseApprovalByIncharge = () => async (dispatch) => {
 
 //COURSE ACCEPT
 export const courseAcceptByIncharge =
-  (courseSubmission, id, enrollmentNumber) => async (dispatch) => {
+  (courseSubmission, id, enrollmentNumber, attendanceDetails) =>
+  async (dispatch) => {
     try {
       dispatch({ type: COURSE_ACCEPT_REQUEST });
 
@@ -215,6 +240,7 @@ export const courseAcceptByIncharge =
           courseSubmission,
           id,
           enrollmentNumber,
+          attendanceDetails,
         },
         config
       );
@@ -436,6 +462,28 @@ export const getMarksDetailBySubject =
     } catch (error) {
       dispatch({
         type: GET_MARKS_BY_SUBJECT_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };
+
+//GET ATTENDANCE DETAILS BY SUBJECT
+export const getAttendanceDetailByDepartment =
+  (department) => async (dispatch) => {
+    try {
+      dispatch({ type: GET_ATTENDANCE_BY_DEPARTMENT_REQUEST });
+
+      const { data } = await axios.get(
+        `/api/getAttendanceDetailsOfParticularDepartment/${department}`
+      );
+
+      dispatch({
+        type: GET_ATTENDANCE_BY_DEPARTMENT_SUCCESS,
+        payload: data.attendanceDetails,
+      });
+    } catch (error) {
+      dispatch({
+        type: GET_ATTENDANCE_BY_DEPARTMENT_FAIL,
         payload: error.response.data.message,
       });
     }

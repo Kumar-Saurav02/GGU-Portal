@@ -9,6 +9,7 @@ import {
 import Loader from "../../../Loader/Loader";
 import { clearMessages } from "../../../../actions/adminAction";
 import SidebarTeacher from "../../SidebarTeacher/SidebarTeacher";
+import { getPresentSession } from "../../../../actions/teacherAction";
 
 const CreateCourse = () => {
   const dispatch = useDispatch();
@@ -27,18 +28,22 @@ const CreateCourse = () => {
     error: subjectError,
   } = useSelector((state) => state.getAllSubjects);
 
+  const { session, loading: sessionLoading } = useSelector(
+    (state) => state.getPresentSessionOfWork
+  );
+
+  useEffect(() => {
+    if (
+      session === null ||
+      session === undefined ||
+      Object.keys(session).length === 0
+    ) {
+      dispatch(getPresentSession());
+    }
+  }, [session]);
+
   const semesters = [1, 2, 3, 4, 5, 6, 7, 8];
-  const departments = [
-    "Department of Computer Science and Engineering",
-    "Department of Information Technology",
-    "Department of Electronics & Communication Engineering",
-    "Department of Chemical Engineering",
-    "Department of Civil Engineering",
-    "Department of Mechanical Engineering",
-    "Department of Industrial & Production Engineering",
-  ];
   const [semester, setSemester] = useState(1);
-  const [department, setDepartment] = useState("");
   const [course, setCourse] = useState([]);
   const [subjectCode, setSubjectCode] = useState();
   const [subjectCategory, setSubjectCategory] = useState("Compulsory");
@@ -47,9 +52,15 @@ const CreateCourse = () => {
     if (subjectCode.trim() === "") {
       return toast.error("Select Subjects Properly");
     }
-    const data = subjects.filter(function (d) {
+    const data = subjects.subjects.filter(function (d) {
       return d.subjectCode === subjectCode;
     });
+
+    for (let i = 0; i < course.length; i++) {
+      if (course[i][1].toString() === subjectCode.toString()) {
+        return toast.error("Same subject selected twice");
+      }
+    }
 
     setCourse((previous) => [
       ...previous,
@@ -66,10 +77,14 @@ const CreateCourse = () => {
     if (semester.trim() === "") {
       return toast.error("Select semester properly");
     }
-    if (department === "") {
-      return toast.error("Select department properly");
+    if (
+      session !== null &&
+      session !== undefined &&
+      session.session.trim() === ""
+    ) {
+      return toast.error("Some error occurred");
     }
-    dispatch(createCourseByHOD(semester, department, course));
+    dispatch(createCourseByHOD(session.session, semester, course));
   };
 
   useEffect(() => {
@@ -79,6 +94,7 @@ const CreateCourse = () => {
   useEffect(() => {
     if (message) {
       toast.success(message);
+      dispatch(clearMessages());
     }
     if (courseError) {
       toast.error(courseError);
@@ -92,24 +108,24 @@ const CreateCourse = () => {
 
   return (
     <Fragment>
-      {courseLoading || subjectLoading ? (
+      {courseLoading || subjectLoading || sessionLoading ? (
         <Loader />
       ) : (
         <Fragment>
           <div className="createCourse">
-            <SidebarTeacher role={teacher.subRole}/>
+            <SidebarTeacher role={teacher.subRole} />
             <div className="registerBox">
               <div className="Data_entry">
-              <h2>Create Course</h2>
-              <hr></hr>
-              <br></br>
-              
-              <div className="entry">
-                    <label className="label_name" for="{sem}">
-                      Semester
-                    </label>
-                    <select
-                      className="label_name"
+                <h2>Create Course</h2>
+                <hr></hr>
+                <br></br>
+
+                <div className="entry">
+                  <label className="label_name" for="{sem}">
+                    Semester
+                  </label>
+                  <select
+                    className="label_name"
                     required
                     onChange={(e) => setSemester(e.target.value)}>
                     {semesters.map((sem) => (
@@ -118,64 +134,57 @@ const CreateCourse = () => {
                       </option>
                     ))}
                   </select>
-              </div>
-              <div className="entry">
-                    <label className="label_name" for="{sem}">
-                      Department
-                    </label>
-                    <select
-                      className="label_name"
-                    required
-                    onChange={(e) => setDepartment(e.target.value)}>
-                    {departments.map((depart) => (
-                      <option key={depart} value={depart}>
-                        {depart}
-                      </option>
-                    ))}
-                  </select>
                 </div>
                 <div className="entry">
-                    <label className="label_name" for="{sem}">
-                      Subject Name
-                    </label>
-                    <select
-                      className="label_name"
-                      required
-                      onChange={(e) => setSubjectCode(e.target.value)}>
-                      <option>Subjects</option>
-                      {subjects &&
-                        subjects.map((sub) => (
-                          <option key={sub._id} value={sub.subjectCode}>
-                            {sub.subjectName} - {sub.subjectCode}
-                          </option>
-                        ))}
-                    </select>
-                  </div>
+                  <label className="label_name" for="{sem}">
+                    Department
+                  </label>
+                  <p>{teacher.department}</p>
+                </div>
+                <div className="entry">
+                  <label className="label_name" for="{sem}">
+                    Subject Name
+                  </label>
+                  <select
+                    className="label_name"
+                    required
+                    onChange={(e) => setSubjectCode(e.target.value)}>
+                    <option>Subjects</option>
+                    {subjects &&
+                      subjects.subjects &&
+                      subjects.subjects.map((sub) => (
+                        <option key={sub._id} value={sub.subjectCode}>
+                          {sub.subjectName} - {sub.subjectCode}
+                        </option>
+                      ))}
+                  </select>
+                </div>
 
-                  <div className="entry">
-                    <label className="label_name" for="{subjectCategory}">
-                      Subject Category
-                    </label>
-                    <input
-                      className="label_name"
-                      type="text"
-                      placeholder="Subject Category"
-                      disabled
-                      required
-                      value={subjectCategory}
-                      onChange={(e) => setSubjectCategory(e.target.value)}
-                    />
-                  </div>
-                  <br></br>
-                  
-                  <div className="btn">
-                    <button 
-                      className="signInbtn border hover"
-                      onClick={addingCourseDetail}>Add Course
-                    </button>
-                  </div>
-                  <br></br>
-                
+                <div className="entry">
+                  <label className="label_name" for="{subjectCategory}">
+                    Subject Category
+                  </label>
+                  <input
+                    className="label_name"
+                    type="text"
+                    placeholder="Subject Category"
+                    disabled
+                    required
+                    value={subjectCategory}
+                    onChange={(e) => setSubjectCategory(e.target.value)}
+                  />
+                </div>
+                <br></br>
+
+                <div className="btn">
+                  <button
+                    className="signInbtn border hover"
+                    onClick={addingCourseDetail}>
+                    Add Course
+                  </button>
+                </div>
+                <br></br>
+
                 <div>
                   <table>
                     <tr>
@@ -200,13 +209,13 @@ const CreateCourse = () => {
                     </div>
                   )}
                 </div>
-              
-              <div>
-                <button onClick={submitCreateCourseDetail}>
-                  Create Course
-                </button>
+
+                <div>
+                  <button onClick={submitCreateCourseDetail}>
+                    Create Course
+                  </button>
+                </div>
               </div>
-            </div>
             </div>
           </div>
         </Fragment>

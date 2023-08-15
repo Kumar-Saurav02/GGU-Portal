@@ -1,8 +1,9 @@
 import React, { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { removeStudentByAdmin } from "../../../actions/adminAction";
 
-const StudentListMapping = ({ data }) => {
+const StudentListMapping = ({ data, role }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -13,7 +14,7 @@ const StudentListMapping = ({ data }) => {
   };
 
   const removeStudent = () => {
-    console.log("Deleted");
+    dispatch(removeStudentByAdmin(data._id));
   };
 
   return (
@@ -23,23 +24,25 @@ const StudentListMapping = ({ data }) => {
           <div className="field">Name </div>
           <div className="field">Enrollment Number</div>
           <div className="field">Roll Number </div>
-          <div className="field">Email </div>
+          <div className="field">Department </div>
         </div>
 
         <div className="briefinfo">
           <div className="field">{data.name} </div>
           <div className="field">{data.enrollmentNo} </div>
           <div className="field">{data.rollNo} </div>
-          <div className="field">{data.email} </div>
+          <div className="field">{data.department} </div>
         </div>
 
         <div className="btn_acceptReject">
           <button onClick={editDetails} class="signInbtn border hover">
             Edit
           </button>
-          <button onClick={removeStudent} class="signInbtn border hover">
-            Remove
-          </button>
+          {role === "dean" && (
+            <button onClick={removeStudent} class="signInbtn border hover">
+              Remove
+            </button>
+          )}
         </div>
       </div>
     </Fragment>

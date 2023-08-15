@@ -12,7 +12,6 @@ import { clearMessages } from "../../../../actions/adminAction";
 const ScholarshipApprovalMapping = ({ data }) => {
   const dispatch = useDispatch();
 
-  console.log(data.scholarshipDocument);
   const acceptScholarship = () => {
     // if (data.scholarshipDocument === undefined) {
     //   dispatch(

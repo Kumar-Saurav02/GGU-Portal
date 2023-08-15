@@ -8,6 +8,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Loader from "../../Loader/Loader";
 import { toast } from "react-toastify";
 import { uploadingFees, uploadingMarks } from "../../../actions/studentAction";
+import { getAllSubjects } from "../../../actions/hodAction";
 import { clearMessages } from "../../../actions/adminAction";
 import { useDefaultDates } from "@mui/x-date-pickers/internals";
 
@@ -22,7 +23,23 @@ const DocumentUploadStudent = () => {
     message,
     error,
   } = useSelector((state) => state.marksFeesCourseUpdate);
+<<<<<<< HEAD
  
+=======
+
+  const {
+    loading: subjectLoading,
+    subjects: allSubjects,
+    error: subjectError,
+  } = useSelector((state) => state.getAllSubjects);
+
+  console.log(allSubjects);
+
+  useEffect(() => {
+    dispatch(getAllSubjects());
+  }, []);
+
+>>>>>>> 61d392cb18719c7c656af1407604eac0f0f12dc1
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -118,15 +135,15 @@ const DocumentUploadStudent = () => {
       setResultDetails({ ...resultDetails, [e.target.name]: e.target.value });
     }
   };
-  useEffect(() => {
-    if (student !== undefined && student.feeDetails !== undefined) {
-      for (let i = 0; i < student.marksDetails.length; i++) {
-        if (student.marksDetails[i].semester === semesterForResult) {
-          toast.error("Result details are uploaded for current semester");
-        }
-      }
-    }
-  }, [semesterForResult]);
+  // useEffect(() => {
+  //   if (student !== undefined && student.marksDetails !== undefined) {
+  //     for (let i = 0; i < student.marksDetails.length; i++) {
+  //       if (student.marksDetails[i].semester === semesterForResult) {
+  //         toast.error("Result details are uploaded for current semester");
+  //       }
+  //     }
+  //   }
+  // }, [semesterForResult]);
 
   const submitFeeDataChange = () => {
     if (isCheckedFees === false) {
@@ -180,23 +197,18 @@ const DocumentUploadStudent = () => {
   const [isChecked, setIsChecked] = useState(false);
 
   useEffect(() => {
-    if (student) {
+    if (allSubjects !== undefined && allSubjects !== null) {
       setCurrentSubjects([]);
       setAssignedSubject([]);
-      for (let i = 0; i < student.courseSelected.length; i++) {
-        if (
-          student.courseSelected[i].semester.toString() ===
-          resultDetails.semesterForResult.toString()
-        ) {
-          var tempArrayForSubjects = [];
-          for (let j = 0; j < student.courseSelected[i].subjects.length; j++) {
-            tempArrayForSubjects.push(student.courseSelected[i].subjects[j]);
-          }
-          setCurrentSubjects(tempArrayForSubjects);
-        }
+      var tempArrayForSubjects = [];
+      for (let i = 0; i < allSubjects.length; i++) {
+        tempArrayForSubjects.push(allSubjects[i]);
       }
+      setCurrentSubjects(tempArrayForSubjects);
     }
-  }, [resultDetails.semesterForResult]);
+  }, [allSubjects]);
+
+  console.log(currentSubjects);
 
   const addInput = () => {
     if (semesterForResult.trim() === "") {
@@ -330,7 +342,7 @@ const DocumentUploadStudent = () => {
 
   return (
     <Fragment>
-      {loading || uploading ? (
+      {loading || uploading || subjectLoading ? (
         <Loader />
       ) : (
         <Fragment>

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { scholarshipApprovalByIncharge } from "../../../../actions/teacherAction";
 import Loader from "../../../Loader/Loader";
@@ -25,6 +25,10 @@ const ScholarshipApproval = () => {
     error: ApproveRejectError,
   } = useSelector((state) => state.courseScholarshipCheck);
 
+  const semesters = [1, 2, 3, 4, 5, 6, 7, 8];
+
+  const [selectedSemester, setSelectedSemester] = useState("");
+
   useEffect(() => {
     if (ApproveRejectMessage) {
       toast.success(ApproveRejectMessage);
@@ -35,8 +39,6 @@ const ScholarshipApproval = () => {
       dispatch(clearMessages());
     }
   }, [dispatch, ApproveRejectMessage, ApproveRejectError]);
-
-  console.log(scholarships);
 
   useEffect(() => {
     dispatch(scholarshipApprovalByIncharge());
@@ -53,18 +55,39 @@ const ScholarshipApproval = () => {
       ) : (
         <Fragment>
           <div className="scholarshipApproval">
-            <SidebarTeacher role={teacher.subRole}/>
+            <SidebarTeacher role={teacher.subRole} />
             <div className="approvBox">
               <div className="request">
-              <h1>Scholarship Approval</h1>
+                <h1>Scholarship Approval</h1>
                 <hr></hr>
                 <br></br>
+                <div>
+                  <select onChange={(e) => setSelectedSemester(e.target.value)}>
+                    <option value="">Semester</option>
+                    {semesters.map((sem) => (
+                      <option key={sem} value={sem}>
+                        {sem}
+                      </option>
+                    ))}
+                  </select>
+                </div>
                 {scholarships &&
-                  scholarships.map((scholarship, i) => (
-                    <div key={i}>
-                      <ScholarshipApprovalMapping data={scholarship} />
-                    </div>
-                  ))}
+                  scholarships
+                    .filter((scholarshipDepartment) =>
+                      scholarshipDepartment.department.includes(
+                        teacher.department
+                      )
+                    )
+                    .filter((courseDepartment) =>
+                      courseDepartment.semester
+                        .toString()
+                        .includes(selectedSemester.toString())
+                    )
+                    .map((scholarship, i) => (
+                      <div key={i}>
+                        <ScholarshipApprovalMapping data={scholarship} />
+                      </div>
+                    ))}
               </div>
             </div>
           </div>
