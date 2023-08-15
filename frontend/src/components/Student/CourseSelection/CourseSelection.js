@@ -152,7 +152,7 @@ const CourseSelection = () => {
         <Fragment>
           <div className="courseSelectionMain">
             <SidebarStudent />
-            <div>
+            <div className="course_Selection_full" >
               <h1>Course Selection</h1>
               {courseSelected === false && sentForApproval === undefined && (
                 <div className="courseSelection">
@@ -175,34 +175,35 @@ const CourseSelection = () => {
                     <h2>Courses</h2>
                     <div>
                       <div className="showdata">
-                        <div className="Field_data_val">
+                        <div className="grid_container heading_name">
                           <span>
-                            <h4>S. No</h4>
+                            <h3>S. No</h3>
                           </span>
                           <span>
-                            <h4>Select</h4>
+                            <h3>Select</h3>
                           </span>
                           <span>
-                            <h4>Subject Name</h4>
+                            <h3>Subject Name</h3>
                           </span>
                           <span>
-                            <h4>Subject Code</h4>
+                            <h3>Subject Code</h3>
                           </span>
                           <span>
-                            <h4>Credits</h4>
+                            <h3>Credits</h3>
                           </span>
                           <span>
-                            <h4>Category</h4>
+                            <h3>Category</h3>
                           </span>
                           <span>
-                            <h4>Term</h4>
+                            <h3>Term</h3>
                           </span>
                         </div>
+                        
                         {course &&
                           course.course &&
                           course.course.map((courses, i) => {
                             return (
-                              <div key={i} className="show_data_val">
+                              <div key={i} className="grid_container">
                                 <span>
                                   <h4>{i + 1}</h4>
                                 </span>
@@ -213,9 +214,9 @@ const CourseSelection = () => {
                                     onChange={(e) =>
                                       handleCourseSelectChange(i)
                                     }
-                                  />
+                                  /> 
                                 </span>
-                                <span>
+                                <span className="sub_left">
                                   <h4> {courses.subjectName}</h4>
                                 </span>
                                 <span>
@@ -236,6 +237,7 @@ const CourseSelection = () => {
                       </div>
                     </div>
                   </div>
+                  
                   {student.currentSemester !== "1" ||
                     (student.currentSemester !== "2" && (
                       <div className="backSubjects">
@@ -286,21 +288,22 @@ const CourseSelection = () => {
                       </div>
                     ))}
 
-                  <div>
-                    <h5>Total Credits</h5>
+                  <div className="course_selection_below" >
+                    <h4 className="mr_CS">Total Credits : </h4>
                     <p>{credits}</p>
                   </div>
 
-                  <div>
+                  <div >
                     <div>
-                      <div>
+                      <div className="course_selection_below" >
                         <input
+                          className="mr_CS"
                           type="checkbox"
                           onChange={(e) =>
                             setUndertakingChecked(!undertakingChecked)
                           }
                         />
-                        <p>
+                        <p >
                           I hereby declare that the entries made by me in the
                           aforesaid form are complete and true to the best of my
                           knowledge.

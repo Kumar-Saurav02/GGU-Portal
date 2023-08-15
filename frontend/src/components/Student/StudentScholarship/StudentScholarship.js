@@ -208,8 +208,9 @@ const StudentScholarship = () => {
                     />
                   </div>
                 </div>
-                <div>
+                <div className="course_selection_below" >
                   <input
+                    className="mr_CS"
                     type="checkbox"
                     onChange={(e) =>
                       setIsCheckedScholarship(!isCheckedScholarship)

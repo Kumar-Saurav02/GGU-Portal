@@ -22,7 +22,7 @@ const DocumentUploadStudent = () => {
     message,
     error,
   } = useSelector((state) => state.marksFeesCourseUpdate);
-
+ 
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -460,8 +460,9 @@ const DocumentUploadStudent = () => {
                   <br></br>
                   <p>File:- {previewFeeUpload}</p>
                 </div>
-                <div>
+                <div className="course_selection_below" >
                   <input
+                    className="mr_CS"
                     type="checkbox"
                     onChange={(e) => setIsCheckedFees(!isCheckedFees)}
                   />
@@ -619,8 +620,9 @@ const DocumentUploadStudent = () => {
                   />
                   <p>File:- {previewResultUpload}</p>
                 </div>
-                <div>
+                <div className="course_selection_below">
                   <input
+                  className="mr_CS"
                     type="checkbox"
                     id="check"
                     onChange={(e) => setIsChecked(!isChecked)}
