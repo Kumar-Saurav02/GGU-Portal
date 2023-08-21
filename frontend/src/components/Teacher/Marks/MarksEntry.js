@@ -296,13 +296,13 @@ const MarksEntry = () => {
                 </div>
               </div>
               {loadInput && (
-                <div>
-                  <div>
+                <div className="subsection">
+                  <div className="show_two_val">
                     <h3>Semester : {semester}</h3>
                     <h3>Department : {teacher.department}</h3>
                   </div>
                   <div>
-                    <h2>LIST OF SUBJECTS</h2>
+                    <h3 className="alone_center">LIST OF SUBJECTS</h3>
                     <div>
                       <select
                         value={subject}
@@ -319,22 +319,27 @@ const MarksEntry = () => {
                     <p>*Select subject to load previous data</p>
                   </div>
 
-                  <div>
+                  <div >
                     {studentDetails &&
                       studentDetails.sort(function (a, b) {
                         return a.rollNo - b.rollNo;
                       }) &&
                       studentDetails.map((sub, i) => (
                         <div>
-                          <p>{sub.name}</p>
-                          <p>{sub.rollNo}</p>
+                          <div className="entry">
+                          <p className="mr_right">Name : {sub.name}</p>
+                          <p> Roll No : {sub.rollNo}</p>
+                          </div>
+                          <div className="entry" >
                           <input
+                            className="mr_right_input"
                             type="number"
                             placeholder="Enter Marks CT1"
                             value={marksClassTest1[i]}
                             onChange={(e) => handleChangeMarksClassTest1(i, e)}
                           />
                           <input
+                            className="mr_right_input"
                             type="number"
                             placeholder="Enter Marks CT2"
                             value={marksClassTest2[i]}
@@ -346,13 +351,17 @@ const MarksEntry = () => {
                             value={marksEndSemester[i]}
                             onChange={(e) => handleChangeMarksEndSemester(i, e)}
                           />
+                          </div>
                         </div>
                       ))}
                   </div>
-                  <button onClick={submitMarks}>Submit Marks</button>
+                  <button 
+                  className="normal_sb_btn border hover"
+                  onClick={submitMarks}>Submit Marks</button>
                 </div>
               )}
             </div>
+            
           </div>
         </Fragment>
       )}

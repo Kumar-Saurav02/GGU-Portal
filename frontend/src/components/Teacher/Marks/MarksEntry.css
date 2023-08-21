@@ -6,6 +6,23 @@
   position: absolute;
 }
 
+.show_two_val{
+  display : flex;
+  justify-content: space-between;
+  padding-bottom: 5px;
+}
+.mr_right{
+  margin-right: 25%;
+}
+.mr_right_input{
+  margin-right: 10%;
+}
+.alone_center{
+  display : flex;
+  justify-content: center;
+  padding: 5px;
+}
+
 @media screen and (max-width : 768px) {
 
   .approvBox{

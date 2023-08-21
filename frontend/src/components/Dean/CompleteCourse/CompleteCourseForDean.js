@@ -11,8 +11,12 @@ const CompleteCourseForDean = () => {
     <Fragment>
       <div className="teacherDetails">
         <SidebarTeacher role={teacher.subRole} />
-        <div>
+        <div className="approvBox">
+              <div className="subsection">
           <h2>Courses</h2>
+          <hr />
+          <br />
+        </div>
         </div>
       </div>
     </Fragment>

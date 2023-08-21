@@ -317,10 +317,11 @@ const AttendanceEntry = () => {
                         return a.rollNo - b.rollNo;
                       }) &&
                       studentDetails.map((sub, i) => (
-                        <div>
-                          <p>{sub.name}</p>
-                          <p>{sub.rollNo}</p>
-                          <input
+                        <div className="entry">
+                          <p className="label_name">{sub.name}</p>
+                          <p className="label_name">{sub.rollNo}</p>
+                          <input 
+                          className="label_name"
                             type="number"
                             placeholder="Enter Attendance"
                             value={attendanceStudent[i]}
@@ -331,7 +332,7 @@ const AttendanceEntry = () => {
                   </div>
                   <div className="btn">
                     <button
-                      className="signInbtn border hover"
+                      className="normal_sb_btn border hover"
                       onClick={submitAttendance}>
                       Submit Attendance
                     </button>
