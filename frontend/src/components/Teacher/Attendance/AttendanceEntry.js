@@ -246,7 +246,7 @@ const AttendanceEntry = () => {
                 <br></br>
                 <div className="">
                   <button
-                    className="signInbtn border hover"
+                    className="normal_sb_btn border hover"
                     onClick={getStudentListForAttendance}>
                     Get Students Lists
                   </button>

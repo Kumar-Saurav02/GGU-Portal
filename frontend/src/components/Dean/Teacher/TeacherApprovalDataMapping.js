@@ -53,7 +53,7 @@ const TeacherApprovalDataMapping = ({ key, data }) => {
           </button>
           <button
             onClick={acceptTeacherApproval}
-            class="signInbtn border hover">
+            class=" signInbtn border hover">
             Accept
           </button>
           <button

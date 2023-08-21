@@ -5,3 +5,9 @@
   grid-template-columns: 1fr 5fr;
   position: absolute;
 }
+
+.btn_ed_rm{
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 3px;
+}

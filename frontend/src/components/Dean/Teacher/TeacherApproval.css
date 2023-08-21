@@ -161,3 +161,13 @@
    }
 
   }
+
+  .border_nm {
+    border: 2px solid;
+    border-radius: 5px;
+    padding: 2px;
+    background: #f4f2ff;
+    text-align: center;
+    margin: 2px;
+    width : 30%;
+   }

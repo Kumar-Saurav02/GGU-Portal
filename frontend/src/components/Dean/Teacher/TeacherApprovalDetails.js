@@ -142,12 +142,12 @@ const TeacherApprovalDetails = () => {
               <div className="btnApproval">
                 <button
                   onClick={rejectTeacherApproval}
-                  className="signInbtn border hover">
+                  className="btn_em_rj border_nm hover">
                   Reject
                 </button>
                 <button
                   onClick={acceptTeacherApproval}
-                  className="signInbtn border hover">
+                  className="signInbtn border_nm border hover">
                   Accept
                 </button>
               </div>

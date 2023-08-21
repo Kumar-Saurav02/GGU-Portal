@@ -11,3 +11,7 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+.normal_sb_btn{
+  width : 25%;
+}

@@ -226,7 +226,7 @@ const StudentScholarship = () => {
 
                 <div className="btn">
                   <button
-                    className=" signInbtn border hover"
+                    className="normal_sb_btn border hover"
                     onClick={submitScholarshipDetails}>
                     Submit
                   </button>

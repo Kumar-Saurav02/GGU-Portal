@@ -481,7 +481,7 @@ const DocumentUploadStudent = () => {
                 <br></br>
                 <div className="btn">
                   <button
-                    className="signInbtn border hover"
+                    className="normal_sb_btn border hover"
                     onClick={submitFeeDataChange}>
                     Submit
                   </button>
@@ -510,8 +510,8 @@ const DocumentUploadStudent = () => {
                     ))}
                   </select>
                 </div>
-                <div>
-                  <p> Status</p>
+                <div className="entry">
+                  <p className="label_name" > Status</p>
                   <select required onChange={(e) => setStatus(e.target.value)}>
                     <option value={1}>Pass</option>
                     <option value={2}>Active Backlog</option>
@@ -642,7 +642,7 @@ const DocumentUploadStudent = () => {
                 <br></br>
                 <div className="btn">
                   <button
-                    className="signInbtn border hover"
+                    className="normal_sb_btn border hover"
                     onClick={submitMarksDataChange}>
                     Submit
                   </button>
