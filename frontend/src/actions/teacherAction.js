@@ -46,6 +46,9 @@ import {
   GET_PRESENT_SESSION_REQUEST,
   GET_PRESENT_SESSION_SUCCESS,
   GET_PRESENT_SESSION_FAIL,
+  CREATE_NEW_SESSION_REQUEST,
+  CREATE_NEW_SESSION_SUCCESS,
+  CREATE_NEW_SESSION_FAIL,
 } from "../constants/teacherConstant";
 import {
   REGISTER_TEACHER_REQUEST,
@@ -484,6 +487,36 @@ export const getAttendanceDetailByDepartment =
     } catch (error) {
       dispatch({
         type: GET_ATTENDANCE_BY_DEPARTMENT_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };
+
+// CREATE NEW SESSION BY DEAN
+export const createNewSessionByDean =
+  (course, department, session) => async (dispatch) => {
+    try {
+      dispatch({ type: CREATE_NEW_SESSION_REQUEST });
+
+      const config = { headers: { "Content-Type": "application/json" } };
+
+      const { data } = await axios.put(
+        `/api/createNewSession`,
+        {
+          course,
+          department,
+          session,
+        },
+        config
+      );
+
+      dispatch({
+        type: CREATE_NEW_SESSION_SUCCESS,
+        payload: data.message,
+      });
+    } catch (error) {
+      dispatch({
+        type: CREATE_NEW_SESSION_FAIL,
         payload: error.response.data.message,
       });
     }

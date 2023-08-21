@@ -119,8 +119,7 @@ const AllocateSubjectTeacherMapping = ({ data, subjects }) => {
                 <select value={item.value} id={uid} onChange={handleChange}>
                   <option value="">Subjects</option>
                   {subjects &&
-                    subjects.subjects &&
-                    subjects.subjects.map((subject) => (
+                    subjects.map((subject) => (
                       <option
                         key={subject.subjectCode}
                         value={subject.subjectName}

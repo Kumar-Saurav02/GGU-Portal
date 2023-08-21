@@ -32,6 +32,9 @@ import StudentList from "./components/Dean/StudentList/StudentList";
 import StudentListDetails from "./components/Dean/StudentList/StudentListDetails";
 import TeacherList from "./components/Dean/TeacherList/TeacherList";
 import TeacherListDetails from "./components/Dean/TeacherList/TeacherListDetails";
+import CreateNewSession from "./components/Dean/NewSession/CreateNewSession";
+import CompleteAttendanceForDean from "./components/Dean/CompleteAttendance/CompleteAttendanceForDean";
+import CompleteCourseForDean from "./components/Dean/CompleteCourse/CompleteCourseForDean";
 import NotFound from "../src/components/Layout/NotFound";
 
 function App() {
@@ -151,6 +154,39 @@ function App() {
               role="teacher"
               subRole="dean"
               Component={TeacherListDetails}
+            />
+          }
+        />
+
+        <Route
+          path="/createNewSessionByDean"
+          element={
+            <ProtectedRoute
+              role="teacher"
+              subRole="dean"
+              Component={CreateNewSession}
+            />
+          }
+        />
+
+        <Route
+          path="/attendanceForDean"
+          element={
+            <ProtectedRoute
+              role="teacher"
+              subRole="dean"
+              Component={CompleteAttendanceForDean}
+            />
+          }
+        />
+
+        <Route
+          path="/courseForDean"
+          element={
+            <ProtectedRoute
+              role="teacher"
+              subRole="dean"
+              Component={CompleteCourseForDean}
             />
           }
         />

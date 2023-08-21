@@ -47,6 +47,9 @@ import {
   GET_PRESENT_SESSION_REQUEST,
   GET_PRESENT_SESSION_SUCCESS,
   GET_PRESENT_SESSION_FAIL,
+  CREATE_NEW_SESSION_REQUEST,
+  CREATE_NEW_SESSION_SUCCESS,
+  CREATE_NEW_SESSION_FAIL,
 } from "../constants/teacherConstant";
 
 export const getPresentSessionOfWorkReducer = (
@@ -368,6 +371,34 @@ export const updateTeacherDetailsReducer = (state = {}, action) => {
         ...state,
         loading: false,
         message: null,
+        error: action.payload,
+      };
+    case CLEAR_MESSAGES:
+      return {
+        ...state,
+        message: null,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+export const createNewSessionByDeanReducer = (state = {}, action) => {
+  switch (action.type) {
+    case CREATE_NEW_SESSION_REQUEST:
+      return {
+        loading: true,
+      };
+    case CREATE_NEW_SESSION_SUCCESS:
+      return {
+        loading: false,
+        message: action.payload,
+      };
+    case CREATE_NEW_SESSION_FAIL:
+      return {
+        ...state,
+        loading: false,
         error: action.payload,
       };
     case CLEAR_MESSAGES:

@@ -141,6 +141,26 @@ const SidebarTeacher = ({ role }) => {
                 Teacher List
               </p>
             </Link>
+
+            <Link to="/createNewSessionByDean">
+              <p>
+                <PeopleIcon />
+                New Session
+              </p>
+            </Link>
+
+            <Link to="/attendanceForDean">
+              <p>
+                <PeopleIcon />
+                Attendances
+              </p>
+            </Link>
+            <Link to="/courseForDean">
+              <p>
+                <PeopleIcon />
+                Courses
+              </p>
+            </Link>
           </div>
         )}
 
