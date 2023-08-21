@@ -49,7 +49,7 @@ router.route("/updateStudent").put(isAuthenticatedUser, updateDetails);
 router.route("/getStudentDetail").get(isAuthenticatedUser, getStudent);
 
 router
-  .route("/getCourseForSelection")
+  .route("/getCourseForSelection/:session")
   .get(isAuthenticatedUser, getCourseSelectionForSemester);
 router
   .route("/checkIfCourseSentForApproval")
