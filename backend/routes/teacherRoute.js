@@ -34,6 +34,10 @@ const {
   getAllStudentsForDean,
   updateStudentsDataByDeanOrHOD,
   updateTeachersDataByDean,
+  getAllAttendanceForDean,
+  getAllCourseForDean,
+  removeCourseForSession,
+  removeAttendanceForSession,
 } = require("../controllers/deanController");
 const {
   isAuthenticatedUser,
@@ -294,6 +298,42 @@ router
     isAuthenticatedUser,
     authorizeRolesTeacher("teacher"),
     updateTeachersDataByDean
+  );
+
+router
+  .route("/getAllAttendanceForDean")
+  .get(
+    isAuthenticatedUser,
+    authorizeRolesTeacher("teacher"),
+    authorizeSubRolesTeacher("dean"),
+    getAllAttendanceForDean
+  );
+
+router
+  .route("/getAllCourseForDean")
+  .get(
+    isAuthenticatedUser,
+    authorizeRolesTeacher("teacher"),
+    authorizeSubRolesTeacher("dean"),
+    getAllCourseForDean
+  );
+
+router
+  .route("/removeAttendanceForSession")
+  .delete(
+    isAuthenticatedUser,
+    authorizeRolesTeacher("teacher"),
+    authorizeSubRolesTeacher("dean"),
+    removeAttendanceForSession
+  );
+
+router
+  .route("/removeCourseForSession")
+  .delete(
+    isAuthenticatedUser,
+    authorizeRolesTeacher("teacher"),
+    authorizeSubRolesTeacher("dean"),
+    removeCourseForSession
   );
 
 router.route("/getPresentSession").get(isAuthenticatedUser, getPresentSession);

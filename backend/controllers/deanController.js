@@ -17,10 +17,13 @@ const Attendance = require("../models/attendanceModel");
 exports.createNewSession = catchAsyncErrors(async (req, res, next) => {
   const { course, department, session } = req.body;
 
-  const findSession = await Session.findOne({ course, department });
+  const findSession = await Session.findOne({
+    course: course,
+    department: department,
+  });
 
   if (findSession) {
-    if (findSession.session.toString() === session()) {
+    if (findSession.session.toString() === session.toString()) {
       return next(new ErrorHandler("Session already present", 401));
     } else {
       await Session.updateOne(

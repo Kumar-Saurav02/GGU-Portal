@@ -52,7 +52,7 @@ const CreateCourse = () => {
     if (subjectCode.trim() === "") {
       return toast.error("Select Subjects Properly");
     }
-    const data = subjects.subjects.filter(function (d) {
+    const data = subjects.filter(function (d) {
       return d.subjectCode === subjectCode;
     });
 
@@ -74,9 +74,6 @@ const CreateCourse = () => {
   };
 
   const submitCreateCourseDetail = () => {
-    if (semester.trim() === "") {
-      return toast.error("Select semester properly");
-    }
     if (
       session !== null &&
       session !== undefined &&
@@ -151,8 +148,7 @@ const CreateCourse = () => {
                     onChange={(e) => setSubjectCode(e.target.value)}>
                     <option>Subjects</option>
                     {subjects &&
-                      subjects.subjects &&
-                      subjects.subjects.map((sub) => (
+                      subjects.map((sub) => (
                         <option key={sub._id} value={sub.subjectCode}>
                           {sub.subjectName} - {sub.subjectCode}
                         </option>

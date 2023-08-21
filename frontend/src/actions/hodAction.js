@@ -70,7 +70,10 @@ export const getAllSubjects = () => async (dispatch) => {
 
     const { data } = await axios.get(`/api/getAllSubjects`);
 
-    dispatch({ type: GET_SUBJECT_SUCCESS, payload: data.subjects.subjects });
+    dispatch({
+      type: GET_SUBJECT_SUCCESS,
+      payload: data === null ? [] : data.subjects.subjects,
+    });
   } catch (error) {
     dispatch({ type: GET_SUBJECT_FAIL, payload: error.response.data.message });
   }

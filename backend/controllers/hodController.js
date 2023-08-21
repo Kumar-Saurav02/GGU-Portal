@@ -82,6 +82,10 @@ exports.getAllSubjects = catchAsyncErrors(async (req, res, next) => {
     department: req.user.department,
   });
 
+  if (subjects === null || subjects === undefined) {
+    return next(new ErrorHandler(`No subjects found create one`, 401));
+  }
+
   res.status(200).json({
     success: true,
     subjects,
