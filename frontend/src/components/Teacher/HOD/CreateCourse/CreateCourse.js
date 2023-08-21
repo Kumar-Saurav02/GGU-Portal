@@ -111,7 +111,7 @@ const CreateCourse = () => {
         <Fragment>
           <div className="createCourse">
             <SidebarTeacher role={teacher.subRole} />
-            <div className="registerBox">
+            <div className="registerBox_more">
               <div className="Data_entry">
                 <h2>Create Course</h2>
                 <hr></hr>
@@ -174,28 +174,28 @@ const CreateCourse = () => {
 
                 <div className="btn">
                   <button
-                    className="signInbtn border hover"
+                    className="normal_sb_btn border hover"
                     onClick={addingCourseDetail}>
                     Add Course
                   </button>
                 </div>
                 <br></br>
 
-                <div>
+                <div >
                   <table>
                     <tr>
-                      <th>Subject Name</th>
-                      <th>Subject Code</th>
-                      <th>Subject Credit</th>
-                      <th>Category</th>
+                      <th className="tble">Subject Name</th>
+                      <th className="tble">Subject Code</th>
+                      <th className="tble">Subject Credit</th>
+                      <th className="tble">Category</th>
                     </tr>
                     {course &&
                       course.map((cou, i) => (
                         <tr key={i}>
-                          <td>{cou[0]}</td>
-                          <td>{cou[1]}</td>
-                          <td>{cou[2]}</td>
-                          <td>{cou[3]}</td>
+                          <td className="tble">{cou[0]}</td>
+                          <td className="tble">{cou[1]}</td>
+                          <td className="tble">{cou[2]}</td>
+                          <td className="tble">{cou[3]}</td>
                         </tr>
                       ))}
                   </table>
@@ -205,9 +205,9 @@ const CreateCourse = () => {
                     </div>
                   )}
                 </div>
-
+ 
                 <div>
-                  <button onClick={submitCreateCourseDetail}>
+                  <button className="normal_sb_btn border hover" onClick={submitCreateCourseDetail}>
                     Create Course
                   </button>
                 </div>

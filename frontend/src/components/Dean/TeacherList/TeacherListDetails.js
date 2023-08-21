@@ -137,11 +137,15 @@ const TeacherListDetails = () => {
         <Fragment>
           <div className="studentListAdmin">
             <SidebarTeacher role={teacher.subRole} />
-            <div>
+            <div className="approvBox">
+              <div className="subsection">
               <h3>Edit Teacher Details</h3>
+              <br></br>
               <div>
-                <div>
+                <div className="entry">
+                <div className="label_name">
                   <p>Name</p>
+                  </div>
                   <input
                     type="text"
                     placeholder="Name"
@@ -151,8 +155,10 @@ const TeacherListDetails = () => {
                     onChange={(e) => setNewName(e.target.value)}
                   />
                 </div>
-                <div>
+                <div className="entry">
+                <div className="label_name">
                   <p>Employee ID</p>
+                  </div>
                   <input
                     type="text"
                     placeholder="EmployeeID"
@@ -162,8 +168,10 @@ const TeacherListDetails = () => {
                     onChange={(e) => setNewEmployeeID(e.target.value)}
                   />
                 </div>
-                <div>
+                <div className="entry">
+                <div className="label_name">
                   <p>E-Mail</p>
+                  </div>
                   <input
                     type="email"
                     placeholder="Email"
@@ -173,10 +181,12 @@ const TeacherListDetails = () => {
                     onChange={(e) => setNewEmail(e.target.value)}
                   />
                 </div>
-                <div>
+                <div className="entry">
+                <div className="label_name">
                   <label for="{dateOfBirthStudent}">
                     Date Of Birth: {newDateOfBirthTeacher}
                   </label>
+                  </div>
 
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
@@ -189,8 +199,10 @@ const TeacherListDetails = () => {
                     />
                   </LocalizationProvider>
                 </div>
-                <div>
+                <div className="entry">
+                <div className="label_name">
                   <p>Qualification</p>
+                  </div>
                   <input
                     type="text"
                     placeholder="Qualification"
@@ -200,8 +212,10 @@ const TeacherListDetails = () => {
                     onChange={(e) => setNewQualification(e.target.value)}
                   />
                 </div>
-                <div>
+                <div className="entry">
+                <div className="label_name">
                   <p>Course</p>
+                  </div>
                   <select
                     id="label_input"
                     required
@@ -216,8 +230,10 @@ const TeacherListDetails = () => {
                     ))}
                   </select>
                 </div>
-                <div>
+                <div className="entry">
+                <div className="label_name">
                   <p>Department</p>
+                  </div>
                   <select
                     id="label_input"
                     required
@@ -232,8 +248,10 @@ const TeacherListDetails = () => {
                     ))}
                   </select>
                 </div>
-                <div>
+                <div className="entry">
+                <div className="label_name">
                   <p>Designation</p>
+                  </div>
                   <select
                     id="label_input"
                     required
@@ -248,8 +266,10 @@ const TeacherListDetails = () => {
                     ))}
                   </select>
                 </div>
-                <div>
+                <div className="entry">
+                <div className="label_name">
                   <p>Gender</p>
+                  </div>
                   <select
                     id="label_input"
                     required
@@ -265,9 +285,10 @@ const TeacherListDetails = () => {
                   </select>
                 </div>
                 <div>
-                  <button onClick={updateData}>Update</button>
+                  <button className="normal_sb_btn border hover" onClick={updateData}>Update</button>
                 </div>
               </div>
+            </div>
             </div>
           </div>
         </Fragment>

@@ -90,17 +90,17 @@ const AllocateSubjectTeacherMapping = ({ data, subjects }) => {
   return (
     <Fragment>
       <div>
-        <div>
-          <p>Name: {data.name}</p>
+        <div className="entry">
+          <p className="label_name">Name: {data.name}</p>
         </div>
-        <div>
-          <p>Employee ID: {data.employeeID}</p>
+        <div className="entry">
+          <p className="label_name" >Employee ID: {data.employeeID}</p>
         </div>
-        <div>
-          <p>Designation: {data.designation}</p>
+        <div className="entry">
+          <p className="label_name">Designation: {data.designation}</p>
         </div>
-        <div>
-          <p>Department: {data.department}</p>
+        <div className="entry">
+          <p className="label_name">Department: {data.department}</p>
         </div>
         <div>
           {data.assignSubject && data.assignSubject.length === 0 && (
@@ -109,11 +109,11 @@ const AllocateSubjectTeacherMapping = ({ data, subjects }) => {
             </div>
           )}
         </div>
-        <div>
+        <div >
           {assignedSubject.map((item, uid) => {
             return (
-              <div key={uid}>
-                <p>
+              <div className="entry" key={uid}>
+                <p className="label_name">
                   Subject {uid + 1}: {item.value}
                 </p>
                 <select value={item.value} id={uid} onChange={handleChange}>
@@ -132,19 +132,18 @@ const AllocateSubjectTeacherMapping = ({ data, subjects }) => {
                       </option>
                     ))}
                 </select>
-                <button id={uid} onClick={removeInput}>
+                <button className="normal_sb_btn border hover" id={uid} onClick={removeInput}>
                   Remove
                 </button>
               </div>
             );
           })}
 
-          <button onClick={addInput}>Add Subject</button>
+          <button className="normal_sb_btn border hover" onClick={addInput}>Add Subject</button>
         </div>
         <div>
-          <button onClick={updateAssignedSubject}>Update</button>
+          <button className="normal_sb_btn border hover" onClick={updateAssignedSubject}>Update</button>
         </div>
-        <br></br>
         <br></br>
         <br></br>
         <br></br>

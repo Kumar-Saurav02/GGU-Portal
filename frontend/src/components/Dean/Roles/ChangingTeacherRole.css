@@ -68,6 +68,10 @@
   box-shadow: 2px 2px 2px rgb(202, 202, 214);
 }
 
+.normal_btn{
+  width : 20%;
+}
+
 @media screen and (max-width : 768px) {
   .changingTeacherRoles {
     width: 100vw;

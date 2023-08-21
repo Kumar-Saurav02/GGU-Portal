@@ -6,6 +6,23 @@
   position: absolute;
   font-size: 20px;
 }
+.registerBox_more{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #d4d8e4;
+  margin: auto;
+  width: 85%;
+  border: 1.5px solid;
+  padding-bottom: 2%;
+}
+
+.tble{
+  width : 100vw;
+  font-size: 15px;
+  justify-content: center;
+  text-align: center;
+}
 
 @media screen and (max-width : 768px) {
 
