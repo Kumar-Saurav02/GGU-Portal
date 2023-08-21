@@ -369,12 +369,14 @@ export const getCourseForStudent = (session) => async (dispatch) => {
     const config = { headers: { "Content-Type": "application/json" } };
 
     const { data } = await axios.get(
-      `/api/getCourseForSelection`,
+      `/api/getCourseForSelection/${session}`,
       { session },
       config
     );
 
-    dispatch({ type: COURSE_STUDENT_SUCCESS, payload: data.courses });
+    console.log(data);
+
+    dispatch({ type: COURSE_STUDENT_SUCCESS, payload: data.course });
   } catch (error) {
     dispatch({
       type: COURSE_STUDENT_FAIL,

@@ -30,8 +30,6 @@ const DocumentUploadStudent = () => {
     error: subjectError,
   } = useSelector((state) => state.getAllSubjects);
 
-  console.log(allSubjects);
-
   useEffect(() => {
     dispatch(getAllSubjects());
   }, []);
@@ -468,7 +466,7 @@ const DocumentUploadStudent = () => {
                   <br></br>
                   <p>File:- {previewFeeUpload}</p>
                 </div>
-                <div className="course_selection_below" >
+                <div className="course_selection_below">
                   <input
                     className="mr_CS"
                     type="checkbox"
@@ -630,7 +628,7 @@ const DocumentUploadStudent = () => {
                 </div>
                 <div className="course_selection_below">
                   <input
-                  className="mr_CS"
+                    className="mr_CS"
                     type="checkbox"
                     id="check"
                     onChange={(e) => setIsChecked(!isChecked)}
