@@ -60,10 +60,14 @@ const AllocateSubject = () => {
         <Fragment>
           <div className="allocateSubject">
             <SidebarTeacher role={teacher.subRole} />
-            <div>
+            <div className="approvBox">
+              <div className="subsection">
               <h2>Allocate Subject</h2>
-              <div>
+              <br />
+              <div className="entry">
+                <div className="label_name">
                 <h4>Search</h4>
+                </div>
                 <input
                   type="text"
                   placeholder="Enter Employee ID"
@@ -72,8 +76,6 @@ const AllocateSubject = () => {
                   onChange={(e) => setFilterEmployeeID(e.target.value)}
                 />
               </div>
-              <br></br>
-              <br></br>
               <br></br>
               <br></br>
               {teachers &&
@@ -94,6 +96,7 @@ const AllocateSubject = () => {
                       />
                     </div>
                   ))}
+            </div>
             </div>
           </div>
         </Fragment>

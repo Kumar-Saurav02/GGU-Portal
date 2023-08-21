@@ -6,6 +6,7 @@ import {
   updateTeacherRoleByDean,
 } from "../../../actions/adminAction";
 import Loader from "../../Loader/Loader";
+import './ChangingTeacherRole.css'
 
 const TeacherDetails = ({ key, data }) => {
   const dispatch = useDispatch();
@@ -70,7 +71,7 @@ const TeacherDetails = ({ key, data }) => {
             ))}
           </select>
         </div>
-        <button className="signInbtn border hover" onClick={updateRole}>
+        <button className="normal_btn hover border" onClick={updateRole}>
           Update
         </button>
       </div>

@@ -184,13 +184,17 @@ const EditProfileTeacher = () => {
         <Fragment>
           <div className="editProfileTeacher">
             <SidebarTeacher role={teacher.subRole} />
-            <div>
+            <div className="approvBox">
+            <div className="subsection">
               <div>
                 <h2> Edit ProfileTeacher</h2>
+                <br></br>
               </div>
               <div>
-                <div>
+              <div className="entry">
+              <div className="label_name">
                   <p>Mobile Number</p>
+                  </div>
                   <input
                     type="number"
                     placeholder="Teacher's Mobile Number"
@@ -199,8 +203,10 @@ const EditProfileTeacher = () => {
                     onChange={(e) => setTeacherMobileNumber(e.target.value)}
                   />
                 </div>
-                <div>
-                  <label>Profile Photo</label>
+
+                <div  className="entry">
+                  <label className="label_name">Profile Photo</label>
+                  <div className="address">
                   <img src={profilePhoto} />
                   <input
                     type="file"
@@ -209,9 +215,12 @@ const EditProfileTeacher = () => {
                     accept="image/*"
                     onChange={photoUpdate}
                   />
+                  </div>
                 </div>
-                <div>
-                  <label>Signature</label>
+
+                <div className="entry">
+                  <label className="label_name">Signature</label>
+                  <div className="address">
                   <img src={signature} />
                   <input
                     type="file"
@@ -220,9 +229,10 @@ const EditProfileTeacher = () => {
                     accept="image/*"
                     onChange={photoUpdate}
                   />
+                  </div>
                 </div>
-                <div>
-                  <label for="myFile">Upload new resume:</label>
+                <div className="entry">
+                  <label className="label_name" for="myFile">Upload new resume:</label>
                   <input
                     type="file"
                     required
@@ -234,8 +244,9 @@ const EditProfileTeacher = () => {
                   />
                   <p>Uploaded Resume:- {resumePreviewTeacher}</p>
                 </div>
-                <button onClick={updateTeacherProfile}>Update</button>
+                <button className="normal_sb_btn border hover" onClick={updateTeacherProfile}>Update</button>
               </div>
+            </div>
             </div>
           </div>
         </Fragment>

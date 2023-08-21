@@ -2,6 +2,7 @@ import React, { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { removeStudentByAdmin } from "../../../actions/adminAction";
+import "./StudentList.css";
 
 const StudentListMapping = ({ data, role }) => {
   const navigate = useNavigate();
@@ -35,11 +36,11 @@ const StudentListMapping = ({ data, role }) => {
         </div>
 
         <div className="btn_acceptReject">
-          <button onClick={editDetails} class="signInbtn border hover">
+          <button onClick={editDetails} class="signInbtn btn_ed_rm border hover">
             Edit
           </button>
           {role === "dean" && (
-            <button onClick={removeStudent} class="signInbtn border hover">
+            <button onClick={removeStudent} class="signInbtn btn_ed_rm border hover">
               Remove
             </button>
           )}

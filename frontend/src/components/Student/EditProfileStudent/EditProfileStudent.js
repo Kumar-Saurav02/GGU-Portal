@@ -136,12 +136,14 @@ const EditProfileStudent = () => {
         <Fragment>
           <div className="editProfileStudent">
             <SidebarStudent />
-            <div>
-              <div>
+            <div className="approvBox">
+              <div className="subsection">
+              <div >
                 <h2>Edit Profile</h2>
+                <br></br>
               </div>
-              <div>
-                <div>
+              <div className="entry">
+                <div className="label_name">
                   <p>Student's Mobile Number</p>
                 </div>
                 <input
@@ -152,8 +154,8 @@ const EditProfileStudent = () => {
                   onChange={(e) => setStudentMobileNumber(e.target.value)}
                 />
               </div>
-              <div>
-                <div>
+              <div className="entry">
+                <div className="label_name">
                   <p>Father's Mobile Number</p>
                 </div>
                 <input
@@ -164,8 +166,8 @@ const EditProfileStudent = () => {
                   onChange={(e) => setFatherMobileNumber(e.target.value)}
                 />
               </div>
-              <div>
-                <div>
+              <div className="entry">
+                <div className="label_name">
                   <p>Mother's Mobile Number</p>
                 </div>
                 <input
@@ -176,8 +178,8 @@ const EditProfileStudent = () => {
                   onChange={(e) => setMotherMobileNumber(e.target.value)}
                 />
               </div>
-              <div>
-                <div>
+              <div className="entry">
+                <div  className="label_name">
                   <p>Hosteler</p>
                 </div>
                 <select
@@ -191,13 +193,14 @@ const EditProfileStudent = () => {
                   ))}
                 </select>
               </div>
-              <div>
+              <div >
                 <h2>Photographs</h2>
                 <hr></hr>
                 <br></br>
 
-                <div>
-                  <label>Photo</label>
+                <div  className="entry">
+                  <label className="label_name" >Photo</label>
+                  <div className="address">
                   <img src={profilePhoto} />
                   <input
                     type="file"
@@ -206,10 +209,12 @@ const EditProfileStudent = () => {
                     accept="image/*"
                     onChange={photoUpdate}
                   />
+                  </div>
                 </div>
 
-                <div>
-                  <label>Signature</label>
+                <div className="entry">
+                  <label className="label_name" >Signature</label>
+                  <div className="address">
                   <img src={signature} />
                   <input
                     type="file"
@@ -218,11 +223,13 @@ const EditProfileStudent = () => {
                     accept="image/*"
                     onChange={photoUpdate}
                   />
+                  </div>
                 </div>
               </div>
               <div>
-                <button onClick={updateStudentData}>Update</button>
+                <button className="normal_sb_btn border hover" onClick={updateStudentData}>Update</button>
               </div>
+            </div>
             </div>
           </div>
         </Fragment>

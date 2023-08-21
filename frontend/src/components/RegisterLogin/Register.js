@@ -1119,7 +1119,7 @@ const Register = () => {
 
                 <div className="btn">
                   <button
-                    class="signInbtn border hover"
+                    class="normal_sb_btn border hover"
                     onClick={registerStudentDetails}>
                     Register
                   </button>
@@ -1419,7 +1419,7 @@ const Register = () => {
 
                 <div className="btn">
                   <button
-                    class="signInbtn border hover"
+                    class="normal_sb_btn border hover"
                     onClick={registerTeacherDetails}>
                     Register
                   </button>

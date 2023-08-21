@@ -178,7 +178,7 @@ const CreateCourse = () => {
 
                 <div className="btn">
                   <button
-                    className="signInbtn border hover"
+                    className="normal_sb_btn border hover"
                     onClick={addingCourseDetail}>
                     Add Course
                   </button>
@@ -211,7 +211,7 @@ const CreateCourse = () => {
                 </div>
 
                 <div>
-                  <button onClick={submitCreateCourseDetail}>
+                  <button className="normal_sb_btn border hover" onClick={submitCreateCourseDetail}>
                     Create Course
                   </button>
                 </div>

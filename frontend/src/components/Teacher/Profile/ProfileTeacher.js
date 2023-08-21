@@ -141,7 +141,7 @@ const ProfileTeacher = () => {
                 </div>
               )} */}
                   <div>
-                    <button onClick={editProfile}>Edit</button>
+                    <button className="normal_sb_btn border hover"  onClick={editProfile}>Edit</button>
                   </div>
                 </div>
               </div>
