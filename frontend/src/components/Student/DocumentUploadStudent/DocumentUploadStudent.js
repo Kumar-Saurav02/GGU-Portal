@@ -23,9 +23,6 @@ const DocumentUploadStudent = () => {
     message,
     error,
   } = useSelector((state) => state.marksFeesCourseUpdate);
-<<<<<<< HEAD
- 
-=======
 
   const {
     loading: subjectLoading,
@@ -39,7 +36,6 @@ const DocumentUploadStudent = () => {
     dispatch(getAllSubjects());
   }, []);
 
->>>>>>> 61d392cb18719c7c656af1407604eac0f0f12dc1
   useEffect(() => {
     if (error) {
       toast.error(error);
