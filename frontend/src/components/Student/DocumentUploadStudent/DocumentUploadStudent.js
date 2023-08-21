@@ -23,6 +23,9 @@ const DocumentUploadStudent = () => {
     message,
     error,
   } = useSelector((state) => state.marksFeesCourseUpdate);
+<<<<<<< HEAD
+ 
+=======
 
   const {
     loading: subjectLoading,
@@ -36,6 +39,7 @@ const DocumentUploadStudent = () => {
     dispatch(getAllSubjects());
   }, []);
 
+>>>>>>> 61d392cb18719c7c656af1407604eac0f0f12dc1
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -468,8 +472,9 @@ const DocumentUploadStudent = () => {
                   <br></br>
                   <p>File:- {previewFeeUpload}</p>
                 </div>
-                <div>
+                <div className="course_selection_below" >
                   <input
+                    className="mr_CS"
                     type="checkbox"
                     onChange={(e) => setIsCheckedFees(!isCheckedFees)}
                   />
@@ -627,8 +632,9 @@ const DocumentUploadStudent = () => {
                   />
                   <p>File:- {previewResultUpload}</p>
                 </div>
-                <div>
+                <div className="course_selection_below">
                   <input
+                  className="mr_CS"
                     type="checkbox"
                     id="check"
                     onChange={(e) => setIsChecked(!isChecked)}
