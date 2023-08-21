@@ -69,6 +69,9 @@ const CourseSelection = () => {
     }
   }, [error, message]);
 
+  console.log(course);
+  console.log(session.session);
+
   useEffect(() => {
     if (
       session === null ||
@@ -77,7 +80,7 @@ const CourseSelection = () => {
     ) {
       dispatch(getPresentSession());
     }
-    dispatch(getCourseForStudent(session));
+    dispatch(getCourseForStudent(session.session));
     dispatch(checkIfCourseIsSentForApproval());
 
     if (
@@ -119,14 +122,14 @@ const CourseSelection = () => {
       credits === 0 &&
       course !== null &&
       course !== undefined &&
-      course.course !== undefined &&
-      course.course
+      course.courses !== undefined &&
+      course.courses
     ) {
       var totalCredits = 0;
       var checkedBoxTemp = [];
-      for (let i = 0; i < course.course.length; i++) {
+      for (let i = 0; i < course.courses.length; i++) {
         checkedBoxTemp[i] = false;
-        totalCredits += course.course[i].subjectCredit;
+        totalCredits += course.courses[i].subjectCredit;
       }
       setCredits(totalCredits);
     }
@@ -153,7 +156,7 @@ const CourseSelection = () => {
         <Fragment>
           <div className="courseSelectionMain">
             <SidebarStudent />
-            <div className="course_Selection_full" >
+            <div className="course_Selection_full">
               <h1>Course Selection</h1>
               {courseSelected === false && sentForApproval === undefined && (
                 <div className="courseSelection">
@@ -199,10 +202,10 @@ const CourseSelection = () => {
                             <h3>Term</h3>
                           </span>
                         </div>
-                        
+
                         {course &&
-                          course.course &&
-                          course.course.map((courses, i) => {
+                          course.courses &&
+                          course.courses.map((courses, i) => {
                             return (
                               <div key={i} className="grid_container">
                                 <span>
@@ -215,7 +218,7 @@ const CourseSelection = () => {
                                     onChange={(e) =>
                                       handleCourseSelectChange(i)
                                     }
-                                  /> 
+                                  />
                                 </span>
                                 <span className="sub_left">
                                   <h4> {courses.subjectName}</h4>
@@ -238,7 +241,7 @@ const CourseSelection = () => {
                       </div>
                     </div>
                   </div>
-                  
+
                   {student.currentSemester !== "1" ||
                     (student.currentSemester !== "2" && (
                       <div className="backSubjects">
@@ -289,14 +292,14 @@ const CourseSelection = () => {
                       </div>
                     ))}
 
-                  <div className="course_selection_below" >
+                  <div className="course_selection_below">
                     <h4 className="mr_CS">Total Credits : </h4>
                     <p>{credits}</p>
                   </div>
 
-                  <div >
+                  <div>
                     <div>
-                      <div className="course_selection_below" >
+                      <div className="course_selection_below">
                         <input
                           className="mr_CS"
                           type="checkbox"
@@ -304,7 +307,7 @@ const CourseSelection = () => {
                             setUndertakingChecked(!undertakingChecked)
                           }
                         />
-                        <p >
+                        <p>
                           I hereby declare that the entries made by me in the
                           aforesaid form are complete and true to the best of my
                           knowledge.

@@ -774,7 +774,7 @@ exports.getStudent = catchAsyncErrors(async (req, res, next) => {
 //GET COURSE OF STUDENT'S SEMESTER
 exports.getCourseSelectionForSemester = catchAsyncErrors(
   async (req, res, next) => {
-    const session = req.body.session;
+    const session = req.params.session;
     const course = req.user.course;
     const department = req.user.department;
     const semester = req.user.currentSemester;
@@ -785,6 +785,8 @@ exports.getCourseSelectionForSemester = catchAsyncErrors(
       semester: semester,
       department: department,
     });
+
+    console.log(courseFound);
 
     res.status(200).json({
       success: true,
