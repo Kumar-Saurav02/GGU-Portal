@@ -14,7 +14,7 @@ const CreateNewSession = () => {
   const { loading, message, error } = useSelector(
     (state) => state.createNewSessionByDean
   );
-
+ 
   useEffect(() => {
     if (message) {
       toast.success(message);
@@ -58,12 +58,16 @@ const CreateNewSession = () => {
         <Fragment>
           <div className="teacherDetails">
             <SidebarTeacher role={teacher.subRole} />
-            <div>
+            <div className="approvBox">
+              <div className="subsection">
               <h2>Creating New Session</h2>
+              <hr />
+              <br />
               <div>
-                <div>
-                  <p>Department</p>
+                <div className="entry">
+                  <p className="label_name">Department</p>
                   <select
+                    
                     id="label_input"
                     required
                     name="departmentStudent"
@@ -77,8 +81,8 @@ const CreateNewSession = () => {
                     ))}
                   </select>
                 </div>
-                <div>
-                  <p>Session Name</p>
+                <div className="entry">
+                  <p className="label_name">Session Name</p>
                   <input
                     type="text"
                     placeholder="July 2023"
@@ -89,9 +93,12 @@ const CreateNewSession = () => {
                 </div>
                 <div>
                   <p>*The changes cannot be reversed.</p>
-                  <button onClick={createNewSession}>Create New Session</button>
+                  <button
+                    className="normal_sb_btn border hover"
+                  onClick={createNewSession}>Create New Session</button>
                 </div>
               </div>
+            </div>
             </div>
           </div>
         </Fragment>

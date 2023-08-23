@@ -73,7 +73,6 @@ const StudentsApproval = () => {
                 {studentApproval &&
                   studentApproval.map((studentData, i) => (
                     <div>
-                      <p>{i + 1}</p>
                       <StudentApprovalDataMapping data={studentData} />
                     </div>
                   ))}
