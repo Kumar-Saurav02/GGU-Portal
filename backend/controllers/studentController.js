@@ -786,8 +786,6 @@ exports.getCourseSelectionForSemester = catchAsyncErrors(
       department: department,
     });
 
-    console.log(courseFound);
-
     res.status(200).json({
       success: true,
       course: courseFound,

@@ -36,6 +36,7 @@ import CreateNewSession from "./components/Dean/NewSession/CreateNewSession";
 import CompleteAttendanceForDean from "./components/Dean/CompleteAttendance/CompleteAttendanceForDean";
 import CompleteCourseForDean from "./components/Dean/CompleteCourse/CompleteCourseForDean";
 import NotFound from "../src/components/Layout/NotFound";
+import ScrollToTop from "../src/components/Layout/ScrollToTop/ScrollToTop";
 
 function App() {
   useEffect(() => {
@@ -44,6 +45,7 @@ function App() {
   }, []);
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />

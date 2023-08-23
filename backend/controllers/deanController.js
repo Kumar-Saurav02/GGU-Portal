@@ -107,7 +107,6 @@ exports.removeStudent = catchAsyncErrors(async (req, res, next) => {
 exports.getAllAttendanceForDean = catchAsyncErrors(async (req, res, next) => {
   const attendance = await Attendance.find({
     course: req.user.course,
-    department: req.user.department,
   });
 
   if (!attendance) {
@@ -126,7 +125,6 @@ exports.getAllAttendanceForDean = catchAsyncErrors(async (req, res, next) => {
 exports.getAllCourseForDean = catchAsyncErrors(async (req, res, next) => {
   const course = await CourseSelection.find({
     course: req.user.course,
-    department: req.user.department,
   });
 
   if (!course) {
@@ -175,7 +173,6 @@ exports.removeCourseForSession = catchAsyncErrors(async (req, res, next) => {
   if (!course) {
     return next(new ErrorHandler("No course found", 401));
   }
-  course.reverse();
 
   res.status(200).json({
     success: true,

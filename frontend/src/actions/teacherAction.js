@@ -49,6 +49,12 @@ import {
   CREATE_NEW_SESSION_REQUEST,
   CREATE_NEW_SESSION_SUCCESS,
   CREATE_NEW_SESSION_FAIL,
+  GET_ALL_COURSES_FOR_DEAN_REQUEST,
+  GET_ALL_COURSES_FOR_DEAN_SUCCESS,
+  GET_ALL_COURSES_FOR_DEAN_FAIL,
+  GET_ALL_ATTENDANCES_FOR_DEAN_REQUEST,
+  GET_ALL_ATTENDANCES_FOR_DEAN_SUCCESS,
+  GET_ALL_ATTENDANCES_FOR_DEAN_FAIL,
 } from "../constants/teacherConstant";
 import {
   REGISTER_TEACHER_REQUEST,
@@ -521,3 +527,40 @@ export const createNewSessionByDean =
       });
     }
   };
+
+//GET ALL COURSES FOR DEAN
+export const getAllCoursesForDean = () => async (dispatch) => {
+  try {
+    dispatch({ type: GET_ALL_COURSES_FOR_DEAN_REQUEST });
+
+    const { data } = await axios.get(`/api/getAllCourseForDean`);
+
+    dispatch({
+      type: GET_ALL_COURSES_FOR_DEAN_SUCCESS,
+      payload: data.course,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_ALL_COURSES_FOR_DEAN_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+export const getAllAttendancesForDean = () => async (dispatch) => {
+  try {
+    dispatch({ type: GET_ALL_ATTENDANCES_FOR_DEAN_REQUEST });
+
+    const { data } = await axios.get(`/api/getAllAttendanceForDean`);
+
+    dispatch({
+      type: GET_ALL_ATTENDANCES_FOR_DEAN_SUCCESS,
+      payload: data.attendance,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_ALL_ATTENDANCES_FOR_DEAN_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};

@@ -18,33 +18,44 @@ const marksSchema = new mongoose.Schema({
     required: [true, "Enter the semester."],
   },
 
-  students: [
+  subjects: [
     {
-      name: {
+      subjectName: {
         type: String,
+        required: true,
       },
-      rollNumber: {
-        type: Number,
-      },
-      enrollmentNumber: {
-        type: String,
-      },
-      subjects: [
-        {
-          subjectName: {
+      detailsOfMarks: {
+        classTest1: {
+          public_id: {
             type: String,
+            required: true,
           },
-          classTest1: {
-            type: Number,
-          },
-          classTest2: {
-            type: Number,
-          },
-          endSemester: {
-            type: Number,
+          url: {
+            type: String,
+            required: true,
           },
         },
-      ],
+        classTest2: {
+          public_id: {
+            type: String,
+            required: true,
+          },
+          url: {
+            type: String,
+            required: true,
+          },
+        },
+        endSemester: {
+          public_id: {
+            type: String,
+            required: true,
+          },
+          url: {
+            type: String,
+            required: true,
+          },
+        },
+      },
     },
   ],
 });

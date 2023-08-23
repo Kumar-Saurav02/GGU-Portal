@@ -3,18 +3,39 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import "./CompleteAttendanceForDean.css";
 import SidebarTeacher from "../../Teacher/SidebarTeacher/SidebarTeacher";
+import { getAllAttendancesForDean } from "../../../actions/teacherAction";
+import Loader from "../../Loader/Loader";
 
 const CompleteAttendanceForDean = () => {
+  const dispatch = useDispatch();
+
   const { teacher } = useSelector((state) => state.registerLoginTeachers);
+
+  const {
+    attendances,
+    loading: attendancesLoading,
+    error,
+  } = useSelector((state) => state.getAllAttendancesForDean);
+
+  useEffect(() => {
+    dispatch(getAllAttendancesForDean());
+  }, []);
 
   return (
     <Fragment>
-      <div className="teacherDetails">
-        <SidebarTeacher role={teacher.subRole} />
-        <div>
-          <h2>Attendance</h2>
-        </div>
-      </div>
+      {attendancesLoading ? (
+        <Loader />
+      ) : (
+        <Fragment>
+          <div className="teacherDetails">
+            <SidebarTeacher role={teacher.subRole} />
+            <div>
+              <h2>Attendances</h2>
+              <div></div>
+            </div>
+          </div>
+        </Fragment>
+      )}
     </Fragment>
   );
 };

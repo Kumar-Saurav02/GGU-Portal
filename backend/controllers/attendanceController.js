@@ -167,8 +167,8 @@ exports.getAttendanceDetailsOfParticularSubject = catchAsyncErrors(
     const { semester, department, subject } = req.params;
 
     const attendanceDetails = await Attendance.findOne({
-      semester,
-      department,
+      semester: semester,
+      department: department,
     });
 
     var flag = false;
@@ -199,7 +199,7 @@ exports.studentsBasedOnSemesterAndDepartment = catchAsyncErrors(
 
     const students = await Student.find({
       currentSemester: semester,
-      department,
+      department: department,
     });
 
     res.status(200).json({
@@ -215,7 +215,7 @@ exports.getAttendanceDetailsOfParticularDepartment = catchAsyncErrors(
     const { department } = req.params;
 
     const attendanceDetails = await Attendance.find({
-      department,
+      department: department,
     });
 
     if (!attendanceDetails) {

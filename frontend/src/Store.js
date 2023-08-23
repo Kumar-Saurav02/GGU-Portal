@@ -12,6 +12,8 @@ import {
 import {
   courseScholarshipCheckReducer,
   createNewSessionByDeanReducer,
+  getAllAttendancesForDeanReducer,
+  getAllCoursesForDeanReducer,
   getAttendanceEntryBySubjectReducer,
   getCoursesForApprovalReducer,
   getMarksEntryBySubjectReducer,
@@ -75,6 +77,8 @@ const reducer = combineReducers({
   updateStudentsDataByDeanOrHOD: updateStudentsDataByDeanOrHODReducer,
   updateTeachersDataByDean: updateTeachersDataByDeanReducer,
   createNewSessionByDean: createNewSessionByDeanReducer,
+  getAllCoursesForDean: getAllCoursesForDeanReducer,
+  getAllAttendancesForDean: getAllAttendancesForDeanReducer,
 });
 
 let initialState = {};

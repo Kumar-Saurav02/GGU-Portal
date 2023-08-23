@@ -50,6 +50,12 @@ import {
   CREATE_NEW_SESSION_REQUEST,
   CREATE_NEW_SESSION_SUCCESS,
   CREATE_NEW_SESSION_FAIL,
+  GET_ALL_COURSES_FOR_DEAN_REQUEST,
+  GET_ALL_COURSES_FOR_DEAN_SUCCESS,
+  GET_ALL_COURSES_FOR_DEAN_FAIL,
+  GET_ALL_ATTENDANCES_FOR_DEAN_REQUEST,
+  GET_ALL_ATTENDANCES_FOR_DEAN_SUCCESS,
+  GET_ALL_ATTENDANCES_FOR_DEAN_FAIL,
 } from "../constants/teacherConstant";
 
 export const getPresentSessionOfWorkReducer = (
@@ -405,6 +411,70 @@ export const createNewSessionByDeanReducer = (state = {}, action) => {
       return {
         ...state,
         message: null,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+//GET ALL COURSES FOR DEAN
+export const getAllCoursesForDeanReducer = (
+  state = { courses: [] },
+  action
+) => {
+  switch (action.type) {
+    case GET_ALL_COURSES_FOR_DEAN_REQUEST:
+      return {
+        loading: true,
+      };
+    case GET_ALL_COURSES_FOR_DEAN_SUCCESS:
+      return {
+        loading: false,
+        courses: action.payload,
+      };
+    case GET_ALL_COURSES_FOR_DEAN_FAIL:
+      return {
+        ...state,
+        loading: false,
+        courses: null,
+        error: action.payload,
+      };
+    case CLEAR_MESSAGES:
+      return {
+        ...state,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+//GET ALL ATTENDANCES FOR DEAN
+export const getAllAttendancesForDeanReducer = (
+  state = { attendances: [] },
+  action
+) => {
+  switch (action.type) {
+    case GET_ALL_ATTENDANCES_FOR_DEAN_REQUEST:
+      return {
+        loading: true,
+      };
+    case GET_ALL_ATTENDANCES_FOR_DEAN_SUCCESS:
+      return {
+        loading: false,
+        attendances: action.payload,
+      };
+    case GET_ALL_ATTENDANCES_FOR_DEAN_FAIL:
+      return {
+        ...state,
+        loading: false,
+        attendances: null,
+        error: action.payload,
+      };
+    case CLEAR_MESSAGES:
+      return {
+        ...state,
         error: null,
       };
     default:
