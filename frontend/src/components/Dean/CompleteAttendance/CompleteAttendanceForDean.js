@@ -21,8 +21,6 @@ const CompleteAttendanceForDean = () => {
     dispatch(getAllAttendancesForDean());
   }, []);
 
-  console.log(attendances);
-
   return (
     <Fragment>
       {attendancesLoading ? (
