@@ -15,44 +15,59 @@ const Attendance = require("../models/attendanceModel");
 
 //CREATE NEW SESSION
 exports.createNewSession = catchAsyncErrors(async (req, res, next) => {
-  const { course, department, session } = req.body;
+  const { course, session } = req.body;
 
   const findSession = await Session.findOne({
     course: course,
-    department: department,
   });
 
   if (findSession) {
-    if (findSession.session.toString() === session.toString()) {
-      return next(new ErrorHandler("Session already present", 401));
-    } else {
-      await Session.updateOne(
-        { course, department },
-        { $set: { session: session } }
-      );
+    for (var i = 0; i < findSession.session.length; i++) {
+      if (
+        findSession.session[i].sessionName.toString() === session.toString()
+      ) {
+        return next(
+          new ErrorHandler("Session with this name already exist", 400)
+        );
+      }
     }
+    await Session.updateOne(
+      {
+        course: course,
+      },
+      {
+        $push: {
+          session: {
+            sessionName: session,
+          },
+        },
+      }
+    );
   } else {
     await Session.create({
       course,
-      department,
-      session,
+      session: [
+        {
+          sessionName: session,
+        },
+      ],
     });
   }
 
   res.status(200).json({
     success: true,
-    message: `Session ${session} created for ${department}`,
+    message: `Session ${session} created for ${course}`,
   });
 });
 
 //GET CURRENT SESSION
 exports.getPresentSession = catchAsyncErrors(async (req, res, next) => {
-  const { course, department } = req.user;
+  const { course } = req.user;
 
-  const findSession = await Session.findOne({ course, department });
+  const findSession = await Session.findOne({ course });
 
   if (!findSession) {
-    return next(new ErrorHandler("No session found", 401));
+    return next(new ErrorHandler("No session found", 400));
   }
 
   res.status(200).json({
@@ -86,6 +101,7 @@ exports.removeStudent = catchAsyncErrors(async (req, res, next) => {
   }
 
   // remove mt kro ek model bna lo deleted students ka and teachers ka alag
+  //delete bhi krna hua to students me fees scholarship sb delete krna hoga
 
   await cloudinary.uploader.destroy(
     student.photoUpload && student.photoUpload.public_id
@@ -110,7 +126,7 @@ exports.getAllAttendanceForDean = catchAsyncErrors(async (req, res, next) => {
   });
 
   if (!attendance) {
-    return next(new ErrorHandler("No attendance exist", 401));
+    return next(new ErrorHandler("No attendance exist", 400));
   }
 
   attendance.reverse();
@@ -128,7 +144,7 @@ exports.getAllCourseForDean = catchAsyncErrors(async (req, res, next) => {
   });
 
   if (!course) {
-    return next(new ErrorHandler("No course exist", 401));
+    return next(new ErrorHandler("No course exist", 400));
   }
   course.reverse();
 

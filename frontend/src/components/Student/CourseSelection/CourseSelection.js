@@ -43,10 +43,6 @@ const CourseSelection = () => {
     error,
   } = useSelector((state) => state.marksFeesCourseUpdate);
 
-  const { session, loading: sessionLoading } = useSelector(
-    (state) => state.getPresentSessionOfWork
-  );
-
   const [courseSelected, setCourseSelected] = useState(false);
   const [credits, setCredits] = useState(0);
   const [courseChecked, setCourseChecked] = useState([]);
@@ -69,18 +65,8 @@ const CourseSelection = () => {
     }
   }, [error, message]);
 
-  console.log(course);
-  console.log(session.session);
-
   useEffect(() => {
-    if (
-      session === null ||
-      session === undefined ||
-      Object.keys(session).length === 0
-    ) {
-      dispatch(getPresentSession());
-    }
-    dispatch(getCourseForStudent(session.session));
+    dispatch(getCourseForStudent(student.currentSession));
     dispatch(checkIfCourseIsSentForApproval());
 
     if (
@@ -97,7 +83,7 @@ const CourseSelection = () => {
         }
       }
     }
-  }, [student, session]);
+  }, [student]);
 
   const submitCourseDetails = () => {
     if (undertakingChecked === false) {
@@ -114,7 +100,7 @@ const CourseSelection = () => {
     }
     setCourseChecked(checkingUncheckedState);
     setUndertakingChecked(false);
-    dispatch(submitCourse(course, session));
+    dispatch(submitCourse(course, student.currentSession));
   };
 
   useEffect(() => {
@@ -146,11 +132,7 @@ const CourseSelection = () => {
 
   return (
     <Fragment>
-      {courseLoading ||
-      studentLoading ||
-      uploading ||
-      approvalLoading ||
-      sessionLoading ? (
+      {courseLoading || studentLoading || uploading || approvalLoading ? (
         <Loader />
       ) : (
         <Fragment>
@@ -164,16 +146,6 @@ const CourseSelection = () => {
                     <p>Name: {student.name}</p>
                     <p>Enrollment Number: {student.enrollmentNo}</p>
                     <p>Current Semester: {student.currentSemester}</p>
-                    {/* <p>
-                  <p>Attendance: </p>
-                  <p>
-                    {attendance === undefined ? (
-                      <p> Attendance is not uploaded for current semester</p>
-                    ) : (
-                      <p>{attendance}</p>
-                    )}
-                  </p>
-                </p> */}
                   </div>
                   <div className="courseDetails">
                     <h2>Courses</h2>

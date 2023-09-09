@@ -95,6 +95,14 @@ const studentSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please fill required box"],
   },
+  yearOfJoining: {
+    type: Number,
+    required: [true, "Fill year of joining"],
+  },
+  currentSession: {
+    type: String,
+    required: [true, "Fill current session"],
+  },
   feeDetails: [
     {
       semester: {

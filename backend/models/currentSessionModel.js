@@ -5,14 +5,14 @@ const currentSessionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  department: {
-    type: String,
-    required: true,
-  },
-  session: {
-    type: String,
-    required: true,
-  },
+  session: [
+    {
+      sessionName: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
 });
 
 module.exports = mongoose.model("CurrentSession", currentSessionSchema);

@@ -19,15 +19,15 @@ const ProfileStudent = () => {
     (state) => state.getPresentSessionOfWork
   );
 
-  useEffect(() => {
-    if (
-      session === null ||
-      session === undefined ||
-      Object.keys(session).length === 0
-    ) {
-      dispatch(getPresentSession());
-    }
-  }, [session]);
+  // useEffect(() => {
+  //   if (
+  //     session === null ||
+  //     session === undefined ||
+  //     Object.keys(session).length === 0
+  //   ) {
+  //     dispatch(getPresentSession());
+  //   }
+  // }, [session]);
 
   const [feePaid, setFeePaid] = useState(false);
 

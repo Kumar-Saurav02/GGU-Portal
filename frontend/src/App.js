@@ -20,6 +20,7 @@ import HODApproval from "./components/Dean/HOD/HODApproval";
 import CreateSubject from "./components/Teacher/HOD/CreateSubject/CreateSubject";
 import CreateCourse from "./components/Teacher/HOD/CreateCourse/CreateCourse";
 import AllocateSubject from "./components/Teacher/HOD/AllocateSubject/AllocateSubject";
+import PromoteStudent from "./components/Teacher/HOD/PromoteStudent/PromoteStudent";
 import ChangingTeacherRole from "./components/Dean/Roles/ChangingTeacherRole";
 import CourseApproval from "./components/Teacher/ClassIncharge/CourseApproval/CourseApproval";
 import ScholarshipApproval from "./components/Teacher/ClassIncharge/ScholarshipApproval/ScholarshipApproval";
@@ -311,6 +312,17 @@ function App() {
               role="teacher"
               subRole="hod"
               Component={AllocateSubject}
+            />
+          }
+        />
+
+        <Route
+          path="/hod/promoteStudent"
+          element={
+            <ProtectedRoute
+              role="teacher"
+              subRole="hod"
+              Component={PromoteStudent}
             />
           }
         />

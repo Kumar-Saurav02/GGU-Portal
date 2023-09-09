@@ -181,7 +181,7 @@ const CreateCourse = () => {
                 </div>
                 <br></br>
 
-                <div >
+                <div>
                   <table>
                     <tr>
                       <th className="tble">Subject Name</th>
@@ -205,9 +205,11 @@ const CreateCourse = () => {
                     </div>
                   )}
                 </div>
- 
+
                 <div>
-                  <button className="normal_sb_btn border hover" onClick={submitCreateCourseDetail}>
+                  <button
+                    className="normal_sb_btn border hover"
+                    onClick={submitCreateCourseDetail}>
                     Create Course
                   </button>
                 </div>

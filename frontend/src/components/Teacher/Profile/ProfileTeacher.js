@@ -19,15 +19,15 @@ const ProfileTeacher = () => {
     (state) => state.getPresentSessionOfWork
   );
 
-  useEffect(() => {
-    if (
-      session === null ||
-      session === undefined ||
-      Object.keys(session).length === 0
-    ) {
-      dispatch(getPresentSession());
-    }
-  }, [session]);
+  // useEffect(() => {
+  //   if (
+  //     session === null ||
+  //     session === undefined ||
+  //     Object.keys(session).length === 0
+  //   ) {
+  //     dispatch(getPresentSession());
+  //   }
+  // }, [session]);
 
   const editProfile = () => {
     navigate("/editTeacherProfile");
@@ -141,7 +141,11 @@ const ProfileTeacher = () => {
                 </div>
               )} */}
                   <div>
-                    <button className="normal_sb_btn border hover"  onClick={editProfile}>Edit</button>
+                    <button
+                      className="normal_sb_btn border hover"
+                      onClick={editProfile}>
+                      Edit
+                    </button>
                   </div>
                 </div>
               </div>

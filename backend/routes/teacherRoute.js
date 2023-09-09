@@ -241,7 +241,7 @@ router
   );
 
 //MARKS
-router.route("/marksEntryByTeacher").put(fillMarksDetails);
+// router.route("/marksEntryByTeacher").put(fillMarksDetails);
 router
   .route("/getMarksDetailsOfParticularSubject/:semester/:department/:subject")
   .get(getMarksDetailsOfParticularSubject);
