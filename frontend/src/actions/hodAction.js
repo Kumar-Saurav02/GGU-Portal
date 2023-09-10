@@ -14,6 +14,9 @@ import {
   UPDATE_SUBJECT_ASSIGNED_REQUEST,
   UPDATE_SUBJECT_ASSIGNED_SUCCESS,
   UPDATE_SUBJECT_ASSIGNED_FAIL,
+  GET_SESSION_LIST_REQUEST,
+  GET_SESSION_LIST_SUCCESS,
+  GET_SESSION_LIST_FAIL,
 } from "../constants/hodConstant";
 import axios from "axios";
 
@@ -104,3 +107,22 @@ export const updateAssignSubjectToTeacher =
       });
     }
   };
+
+//GET ALL SESSIONS
+export const getAllSessions = () => async (dispatch) => {
+  try {
+    dispatch({ type: GET_SESSION_LIST_REQUEST });
+
+    const { data } = await axios.get(`/api/getAllSessions`);
+
+    dispatch({
+      type: GET_SESSION_LIST_SUCCESS,
+      payload: data === null ? [] : data.session.session,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_SESSION_LIST_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};

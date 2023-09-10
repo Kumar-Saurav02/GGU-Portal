@@ -15,6 +15,9 @@ import {
   UPDATE_SUBJECT_ASSIGNED_REQUEST,
   UPDATE_SUBJECT_ASSIGNED_SUCCESS,
   UPDATE_SUBJECT_ASSIGNED_FAIL,
+  GET_SESSION_LIST_REQUEST,
+  GET_SESSION_LIST_SUCCESS,
+  GET_SESSION_LIST_FAIL,
 } from "../constants/hodConstant";
 
 //CREATE COURSE
@@ -133,6 +136,36 @@ export const assignSubjectsToTeacherReducer = (state = {}, action) => {
       return {
         ...state,
         message: null,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+//GET ALL SESSIONS
+export const getAllSessionsReducer = (state = { sessions: [] }, action) => {
+  switch (action.type) {
+    case GET_SESSION_LIST_REQUEST:
+      return {
+        loading: true,
+      };
+    case GET_SESSION_LIST_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        sessions: action.payload,
+      };
+    case GET_SESSION_LIST_FAIL:
+      return {
+        ...state,
+        loading: false,
+        sessions: null,
+        error: action.payload,
+      };
+    case CLEAR_MESSAGES:
+      return {
+        ...state,
         error: null,
       };
     default:

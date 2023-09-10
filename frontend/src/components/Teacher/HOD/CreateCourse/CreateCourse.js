@@ -4,6 +4,7 @@ import "./CreateCourse.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createCourseByHOD,
+  getAllSessions,
   getAllSubjects,
 } from "../../../../actions/hodAction";
 import Loader from "../../../Loader/Loader";
@@ -28,25 +29,24 @@ const CreateCourse = () => {
     error: subjectError,
   } = useSelector((state) => state.getAllSubjects);
 
-  const { session, loading: sessionLoading } = useSelector(
-    (state) => state.getPresentSessionOfWork
+  const { sessions, loading: sessionsLoading } = useSelector(
+    (state) => state.getAllSessions
   );
 
   useEffect(() => {
-    if (
-      session === null ||
-      session === undefined ||
-      Object.keys(session).length === 0
-    ) {
-      dispatch(getPresentSession());
+    if (sessions !== null && sessions !== undefined && sessions.length > 0) {
+      setSelectedSession(sessions.slice(-2)[0].sessionName);
+    } else {
+      dispatch(getAllSessions());
     }
-  }, [session]);
+  }, [dispatch, sessions]);
 
   const semesters = [1, 2, 3, 4, 5, 6, 7, 8];
   const [semester, setSemester] = useState(1);
   const [course, setCourse] = useState([]);
   const [subjectCode, setSubjectCode] = useState();
   const [subjectCategory, setSubjectCategory] = useState("Compulsory");
+  const [selectedSession, setSelectedSession] = useState("");
 
   const addingCourseDetail = () => {
     if (subjectCode.trim() === "") {
@@ -75,13 +75,13 @@ const CreateCourse = () => {
 
   const submitCreateCourseDetail = () => {
     if (
-      session !== null &&
-      session !== undefined &&
-      session.session.trim() === ""
+      selectedSession !== null &&
+      selectedSession !== undefined &&
+      selectedSession.trim() === ""
     ) {
       return toast.error("Some error occurred");
     }
-    dispatch(createCourseByHOD(session.session, semester, course));
+    dispatch(createCourseByHOD(selectedSession, semester, course));
   };
 
   useEffect(() => {
@@ -105,7 +105,7 @@ const CreateCourse = () => {
 
   return (
     <Fragment>
-      {courseLoading || subjectLoading || sessionLoading ? (
+      {courseLoading || subjectLoading || sessionsLoading ? (
         <Loader />
       ) : (
         <Fragment>
@@ -116,6 +116,23 @@ const CreateCourse = () => {
                 <h2>Create Course</h2>
                 <hr></hr>
                 <br></br>
+
+                <div className="entry">
+                  <label className="label_name" for="{sem}">
+                    Session
+                  </label>
+                  <select
+                    className="label_name"
+                    required
+                    onChange={(e) => setSelectedSession(e.target.value)}>
+                    {sessions &&
+                      sessions.slice(-2).map((ses, id) => (
+                        <option key={ses.sessionName} value={ses.sessionName}>
+                          {ses.sessionName}
+                        </option>
+                      ))}
+                  </select>
+                </div>
 
                 <div className="entry">
                   <label className="label_name" for="{sem}">

@@ -336,6 +336,6 @@ router
     removeCourseForSession
   );
 
-router.route("/getPresentSession").get(isAuthenticatedUser, getPresentSession);
+router.route("/getAllSessions").get(isAuthenticatedUser, getPresentSession);
 
 module.exports = router;
