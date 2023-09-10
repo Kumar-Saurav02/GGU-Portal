@@ -143,6 +143,11 @@ const StudentApprovalDetails = () => {
                   <label className="label_name">Hosteler</label>
                   <p>{state.hosteler}</p>
                 </div>
+
+                <div className="entry">
+                  <label className="label_name">Year Of Admission</label>
+                  <p>{state.yearOfAdmission}</p>
+                </div>
               </div>
 
               <div className="subsection">

@@ -12,6 +12,7 @@ const ApproveCourse = require("../models/approveCourseModel");
 const Marks = require("../models/marksModel");
 const Attendance = require("../models/attendanceModel");
 const DetainStudent = require("../models/detentionStudentModel");
+const PassedStudent = require("../models/passedOutStudentModel");
 
 exports.createSubject = catchAsyncErrors(async (req, res, next) => {
   const { subjectName, subjectCode, subjectCredit } = req.body;
@@ -204,15 +205,20 @@ exports.promoteStudent = catchAsyncErrors(async (req, res, next) => {
     let idOfStudent = listOfStudentsToPromote[i]._id;
     let semester = listOfStudentsToPromote[i].currentSemester;
 
-    await Student.findByIdAndUpdate(
-      idOfStudent,
-      { currentSemester: semester + 1, currentSession: session },
-      {
-        new: true,
-        runValidators: true,
-        useFindAndModify: false,
-      }
-    );
+    if (semester.toString() === "8") {
+      await PassedStudent.create(listOfStudentsToPromote[i]);
+      await Student.findOneAndDelete({ _id: idOfStudent });
+    } else {
+      await Student.findByIdAndUpdate(
+        idOfStudent,
+        { currentSemester: semester + 1, currentSession: session },
+        {
+          new: true,
+          runValidators: true,
+          useFindAndModify: false,
+        }
+      );
+    }
   }
 
   res.status(200).json({

@@ -33,6 +33,13 @@ const CreateCourse = () => {
     (state) => state.getAllSessions
   );
 
+  const semesters = [1, 2, 3, 4, 5, 6, 7, 8];
+  const [semester, setSemester] = useState(1);
+  const [course, setCourse] = useState([]);
+  const [subjectCode, setSubjectCode] = useState();
+  const [subjectCategory, setSubjectCategory] = useState("Compulsory");
+  const [selectedSession, setSelectedSession] = useState("");
+
   useEffect(() => {
     if (sessions !== null && sessions !== undefined && sessions.length > 0) {
       setSelectedSession(sessions.slice(-2)[0].sessionName);
@@ -40,13 +47,6 @@ const CreateCourse = () => {
       dispatch(getAllSessions());
     }
   }, [dispatch, sessions]);
-
-  const semesters = [1, 2, 3, 4, 5, 6, 7, 8];
-  const [semester, setSemester] = useState(1);
-  const [course, setCourse] = useState([]);
-  const [subjectCode, setSubjectCode] = useState();
-  const [subjectCategory, setSubjectCategory] = useState("Compulsory");
-  const [selectedSession, setSelectedSession] = useState("");
 
   const addingCourseDetail = () => {
     if (subjectCode.trim() === "") {

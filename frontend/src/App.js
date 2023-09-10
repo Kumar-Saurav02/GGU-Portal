@@ -77,7 +77,7 @@ function App() {
           element={
             <ProtectedRoute
               role="teacher"
-              subRole="dean"
+              subRole=""
               Component={StudentApprovalDetails}
             />
           }

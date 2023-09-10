@@ -91,6 +91,10 @@ const approveStudentSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please fill required box"],
   },
+  yearOfJoining: {
+    type: Number,
+    required: [true, "Fill year of joining"],
+  },
   localAddress: {
     address: {
       type: String,

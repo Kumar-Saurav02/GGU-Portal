@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { registerStudents } from "../../actions/studentAction";
 import { registerTeachers } from "../../actions/teacherAction";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Profile from "../../Images/Profile.png";
 import { State } from "country-state-city";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -11,9 +12,11 @@ import { toast } from "react-toastify";
 import "./Register.css";
 import Loader from "../Loader/Loader";
 import { clearMessages } from "../../actions/adminAction";
+import { getAllSessions } from "../../actions/hodAction";
 
 const Register = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const {
     loading: studentLoading,
@@ -37,9 +40,10 @@ const Register = () => {
   }, [typesOfUser]);
 
   useEffect(() => {
-    // if (error) {
-    //   toast.error(error);
-    // }
+    if (error) {
+      toast.error(error);
+      dispatch(clearMessages());
+    }
     if (studentMessage) {
       toast.success(studentMessage);
       dispatch(clearMessages());
@@ -68,6 +72,7 @@ const Register = () => {
     physicallyHandicappedStudent: "",
     aadharNumberStudent: "",
     hostelerStudent: "",
+    yearOfJoining: "",
     localAddressStudent: "",
     localStateStudent: "",
     localPinCodeStudent: "",
@@ -101,6 +106,7 @@ const Register = () => {
     physicallyHandicappedStudent,
     aadharNumberStudent,
     hostelerStudent,
+    yearOfJoining,
     localAddressStudent,
     localStateStudent,
     localPinCodeStudent,
@@ -313,6 +319,9 @@ const Register = () => {
     if (hostelerStudent.trim() === "") {
       return toast.error("Select your hosteler identity");
     }
+    if (yearOfJoining.trim() === "") {
+      return toast.error("Fill your year of Admission properly");
+    }
     if (localAddressStudent.trim() === "") {
       return toast.error("Fill your local address properly");
     }
@@ -403,6 +412,7 @@ const Register = () => {
         physicallyHandicappedStudent.trim(),
         aadharNumberStudent.trim(),
         hostelerStudent.trim(),
+        yearOfJoining.trim(),
         localAddressStudent.trim(),
         localStateStudent.trim(),
         localPinCodeStudent.trim(),
@@ -561,6 +571,13 @@ const Register = () => {
               {!registerStudent && registerTeacher && (
                 <h2>Register as Teacher</h2>
               )}
+            </div>
+            <div>
+              <p
+                style={{ marginBottom: "1rem", textDecoration: "underline" }}
+                onClick={(e) => navigate("/")}>
+                Try Logging in?
+              </p>
             </div>
             <div className="toggleForRegister">
               <select
@@ -901,6 +918,18 @@ const Register = () => {
                         </option>
                       ))}
                     </select>
+                  </div>
+                  <div className="entry">
+                    <label className="label_name">Year Of Admission</label>
+                    <input
+                      id="label_input"
+                      type="text"
+                      placeholder="2023"
+                      required
+                      name="yearOfJoining"
+                      value={yearOfJoining}
+                      onChange={registerStudentDataChange}
+                    />
                   </div>
                 </div>
 

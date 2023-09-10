@@ -62,23 +62,30 @@ export const studentApprovalRequest = () => async (dispatch) => {
 };
 
 //STUDENT APPROVAL ACCEPT
-export const studentApprovalRequestAccept = (id) => async (dispatch) => {
-  try {
-    dispatch({ type: STUDENT_APPROVAL_ACCEPT_REQUEST });
+export const studentApprovalRequestAccept =
+  (id, session) => async (dispatch) => {
+    try {
+      dispatch({ type: STUDENT_APPROVAL_ACCEPT_REQUEST });
 
-    const { data } = await axios.post(`/api/registerStudentAccept/${id}`);
+      const config = { headers: { "Content-Type": "application/json" } };
 
-    dispatch({
-      type: STUDENT_APPROVAL_ACCEPT_SUCCESS,
-      payload: data.message,
-    });
-  } catch (error) {
-    dispatch({
-      type: STUDENT_APPROVAL_ACCEPT_FAIL,
-      payload: error.response.data.message,
-    });
-  }
-};
+      const { data } = await axios.post(
+        `/api/registerStudentAccept/${id}`,
+        { session },
+        config
+      );
+
+      dispatch({
+        type: STUDENT_APPROVAL_ACCEPT_SUCCESS,
+        payload: data.message,
+      });
+    } catch (error) {
+      dispatch({
+        type: STUDENT_APPROVAL_ACCEPT_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };
 
 //STUDENT APPROVAL REJECT
 export const studentApprovalRequestReject = (id) => async (dispatch) => {

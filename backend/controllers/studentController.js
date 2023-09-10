@@ -33,6 +33,7 @@ exports.registerApprovalStudent = catchAsyncErrors(async (req, res, next) => {
     physicallyHandicapped,
     aadharNumber,
     hosteler,
+    yearOfJoining,
     localAddress,
     localState,
     localPinCode,
@@ -94,6 +95,7 @@ exports.registerApprovalStudent = catchAsyncErrors(async (req, res, next) => {
     physicallyHandicapped,
     aadharNumber,
     hosteler,
+    yearOfJoining,
     password,
   };
   data.localAddress = {
@@ -138,6 +140,7 @@ exports.registerApprovalStudent = catchAsyncErrors(async (req, res, next) => {
 //REGISTER STUDENT
 exports.registerStudentAccept = catchAsyncErrors(async (req, res, next) => {
   let student = await ApproveStudent.findById(req.params.id);
+  let currentSession = req.body.session;
 
   if (!student) {
     return next(new ErrorHandler(`Some error occurred`));
@@ -165,6 +168,7 @@ exports.registerStudentAccept = catchAsyncErrors(async (req, res, next) => {
     physicallyHandicapped,
     aadharNumber,
     hosteler,
+    yearOfJoining,
     localAddress,
     permanentAddress,
     photoUpload,
@@ -208,8 +212,12 @@ exports.registerStudentAccept = catchAsyncErrors(async (req, res, next) => {
     physicallyHandicapped,
     aadharNumber,
     hosteler,
+    yearOfJoining,
     password,
   };
+
+  data.currentSession = currentSession;
+
   data.localAddress = {
     address: localAddress.address,
     state: localAddress.state,
@@ -230,8 +238,8 @@ exports.registerStudentAccept = catchAsyncErrors(async (req, res, next) => {
   };
   data.role = "student";
 
-  await student.deleteOne({ enrollmentNo });
   await Student.create(data);
+  await student.deleteOne({ enrollmentNo });
 
   res.status(200).json({
     success: true,
