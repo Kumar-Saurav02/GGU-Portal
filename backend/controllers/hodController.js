@@ -11,6 +11,7 @@ const ApproveTeacher = require("../models/approveTeacherModel");
 const ApproveCourse = require("../models/approveCourseModel");
 const Marks = require("../models/marksModel");
 const Attendance = require("../models/attendanceModel");
+const DetainStudent = require("../models/detentionStudentModel");
 
 exports.createSubject = catchAsyncErrors(async (req, res, next) => {
   const { subjectName, subjectCode, subjectCredit } = req.body;
@@ -186,5 +187,62 @@ exports.assignSubjectToTeacher = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({
     success: true,
     message: "Details Updated Successfully",
+  });
+});
+
+//PROMOTE STUDENT
+exports.promoteStudent = catchAsyncErrors(async (req, res, next) => {
+  const { listOfStudentsToPromote, session } = req.body;
+
+  if (listOfStudentsToPromote.length === 0) {
+    return next(
+      new ErrorHandler("None of the students were selected for promotion", 401)
+    );
+  }
+
+  for (let i = 0; i < listOfStudentsToPromote.length; i++) {
+    let idOfStudent = listOfStudentsToPromote[i]._id;
+    let semester = listOfStudentsToPromote[i].currentSemester;
+
+    await Student.findByIdAndUpdate(
+      idOfStudent,
+      { currentSemester: semester + 1, currentSession: session },
+      {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false,
+      }
+    );
+  }
+
+  res.status(200).json({
+    success: true,
+    message: "Students Promoted",
+  });
+});
+
+//DETAIN STUDENT
+exports.detainStudent = catchAsyncErrors(async (req, res, next) => {
+  const { listOfStudentsToDetain } = req.body;
+
+  if (listOfStudentsToDetain.length === 0) {
+    return next(
+      new ErrorHandler("None of the students were selected for detention", 401)
+    );
+  }
+
+  for (let i = 0; i < listOfStudentsToDetain.length; i++) {
+    let idOfStudent = listOfStudentsToDetain[i]._id;
+
+    let studentData = await Student.findById(idOfStudent).select("+password");
+    listOfStudentsToDetain[i].password = studentData.password;
+    await DetainStudent.create(listOfStudentsToDetain[i]);
+
+    await Student.findOneAndDelete({ _id: idOfStudent });
+  }
+
+  res.status(200).json({
+    success: true,
+    message: "Students Detained",
   });
 });

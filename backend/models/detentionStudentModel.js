@@ -10,7 +10,6 @@ const detentionStudentSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please enter your password"],
     minLength: [8, "Password should have more than 6 characters"],
-    select: false,
   },
   rollNo: {
     type: Number,
@@ -347,4 +346,4 @@ const detentionStudentSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Detention Student", detentionStudentSchema);
+module.exports = mongoose.model("DetentionStudent", detentionStudentSchema);

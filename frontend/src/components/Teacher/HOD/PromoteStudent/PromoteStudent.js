@@ -7,7 +7,12 @@ import {
   getAllStudentDetailForHOD,
 } from "../../../../actions/adminAction";
 import SidebarTeacher from "../../SidebarTeacher/SidebarTeacher";
-import { getAllSessions } from "../../../../actions/hodAction";
+import {
+  detainStudentsByHOD,
+  getAllSessions,
+  promoteStudentToNextSemester,
+} from "../../../../actions/hodAction";
+import { toast } from "react-toastify";
 
 const PromoteStudent = () => {
   const dispatch = useDispatch();
@@ -17,6 +22,12 @@ const PromoteStudent = () => {
   const { sessions, loading: sessionsLoading } = useSelector(
     (state) => state.getAllSessions
   );
+
+  const {
+    message: promoteStudentMessage,
+    loading: promoteStudentLoading,
+    error: promoteStudentError,
+  } = useSelector((state) => state.promoteStudentByHOD);
 
   const {
     students,
@@ -94,7 +105,16 @@ const PromoteStudent = () => {
   };
 
   const promoteStudents = () => {
-    console.log("Promoted");
+    if (selectedSession.trim() === "") {
+      return toast.error("Select session first");
+    }
+    var approvalListFinal = [];
+    for (let i = 0; i < listOfStudentsApproval.length; i++) {
+      if (approvalChecked[i] === true) {
+        approvalListFinal.push(listOfStudentsDetention[i]);
+      }
+    }
+    dispatch(promoteStudentToNextSemester(approvalListFinal, selectedSession));
   };
 
   const detainStudents = () => {
@@ -104,12 +124,24 @@ const PromoteStudent = () => {
         detainedListFinal.push(listOfStudentsDetention[i]);
       }
     }
-    //saare false krne
+    dispatch(detainStudentsByHOD(detainedListFinal));
   };
+
+  useEffect(() => {
+    if (promoteStudentMessage) {
+      toast.success(promoteStudentMessage);
+      dispatch(clearMessages());
+      dispatch(getAllStudentDetailForHOD());
+    }
+    if (promoteStudentError) {
+      toast.error(promoteStudentError);
+      dispatch(clearMessages());
+    }
+  }, [promoteStudentMessage, promoteStudentError]);
 
   return (
     <Fragment>
-      {sessionsLoading || studentListLoading ? (
+      {sessionsLoading || studentListLoading || promoteStudentLoading ? (
         <Loader />
       ) : (
         <Fragment>
@@ -132,6 +164,7 @@ const PromoteStudent = () => {
                       ))}
                     </select>
                   </div>
+
                   <button onClick={getListOfStudents}>Get Student List</button>
                 </div>
                 <div>
@@ -181,6 +214,7 @@ const PromoteStudent = () => {
                                   ))}
                               </select>
                             </div>
+                            <p>*Action cannot be reversed</p>
                             <button onClick={promoteStudents}>Promote</button>
                           </div>
                         )}
@@ -206,6 +240,7 @@ const PromoteStudent = () => {
                           ))}
                         {listOfStudentsDetention.length > 0 && (
                           <div>
+                            <p>*Action cannot be reversed</p>
                             <button onClick={detainStudents}>Detain</button>
                           </div>
                         )}

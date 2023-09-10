@@ -18,6 +18,12 @@ import {
   GET_SESSION_LIST_REQUEST,
   GET_SESSION_LIST_SUCCESS,
   GET_SESSION_LIST_FAIL,
+  PROMOTE_STUDENT_REQUEST,
+  PROMOTE_STUDENT_SUCCESS,
+  PROMOTE_STUDENT_FAIL,
+  DETENTION_STUDENT_SUCCESS,
+  DETENTION_STUDENT_REQUEST,
+  DETENTION_STUDENT_FAIL,
 } from "../constants/hodConstant";
 
 //CREATE COURSE
@@ -166,6 +172,40 @@ export const getAllSessionsReducer = (state = { sessions: [] }, action) => {
     case CLEAR_MESSAGES:
       return {
         ...state,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+//CREATE COURSE
+export const promoteStudentByHODReducer = (state = {}, action) => {
+  switch (action.type) {
+    case PROMOTE_STUDENT_REQUEST:
+    case DETENTION_STUDENT_REQUEST:
+      return {
+        loading: true,
+      };
+    case PROMOTE_STUDENT_SUCCESS:
+    case DETENTION_STUDENT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        message: action.payload,
+      };
+    case PROMOTE_STUDENT_FAIL:
+    case DETENTION_STUDENT_FAIL:
+      return {
+        ...state,
+        loading: false,
+        message: null,
+        error: action.payload,
+      };
+    case CLEAR_MESSAGES:
+      return {
+        ...state,
+        message: null,
         error: null,
       };
     default:

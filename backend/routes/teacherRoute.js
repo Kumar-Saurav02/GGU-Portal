@@ -25,6 +25,8 @@ const {
   getAllSubjects,
   assignSubjectToTeacher,
   removeSubject,
+  promoteStudent,
+  detainStudent,
 } = require("../controllers/hodController");
 const {
   removeTeacher,
@@ -163,6 +165,24 @@ router
     authorizeRolesTeacher("teacher"),
     authorizeSubRolesTeacher("hod"),
     assignSubjectToTeacher
+  );
+
+router
+  .route("/promoteStudents")
+  .put(
+    isAuthenticatedUser,
+    authorizeRolesTeacher("teacher"),
+    authorizeSubRolesTeacher("hod"),
+    promoteStudent
+  );
+
+router
+  .route("/detainStudents")
+  .put(
+    isAuthenticatedUser,
+    authorizeRolesTeacher("teacher"),
+    authorizeSubRolesTeacher("hod"),
+    detainStudent
   );
 
 //CLASS INCHARGE

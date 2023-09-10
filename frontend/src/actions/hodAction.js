@@ -17,6 +17,12 @@ import {
   GET_SESSION_LIST_REQUEST,
   GET_SESSION_LIST_SUCCESS,
   GET_SESSION_LIST_FAIL,
+  PROMOTE_STUDENT_REQUEST,
+  PROMOTE_STUDENT_SUCCESS,
+  PROMOTE_STUDENT_FAIL,
+  DETENTION_STUDENT_REQUEST,
+  DETENTION_STUDENT_SUCCESS,
+  DETENTION_STUDENT_FAIL,
 } from "../constants/hodConstant";
 import axios from "axios";
 
@@ -126,3 +132,55 @@ export const getAllSessions = () => async (dispatch) => {
     });
   }
 };
+
+//PROMOTE STUDENT
+export const promoteStudentToNextSemester =
+  (listOfStudentsToPromote, session) => async (dispatch) => {
+    try {
+      dispatch({ type: PROMOTE_STUDENT_REQUEST });
+
+      const config = { headers: { "Content-Type": "application/json" } };
+
+      const { data } = await axios.put(
+        `/api/promoteStudents`,
+        { listOfStudentsToPromote, session },
+        config
+      );
+
+      dispatch({
+        type: PROMOTE_STUDENT_SUCCESS,
+        payload: data.message,
+      });
+    } catch (error) {
+      dispatch({
+        type: PROMOTE_STUDENT_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };
+
+//DETAIN STUDENT
+export const detainStudentsByHOD =
+  (listOfStudentsToDetain) => async (dispatch) => {
+    try {
+      dispatch({ type: DETENTION_STUDENT_REQUEST });
+
+      const config = { headers: { "Content-Type": "application/json" } };
+
+      const { data } = await axios.put(
+        `/api/detainStudents`,
+        { listOfStudentsToDetain },
+        config
+      );
+
+      dispatch({
+        type: DETENTION_STUDENT_SUCCESS,
+        payload: data.message,
+      });
+    } catch (error) {
+      dispatch({
+        type: DETENTION_STUDENT_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };

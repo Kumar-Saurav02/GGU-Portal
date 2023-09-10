@@ -41,6 +41,7 @@ import {
   createSubjectByHODReducer,
   getAllSessionsReducer,
   getAllSubjectsReducer,
+  promoteStudentByHODReducer,
 } from "./reducers/hodReducer";
 
 const reducer = combineReducers({
@@ -81,6 +82,7 @@ const reducer = combineReducers({
   getAllCoursesForDean: getAllCoursesForDeanReducer,
   getAllAttendancesForDean: getAllAttendancesForDeanReducer,
   getAllSessions: getAllSessionsReducer,
+  promoteStudentByHOD: promoteStudentByHODReducer,
 });
 
 let initialState = {};

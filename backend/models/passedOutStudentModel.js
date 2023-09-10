@@ -216,40 +216,40 @@ const passedOutStudentSchema = new mongoose.Schema({
       required: [true, "Please upload the signature"],
     },
   },
-  attendanceDetails: [
-    {
-      semester: {
-        type: Number,
-      },
-      attendance: {
-        type: Number,
-      },
-      // subjects: [
-      //   {
-      //     subjectName: {
-      //       type: String,
-      //     },
-      //     subjectTotalAttendance: {
-      //       type: Number,
-      //       default: 0,
-      //     },
-      //     months: [
-      //       {
-      //         monthName: {
-      //           type: String,
-      //         },
-      //         attendance: {
-      //           type: Number,
-      //         },
-      //         totalAttendance: {
-      //           type: Number,
-      //         },
-      //       },
-      //     ],
-      //   },
-      // ],
-    },
-  ],
+  // attendanceDetails: [
+  //   {
+  //     semester: {
+  //       type: Number,
+  //     },
+  //     attendance: {
+  //       type: Number,
+  //     },
+  // subjects: [
+  //   {
+  //     subjectName: {
+  //       type: String,
+  //     },
+  //     subjectTotalAttendance: {
+  //       type: Number,
+  //       default: 0,
+  //     },
+  //     months: [
+  //       {
+  //         monthName: {
+  //           type: String,
+  //         },
+  //         attendance: {
+  //           type: Number,
+  //         },
+  //         totalAttendance: {
+  //           type: Number,
+  //         },
+  //       },
+  //     ],
+  //   },
+  // ],
+  //   },
+  // ],
   backSubject: [
     {
       semester: {
