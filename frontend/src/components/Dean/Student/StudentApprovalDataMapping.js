@@ -24,6 +24,7 @@ const StudentApprovalDataMapping = ({ selectedSession, data }) => {
   };
 
   const openStudentDetails = () => {
+    data.selectedSession = selectedSession;
     navigate("/studentApprovalDetails", {
       state: data,
     });

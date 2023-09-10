@@ -34,8 +34,10 @@ const StudentApprovalDetails = () => {
     }
   }, [error, message, dispatch, navigate]);
 
+  console.log(state.selectedSession);
+
   const acceptStudentApproval = () => {
-    dispatch(studentApprovalRequestAccept(state._id));
+    dispatch(studentApprovalRequestAccept(state._id, state.selectedSession));
   };
 
   const rejectStudentApproval = () => {

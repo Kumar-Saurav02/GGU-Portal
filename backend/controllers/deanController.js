@@ -229,6 +229,8 @@ exports.updateStudentsDataByDeanOrHOD = catchAsyncErrors(
       newPhysicallyHandicapped,
       newAadhar,
       newHosteler,
+      newYearOfJoining,
+      newCurrentSession,
       newLocalAddress,
       newLocalState,
       newPinCode,
@@ -269,6 +271,8 @@ exports.updateStudentsDataByDeanOrHOD = catchAsyncErrors(
         physicallyHandicapped: newPhysicallyHandicapped,
         aadharNumber: newAadhar,
         hosteler: newHosteler,
+        yearOfJoining: newYearOfJoining,
+        currentSession: newCurrentSession,
         localAddress: {
           address: newLocalAddress,
           state: newLocalState,

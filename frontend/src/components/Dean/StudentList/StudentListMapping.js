@@ -4,11 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { removeStudentByAdmin } from "../../../actions/adminAction";
 import "./StudentList.css";
 
-const StudentListMapping = ({ data, role }) => {
+const StudentListMapping = ({ data, role, selectedSession }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const editDetails = () => {
+    data.selectedSession = selectedSession;
     navigate("/studentListDetails", {
       state: data,
     });
@@ -36,11 +37,15 @@ const StudentListMapping = ({ data, role }) => {
         </div>
 
         <div className="btn_acceptReject">
-          <button onClick={editDetails} class="signInbtn btn_ed_rm border hover">
+          <button
+            onClick={editDetails}
+            class="signInbtn btn_ed_rm border hover">
             Edit
           </button>
           {role === "dean" && (
-            <button onClick={removeStudent} class="signInbtn btn_ed_rm border hover">
+            <button
+              onClick={removeStudent}
+              class="signInbtn btn_ed_rm border hover">
               Remove
             </button>
           )}

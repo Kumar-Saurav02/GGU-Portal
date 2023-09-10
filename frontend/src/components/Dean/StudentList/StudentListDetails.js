@@ -19,8 +19,6 @@ const StudentListDetails = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  console.log(state);
-
   const { teacher } = useSelector((state) => state.registerLoginTeachers);
   const { loading, message, error } = useSelector(
     (state) => state.updateStudentsDataByDeanOrHOD
@@ -71,6 +69,10 @@ const StudentListDetails = () => {
   const [newReligion, setNewReligion] = useState(state.religion);
   const [newCategory, setNewCategory] = useState(state.category);
   const [newHosteler, setNewHosteler] = useState(state.hosteler);
+  const [newYearOfJoining, setNewYearOfJoining] = useState(state.yearOfJoining);
+  const [newCurrentSession, setNewCurrentSession] = useState(
+    state.currentSession
+  );
   const [newDateOfBirthStudent, setNewDateOfBirthStudent] = useState(
     state.dateOfBirth
   );
@@ -157,6 +159,12 @@ const StudentListDetails = () => {
     if (newPhysicallyHandicapped.toString().trim() === "") {
       return toast.error("Select your handicapped status");
     }
+    if (newYearOfJoining.toString().trim() === "") {
+      return toast.error("Fill year of joining properly");
+    }
+    if (newCurrentSession.toString().trim() === "") {
+      return toast.error("Select your current session");
+    }
     if (
       newAadhar.toString().trim() === "" ||
       newAadhar.toString().length !== 12
@@ -210,6 +218,8 @@ const StudentListDetails = () => {
         newPhysicallyHandicapped.toString().trim(),
         newAadhar.toString().trim(),
         newHosteler.toString().trim(),
+        newYearOfJoining.toString().trim(),
+        newCurrentSession.toString().trim(),
         newLocalAddress.toString().trim(),
         newLocalState.toString().trim(),
         newPinCode.toString().trim(),
@@ -448,12 +458,38 @@ const StudentListDetails = () => {
                     name="hostelerStudent"
                     value={newHosteler}
                     onChange={(e) => setNewHosteler(e.target.value)}>
-                    {/* <option value="">Department</option> */}
                     {yesNo.map((hosteler) => (
                       <option key={hosteler} value={hosteler}>
                         {hosteler}
                       </option>
                     ))}
+                  </select>
+                </div>
+                <input
+                  // id="label_input"
+                  type="text"
+                  placeholder="Year Of Joining"
+                  required
+                  name="yearOfJoining"
+                  value={newYearOfJoining}
+                  onChange={(e) => setNewYearOfJoining(e.target.value)}
+                />
+                <div>
+                  <p>Current Session : {newCurrentSession}</p>
+                  <select
+                    id="label_input"
+                    required
+                    name="sessionStudent"
+                    value={newCurrentSession}
+                    onChange={(e) => setNewCurrentSession(e.target.value)}>
+                    {state.selectedSession &&
+                      state.selectedSession.map((sessionName) => (
+                        <option
+                          key={sessionName.sessionName}
+                          value={sessionName.sessionName}>
+                          {sessionName.sessionName}
+                        </option>
+                      ))}
                   </select>
                 </div>
                 <div>

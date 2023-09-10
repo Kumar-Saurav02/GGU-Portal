@@ -7,6 +7,7 @@ import {
   getAllStudentDetailForDean,
   getAllStudentDetailForHOD,
 } from "../../../actions/adminAction";
+import { getAllSessions } from "../../../actions/hodAction";
 import { useNavigate } from "react-router-dom";
 import SidebarTeacher from "../../Teacher/SidebarTeacher/SidebarTeacher";
 import Loader from "../../Loader/Loader";
@@ -29,6 +30,20 @@ const StudentList = () => {
     loading: studentListLoading,
     error,
   } = useSelector((state) => state.getAllStudentsDetails);
+
+  const { sessions, loading: sessionsLoading } = useSelector(
+    (state) => state.getAllSessions
+  );
+
+  const [selectedSession, setSelectedSession] = useState([]);
+
+  useEffect(() => {
+    if (sessions !== null && sessions !== undefined && sessions.length > 0) {
+      setSelectedSession(sessions.slice(-2));
+    } else {
+      dispatch(getAllSessions());
+    }
+  }, [dispatch, sessions]);
 
   const [searchResult, setSearchResult] = useState("");
 
@@ -82,6 +97,7 @@ const StudentList = () => {
                       <StudentListMapping
                         data={student}
                         role={teacher.subRole}
+                        selectedSession={selectedSession}
                       />
                     </div>
                   ))}
