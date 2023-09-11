@@ -6,3 +6,20 @@
   position: absolute;
   font-size: 20px;
 }
+
+.last_promote{
+  display: flex;
+}
+
+.detain_promote{
+  display: flex;
+}
+
+.grid_promote{
+  display : grid;
+  grid-template-columns: 1fr 2fr 2fr;
+  text-align: center;
+  width: 100%;
+  padding : 5px;
+  justify-content: center;
+}

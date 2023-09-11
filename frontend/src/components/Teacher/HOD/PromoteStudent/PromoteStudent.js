@@ -147,8 +147,11 @@ const PromoteStudent = () => {
         <Fragment>
           <div className="promoteStudent">
             <SidebarTeacher role={teacher.subRole} />
+            <div className="approvBox">
+              <div className="subsection">
             <div>
               <h1>Promote Student</h1>
+              <br /><br />
               <div>
                 <div>
                   <div className="entry">
@@ -176,7 +179,7 @@ const PromoteStudent = () => {
                   {students.length > 0 && (
                     <div>
                       <div>
-                        <h3>To Promote</h3>
+                        <h3 className="entry">To Promote</h3>
                         {listOfStudentsApproval.length === 0 && (
                           <div>
                             <h5>Nothing to show.</h5>
@@ -220,7 +223,12 @@ const PromoteStudent = () => {
                         )}
                       </div>
                       <div>
-                        <h3>To Detain</h3>
+                        <h3 className="entry">To Detain</h3>
+                        <div className="grid_promote">
+                          <p>Select</p>
+                          <p>Name</p>
+                          <p>Semester</p>
+                        </div>
                         {listOfStudentsDetention.length === 0 && (
                           <div>
                             <h5>Nothing to show.</h5>
@@ -228,7 +236,7 @@ const PromoteStudent = () => {
                         )}
                         {listOfStudentsDetention &&
                           listOfStudentsDetention.map((student, i) => (
-                            <div key={i} style={{ display: "flex" }}>
+                            <div className="grid_promote" key={i} >
                               <input
                                 type="checkbox"
                                 id={i}
@@ -239,9 +247,9 @@ const PromoteStudent = () => {
                             </div>
                           ))}
                         {listOfStudentsDetention.length > 0 && (
-                          <div>
-                            <p>*Action cannot be reversed</p>
+                          <div className="last_promote">
                             <button onClick={detainStudents}>Detain</button>
+                            <p>*Action cannot be reversed</p>
                           </div>
                         )}
                       </div>
@@ -250,6 +258,8 @@ const PromoteStudent = () => {
                 </div>
               </div>
             </div>
+          </div>
+          </div>
           </div>
         </Fragment>
       )}

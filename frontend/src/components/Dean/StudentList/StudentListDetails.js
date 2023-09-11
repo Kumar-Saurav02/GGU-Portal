@@ -239,11 +239,16 @@ const StudentListDetails = () => {
         <Fragment>
           <div className="studentListAdmin">
             <SidebarTeacher role={teacher.subRole} />
+            <div className="approvBox">
+              <div className="subsection">
             <div>
               <h3>Edit Student Details</h3>
+              <br></br>
               <div>
-                <div>
+              <div className="entry">
+                <div className="label_name">
                   <p>Name</p>
+                  </div>
                   <input
                     type="text"
                     placeholder="Name"
@@ -253,8 +258,10 @@ const StudentListDetails = () => {
                     onChange={(e) => setNewName(e.target.value)}
                   />
                 </div>
-                <div>
+                <div className="entry">
+                <div className="label_name">
                   <p>Enrollment Number</p>
+                  </div>
                   <input
                     type="text"
                     placeholder="EnrollmentNumber"
@@ -264,8 +271,10 @@ const StudentListDetails = () => {
                     onChange={(e) => setNewEnrollmentNumber(e.target.value)}
                   />
                 </div>
-                <div>
+                <div className="entry">
+                <div className="label_name">
                   <p>Roll Number</p>
+                  </div>
                   <input
                     type="text"
                     placeholder="Roll Number"
@@ -275,8 +284,10 @@ const StudentListDetails = () => {
                     onChange={(e) => setNewRollNumber(e.target.value)}
                   />
                 </div>
-                <div>
+                <div className="entry">
+                <div className="label_name">
                   <p>Aadhar Number</p>
+                  </div>
                   <input
                     type="text"
                     placeholder="Aadhar Number"
@@ -286,8 +297,10 @@ const StudentListDetails = () => {
                     onChange={(e) => setNewAadhar(e.target.value)}
                   />
                 </div>
-                <div>
+                <div className="entry">
+                <div className="label_name">
                   <p>E-mail ID</p>
+                  </div>
                   <input
                     type="email"
                     placeholder="Email"
@@ -297,8 +310,10 @@ const StudentListDetails = () => {
                     onChange={(e) => setNewEmail(e.target.value)}
                   />
                 </div>
-                <div>
+                <div className="entry">
+                <div className="label_name">
                   <p>Course</p>
+                  </div>
                   <select
                     id="label_input"
                     required
@@ -313,8 +328,10 @@ const StudentListDetails = () => {
                     ))}
                   </select>
                 </div>
-                <div>
+                <div className="entry">
+                <div className="label_name">
                   <p>Department</p>
+                  </div>
                   <select
                     id="label_input"
                     required
@@ -329,8 +346,10 @@ const StudentListDetails = () => {
                     ))}
                   </select>
                 </div>
-                <div>
+                <div className="entry">
+                <div className="label_name">
                   <p>Semester</p>
+                  </div>
                   <select
                     id="label_input"
                     required
@@ -345,8 +364,10 @@ const StudentListDetails = () => {
                     ))}
                   </select>
                 </div>
-                <div>
+                <div className="entry">
+                <div className="label_name">
                   <p>Father's Name</p>
+                  </div>
                   <input
                     type="text"
                     placeholder="Father's Name"
@@ -356,8 +377,10 @@ const StudentListDetails = () => {
                     onChange={(e) => setNewFatherName(e.target.value)}
                   />
                 </div>
-                <div>
+                <div className="entry">
+                <div className="label_name">
                   <p>Mother's Name</p>
+                 </div> 
                   <input
                     type="text"
                     placeholder="Mother's Name"
@@ -367,8 +390,10 @@ const StudentListDetails = () => {
                     onChange={(e) => setNewMotherName(e.target.value)}
                   />
                 </div>
-                <div>
+                <div className="entry">
+                <div className="label_name">
                   <p>Blood Group : {state.bloodGroup}</p>
+                  </div>
                   <select
                     required
                     name="bloodGroupStudent"
@@ -382,8 +407,10 @@ const StudentListDetails = () => {
                     ))}
                   </select>
                 </div>
-                <div>
+                <div className="entry">
+                <div className="label_name">
                   <p>Gender</p>
+                  </div>
                   <select
                     id="label_input"
                     required
@@ -398,8 +425,10 @@ const StudentListDetails = () => {
                     ))}
                   </select>
                 </div>
-                <div>
+                <div className="entry">
+                <div className="label_name">
                   <p>Religion</p>
+                  </div>
                   <select
                     id="label_input"
                     required
@@ -414,8 +443,10 @@ const StudentListDetails = () => {
                     ))}
                   </select>
                 </div>
-                <div>
+                <div className="entry">
+                <div className="label_name">
                   <p>Category</p>
+                  </div>
                   <select
                     id="label_input"
                     required
@@ -430,8 +461,10 @@ const StudentListDetails = () => {
                     ))}
                   </select>
                 </div>
-                <div>
+                <div className="entry">
+                <div className="label_name">
                   <p>Physically Handicapped</p>
+                  </div>
                   <select
                     id="label_input"
                     required
@@ -450,8 +483,10 @@ const StudentListDetails = () => {
                     ))}
                   </select>
                 </div>
-                <div>
+                <div className="entry">
+                <div className="label_name">
                   <p>Hosteler</p>
+                  </div>
                   <select
                     id="label_input"
                     required
@@ -474,8 +509,10 @@ const StudentListDetails = () => {
                   value={newYearOfJoining}
                   onChange={(e) => setNewYearOfJoining(e.target.value)}
                 />
-                <div>
+                <div className="entry">
+                <div className="label_name">
                   <p>Current Session : {newCurrentSession}</p>
+                  </div>
                   <select
                     id="label_input"
                     required
@@ -492,11 +529,12 @@ const StudentListDetails = () => {
                       ))}
                   </select>
                 </div>
-                <div>
+                <div className="entry">
+                <div className="label_name">
                   <label for="{dateOfBirthStudent}">
                     Date Of Birth: {newDateOfBirthStudent}
                   </label>
-
+                  </div>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
                       id="label_input"
@@ -509,8 +547,11 @@ const StudentListDetails = () => {
                   </LocalizationProvider>
                 </div>
                 <div>
-                  <p>Local Address</p>
+                <p>Local Address</p>
+                <div className="entry">
+                <div className="label_name">
                   <p>Address</p>
+                  </div>
                   <input
                     // id="label_input"
                     type="text"
@@ -520,7 +561,11 @@ const StudentListDetails = () => {
                     value={newLocalAddress}
                     onChange={(e) => setNewLocalAddress(e.target.value)}
                   />
+                  </div>
+                  <div className="entry">
+                <div className="label_name">
                   <p>State</p>
+                  </div>
                   <select
                     // required id="label_input"
                     name="localStateStudent"
@@ -534,7 +579,11 @@ const StudentListDetails = () => {
                         </option>
                       ))}
                   </select>
+                  </div>
+                  <div className="entry">
+                <div className="label_name">
                   <p>Pin Code</p>
+                  </div>
                   <input
                     // id="label_input"
                     type="text"
@@ -544,10 +593,14 @@ const StudentListDetails = () => {
                     value={newPinCode}
                     onChange={(e) => setNewPinCode(e.target.value)}
                   />
+                  </div>
                 </div>
                 <div>
                   <p>Permanent Address</p>
+                  <div className="entry">
+                <div className="label_name">
                   <p>Address</p>
+                  </div>
                   <input
                     // id="label_input"
                     type="text"
@@ -557,7 +610,11 @@ const StudentListDetails = () => {
                     value={newPermanentAddress}
                     onChange={(e) => setNewPermanentAddress(e.target.value)}
                   />
+                  </div>
+                  <div className="entry">
+                <div className="label_name">
                   <p>State</p>
+                  </div>
                   <select
                     // required id="label_input"
                     name="permanentStateStudent"
@@ -571,7 +628,11 @@ const StudentListDetails = () => {
                         </option>
                       ))}
                   </select>
+                  </div>
+                  <div className="entry">
+                <div className="label_name">
                   <p>Pin Code</p>
+                  </div>
                   <input
                     // id="label_input"
                     type="text"
@@ -581,12 +642,15 @@ const StudentListDetails = () => {
                     value={newPermanentPinCode}
                     onChange={(e) => setPermanentNewPinCode(e.target.value)}
                   />
+                  </div>
                 </div>
               </div>
               <div>
                 <button onClick={updateData}>Update</button>
               </div>
             </div>
+          </div>
+          </div>
           </div>
         </Fragment>
       )}
