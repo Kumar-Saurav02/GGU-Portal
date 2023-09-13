@@ -60,6 +60,7 @@ const PromoteStudent = () => {
       for (let i = 0; i < students.length; i++) {
         if (students[i].currentSemester.toString() === semester.toString()) {
           var flag = 0;
+          console.log(students[i]);
           for (let j = 0; j < students[i].courseSelected.length; j++) {
             if (
               students[i].courseSelected[j].semester.toString() ===
@@ -148,7 +149,7 @@ const PromoteStudent = () => {
           <div className="promoteStudent">
             <SidebarTeacher role={teacher.subRole} />
             <div>
-              <h1>Promote Student</h1>
+              <h1>Student's Promotion</h1>
               <div>
                 <div>
                   <div className="entry">

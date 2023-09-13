@@ -78,6 +78,7 @@ exports.createSubject = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
+//GET ALL SUBJECTS
 exports.getAllSubjects = catchAsyncErrors(async (req, res, next) => {
   const subjects = await Subject.findOne({
     course: req.user.course,
@@ -250,5 +251,38 @@ exports.detainStudent = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({
     success: true,
     message: "Students Detained",
+  });
+});
+
+//GET ALL DETAINED STUDENTS
+exports.getAllDetainedStudents = catchAsyncErrors(async (req, res, next) => {
+  const detainedStudents = await DetainStudent.find({
+    course: req.user.course,
+    department: req.user.department,
+  });
+
+  if (detainedStudents === null || detainedStudents === undefined) {
+    return next(new ErrorHandler(`No Detained Students found create one`, 401));
+  }
+
+  res.status(200).json({
+    success: true,
+    detainedStudents,
+  });
+});
+
+//PROMOTE DETAINED STUDENT TO STUDENT
+exports.promoteDetainToStudent = catchAsyncErrors(async (req, res, next) => {
+  const { id, session } = req.params;
+
+  let studentData = await DetainStudent.findById(id);
+  studentData.currentSession = session;
+  await Student.create(studentData);
+
+  await DetainStudent.findOneAndDelete({ _id: id });
+
+  res.status(200).json({
+    success: true,
+    message: "Students Promoted",
   });
 });

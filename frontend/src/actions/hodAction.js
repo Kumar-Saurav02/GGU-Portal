@@ -23,6 +23,12 @@ import {
   DETENTION_STUDENT_REQUEST,
   DETENTION_STUDENT_SUCCESS,
   DETENTION_STUDENT_FAIL,
+  GET_ALL_DETAINED_REQUEST,
+  GET_ALL_DETAINED_SUCCESS,
+  GET_ALL_DETAINED_FAIL,
+  PROMOTE_DETENTION_TO_STUDENT_REQUEST,
+  PROMOTE_DETENTION_TO_STUDENT_SUCCESS,
+  PROMOTE_DETENTION_TO_STUDENT_FAIL,
 } from "../constants/hodConstant";
 import axios from "axios";
 
@@ -180,6 +186,47 @@ export const detainStudentsByHOD =
     } catch (error) {
       dispatch({
         type: DETENTION_STUDENT_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };
+
+//GET ALL DETAINED STUDENTS
+export const getAllDetainedStudents = () => async (dispatch) => {
+  try {
+    dispatch({ type: GET_ALL_DETAINED_REQUEST });
+
+    const { data } = await axios.get(`/api/getAllDetainedStudents`);
+
+    dispatch({
+      type: GET_ALL_DETAINED_SUCCESS,
+      payload: data === null ? [] : data.detainedStudents,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_ALL_DETAINED_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+//PROMOTE STUDENT FROM DETENTION
+export const promoteStudentFromDetentionByHOD =
+  (id, session) => async (dispatch) => {
+    try {
+      dispatch({ type: PROMOTE_DETENTION_TO_STUDENT_REQUEST });
+
+      const { data } = await axios.put(
+        `/api/promoteDetainToStudent/${id}${session}/`
+      );
+
+      dispatch({
+        type: PROMOTE_DETENTION_TO_STUDENT_SUCCESS,
+        payload: data.message,
+      });
+    } catch (error) {
+      dispatch({
+        type: PROMOTE_DETENTION_TO_STUDENT_FAIL,
         payload: error.response.data.message,
       });
     }

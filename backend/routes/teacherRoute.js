@@ -27,6 +27,8 @@ const {
   removeSubject,
   promoteStudent,
   detainStudent,
+  promoteDetainToStudent,
+  getAllDetainedStudents,
 } = require("../controllers/hodController");
 const {
   removeTeacher,
@@ -185,6 +187,24 @@ router
     detainStudent
   );
 
+router
+  .route("/getAllDetainedStudents")
+  .get(
+    isAuthenticatedUser,
+    authorizeRolesTeacher("teacher"),
+    authorizeSubRolesTeacher("hod"),
+    getAllDetainedStudents
+  );
+
+router
+  .route("/promoteDetainToStudent/:id/:session")
+  .put(
+    isAuthenticatedUser,
+    authorizeRolesTeacher("teacher"),
+    authorizeSubRolesTeacher("hod"),
+    promoteDetainToStudent
+  );
+
 //CLASS INCHARGE
 router
   .route("/acceptCourseSelection")
@@ -195,7 +215,7 @@ router
     acceptCourseSelection
   );
 router
-  .route("/rejectCourseSelection")
+  .route("/rejectCourseSelection/:id")
   .delete(
     isAuthenticatedUser,
     authorizeRolesTeacher("teacher"),

@@ -10,16 +10,13 @@ import { toast } from "react-toastify";
 const CourseApprovalMapping = ({ data, attendanceDetails }) => {
   const dispatch = useDispatch();
 
-  // console.log(attendanceDetails);
-  // console.log(data);
-
   const [attendanceSelect, setAttendanceSelect] = useState("");
   const [attendanceFinder, setAttendanceFinder] = useState();
   const [attendanceSubject, setAttendanceSubject] = useState([]);
 
   const acceptCourse = () => {
     if (attendanceSelect.trim() === "") {
-      toast.error("Select Attendance Option");
+      return toast.error("Select Attendance Option");
     }
     dispatch(
       courseAcceptByIncharge(

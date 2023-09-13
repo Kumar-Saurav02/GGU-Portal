@@ -579,12 +579,13 @@ exports.updateDetails = catchAsyncErrors(async (req, res, next) => {
 
   if (courseSubmission !== undefined) {
     var subjects = [];
-    for (let i = 0; i < courseSubmission.course.length; i++) {
+    console.log(courseSubmission);
+    for (let i = 0; i < courseSubmission.courses.length; i++) {
       subjects.push({
-        subjectName: courseSubmission.course[i].subjectName,
-        subjectCode: courseSubmission.course[i].subjectCode,
-        subjectCredit: courseSubmission.course[i].subjectCredit,
-        category: courseSubmission.course[i].category,
+        subjectName: courseSubmission.courses[i].subjectName,
+        subjectCode: courseSubmission.courses[i].subjectCode,
+        subjectCredit: courseSubmission.courses[i].subjectCredit,
+        category: courseSubmission.courses[i].category,
         term: req.user.currentSemester + " " + "Semester",
       });
     }

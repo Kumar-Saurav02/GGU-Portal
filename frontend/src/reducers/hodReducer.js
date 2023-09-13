@@ -24,6 +24,12 @@ import {
   DETENTION_STUDENT_SUCCESS,
   DETENTION_STUDENT_REQUEST,
   DETENTION_STUDENT_FAIL,
+  GET_ALL_DETAINED_REQUEST,
+  GET_ALL_DETAINED_SUCCESS,
+  GET_ALL_DETAINED_FAIL,
+  PROMOTE_DETENTION_TO_STUDENT_REQUEST,
+  PROMOTE_DETENTION_TO_STUDENT_SUCCESS,
+  PROMOTE_DETENTION_TO_STUDENT_FAIL,
 } from "../constants/hodConstant";
 
 //CREATE COURSE
@@ -184,11 +190,13 @@ export const promoteStudentByHODReducer = (state = {}, action) => {
   switch (action.type) {
     case PROMOTE_STUDENT_REQUEST:
     case DETENTION_STUDENT_REQUEST:
+    case PROMOTE_DETENTION_TO_STUDENT_REQUEST:
       return {
         loading: true,
       };
     case PROMOTE_STUDENT_SUCCESS:
     case DETENTION_STUDENT_SUCCESS:
+    case PROMOTE_DETENTION_TO_STUDENT_SUCCESS:
       return {
         ...state,
         loading: false,
@@ -196,6 +204,7 @@ export const promoteStudentByHODReducer = (state = {}, action) => {
       };
     case PROMOTE_STUDENT_FAIL:
     case DETENTION_STUDENT_FAIL:
+    case PROMOTE_DETENTION_TO_STUDENT_FAIL:
       return {
         ...state,
         loading: false,
@@ -206,6 +215,39 @@ export const promoteStudentByHODReducer = (state = {}, action) => {
       return {
         ...state,
         message: null,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+//GET ALL SUBJECTS
+export const getAllDetainStudentsReducer = (
+  state = { students: [] },
+  action
+) => {
+  switch (action.type) {
+    case GET_ALL_DETAINED_REQUEST:
+      return {
+        loading: true,
+      };
+    case GET_ALL_DETAINED_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        students: action.payload,
+      };
+    case GET_ALL_DETAINED_FAIL:
+      return {
+        ...state,
+        loading: false,
+        students: null,
+        error: action.payload,
+      };
+    case CLEAR_MESSAGES:
+      return {
+        ...state,
         error: null,
       };
     default:

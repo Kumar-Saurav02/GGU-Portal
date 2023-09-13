@@ -442,7 +442,7 @@ exports.acceptCourseSelection = catchAsyncErrors(async (req, res, next) => {
 
 //REJECT COURSE DETAILS
 exports.rejectCourseSelection = catchAsyncErrors(async (req, res, next) => {
-  await ApproveCourse.deleteOne({ _id: req.body.id });
+  await ApproveCourse.deleteOne({ _id: req.params.id });
 
   res.status(200).json({
     success: true,

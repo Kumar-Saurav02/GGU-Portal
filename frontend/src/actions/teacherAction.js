@@ -268,15 +268,7 @@ export const courseRejectByIncharge = (id) => async (dispatch) => {
   try {
     dispatch({ type: COURSE_REJECT_REQUEST });
 
-    const config = { headers: { "Content-Type": "application/json" } };
-
-    const { data } = await axios.delete(
-      `/api/rejectCourseSelection`,
-      {
-        id,
-      },
-      config
-    );
+    const { data } = await axios.delete(`/api/rejectCourseSelection/${id}`);
 
     dispatch({ type: COURSE_REJECT_SUCCESS, payload: data.message });
   } catch (error) {
