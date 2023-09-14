@@ -243,6 +243,7 @@ exports.detainStudent = catchAsyncErrors(async (req, res, next) => {
 
     let studentData = await Student.findById(idOfStudent).select("+password");
     listOfStudentsToDetain[i].password = studentData.password;
+
     await DetainStudent.create(listOfStudentsToDetain[i]);
 
     await Student.findOneAndDelete({ _id: idOfStudent });
@@ -273,11 +274,83 @@ exports.getAllDetainedStudents = catchAsyncErrors(async (req, res, next) => {
 
 //PROMOTE DETAINED STUDENT TO STUDENT
 exports.promoteDetainToStudent = catchAsyncErrors(async (req, res, next) => {
-  const { id, session } = req.params;
+  const { id, session, semester } = req.params;
 
   let studentData = await DetainStudent.findById(id);
-  studentData.currentSession = session;
-  await Student.create(studentData);
+
+  const {
+    enrollmentNo,
+    password,
+    rollNo,
+    name,
+    fatherName,
+    motherName,
+    currentSemester,
+    email,
+    mobileNumber,
+    fatherMobileNumber,
+    motherMobileNumber,
+    gender,
+    department,
+    course,
+    dateOfBirth,
+    dateOfJoining,
+    religion,
+    bloodGroup,
+    category,
+    physicallyHandicapped,
+    aadharNumber,
+    hosteler,
+    yearOfJoining,
+    localAddress,
+    permanentAddress,
+    photoUpload,
+    signatureUpload,
+    feeDetails,
+    marksDetails,
+    courseSelected,
+    scholarshipDetails,
+    role,
+  } = studentData;
+
+  const data = {
+    enrollmentNo,
+    password,
+    rollNo,
+    name,
+    fatherName,
+    motherName,
+    currentSemester,
+    email,
+    mobileNumber,
+    fatherMobileNumber,
+    motherMobileNumber,
+    gender,
+    department,
+    course,
+    dateOfBirth,
+    dateOfJoining,
+    religion,
+    bloodGroup,
+    category,
+    physicallyHandicapped,
+    aadharNumber,
+    hosteler,
+    yearOfJoining,
+    localAddress,
+    permanentAddress,
+    photoUpload,
+    signatureUpload,
+    feeDetails,
+    marksDetails,
+    courseSelected,
+    scholarshipDetails,
+    role,
+  };
+  data.currentSession = session;
+  data.currentSemester = semester;
+
+  await Student.create(data);
 
   await DetainStudent.findOneAndDelete({ _id: id });
 

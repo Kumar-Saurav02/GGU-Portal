@@ -18,6 +18,8 @@ const {
   rejectScholarshipSelection,
   getAllCoursesApproval,
   getAllScholarshipsApproval,
+  getAllCourseSubjectForMarks,
+  updatingMarks,
 } = require("../controllers/teacherController");
 const {
   createSubject,
@@ -53,10 +55,6 @@ const {
   getAttendanceDetailsOfParticularSubject,
   getAttendanceDetailsOfParticularDepartment,
 } = require("../controllers/attendanceController");
-const {
-  fillMarksDetails,
-  getMarksDetailsOfParticularSubject,
-} = require("../controllers/marksController");
 const router = express.Router();
 
 router.route("/registerApprovalTeacher").post(registerApprovalTeacher);
@@ -160,6 +158,7 @@ router.route("/getAllSubjects").get(
   // authorizeSubRolesTeacher("hod"),
   getAllSubjects
 );
+
 router
   .route("/updateAssignSubjectForTeacher")
   .put(
@@ -197,7 +196,7 @@ router
   );
 
 router
-  .route("/promoteDetainToStudent/:id/:session")
+  .route("/promoteDetainToStudent/:id/:session/:semester")
   .put(
     isAuthenticatedUser,
     authorizeRolesTeacher("teacher"),
@@ -280,11 +279,13 @@ router
     getAttendanceDetailsOfParticularDepartment
   );
 
-//MARKS
-// router.route("/marksEntryByTeacher").put(fillMarksDetails);
+// MARKS
 router
-  .route("/getMarksDetailsOfParticularSubject/:semester/:department/:subject")
-  .get(getMarksDetailsOfParticularSubject);
+  .route("/updatingMarks/:session/:semester")
+  .put(isAuthenticatedUser, authorizeRolesTeacher("teacher"), updatingMarks);
+// router
+//   .route("/getMarksDetailsOfParticularSubject/:session/:semester")
+//   .get(getMarksDetailsOfSubjects);
 
 //DEAN
 
@@ -377,5 +378,13 @@ router
   );
 
 router.route("/getAllSessions").get(isAuthenticatedUser, getPresentSession);
+
+router
+  .route("/getCourseSubjectsForMarks/:session/:semester")
+  .get(
+    isAuthenticatedUser,
+    authorizeRolesTeacher("teacher"),
+    getAllCourseSubjectForMarks
+  );
 
 module.exports = router;

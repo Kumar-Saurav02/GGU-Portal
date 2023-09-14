@@ -15,6 +15,7 @@ import {
   getAllAttendancesForDeanReducer,
   getAllCoursesForDeanReducer,
   getAttendanceEntryBySubjectReducer,
+  getCourseSubjectsForMarksReducer,
   getCoursesForApprovalReducer,
   getMarksEntryBySubjectReducer,
   getPresentSessionOfWorkReducer,
@@ -85,6 +86,7 @@ const reducer = combineReducers({
   getAllSessions: getAllSessionsReducer,
   promoteStudentByHOD: promoteStudentByHODReducer,
   getAllDetainStudents: getAllDetainStudentsReducer,
+  getCourseSubjectsForMarks: getCourseSubjectsForMarksReducer,
 });
 
 let initialState = {};

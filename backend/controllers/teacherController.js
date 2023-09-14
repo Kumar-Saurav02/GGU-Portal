@@ -11,6 +11,8 @@ const sendEmail = require("../utils/sendEmail");
 var XLSX = require("xlsx");
 var path = require("path");
 const Session = require("../models/currentSessionModel");
+const CourseSelection = require("../models/courseSelectionModel");
+const Marks = require("../models/marksModel");
 
 //REGISTER APPROVAL TEACHER
 exports.registerApprovalTeacher = catchAsyncErrors(async (req, res, next) => {
@@ -528,3 +530,228 @@ exports.getAllScholarshipsApproval = catchAsyncErrors(
     });
   }
 );
+
+//GET ALL COURSE SUBJECT FOR MARKS
+exports.getAllCourseSubjectForMarks = catchAsyncErrors(
+  async (req, res, next) => {
+    const { session, semester } = req.params;
+
+    const subjects = await CourseSelection.findOne({
+      session: session,
+      course: req.user.course,
+      department: req.user.department,
+      semester: semester,
+    });
+
+    const marks = await Marks.findOne({
+      session: session,
+      course: req.user.course,
+      department: req.user.department,
+      semester: semester,
+    });
+
+    // var marksList = [];
+    // for (let i = 0; i < subjects.courses.length; i++) {
+    //   for (let j = 0; j < req.user.assignSubject.length; j++) {
+    //     if (
+    //       subjects.courses[i].subjectCode.toString() ===
+    //       req.user.assignSubject[j].subjectCode.toString()
+    //     ) {
+    //       for (let k = 0; k < marks.subjects.length; k++) {
+    //         if (
+    //           subjects.courses[i].subjectCode.toString() ===
+    //           marks.subjects[k].subjectCode.toString()
+    //         ) {
+    //           marksList.push(marks.subjects[k]);
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
+
+    res.status(200).json({
+      success: true,
+      subjects: subjects.courses,
+      marksList: marks === null ? [] : marks.subjects,
+    });
+  }
+);
+
+exports.updatingMarks = catchAsyncErrors(async (req, res, next) => {
+  const { session, semester } = req.params;
+
+  const { subject, classTest1, classTest2, endSemester } = req.body;
+
+  const marks = await Marks.findOne({
+    session: session,
+    course: req.user.course,
+    department: req.user.department,
+    semester: semester,
+  });
+
+  var classTest1Upload = null,
+    classTest2Upload = null,
+    endSemesterUpload = null;
+  if (classTest1 !== undefined && classTest1 !== null) {
+    classTest1Upload = await cloudinary.uploader.upload(classTest1, {
+      format: "xlsx",
+      resource_type: "raw",
+      folder: "Marks List",
+    });
+  }
+  if (classTest2 !== undefined && classTest2 !== null) {
+    classTest2Upload = await cloudinary.uploader.upload(classTest2, {
+      format: "xlsx",
+      resource_type: "raw",
+      folder: "Marks List",
+    });
+  }
+  if (endSemester !== undefined && endSemester !== null) {
+    endSemesterUpload = await cloudinary.uploader.upload(endSemester, {
+      format: "xlsx",
+      resource_type: "raw",
+      folder: "Marks List",
+    });
+  }
+
+  if (marks) {
+    var flag = 0;
+    var tempSubjects = marks.subjects;
+    for (let i = 0; i < tempSubjects.length; i++) {
+      if (
+        subject.subjectCode.toString() ===
+        tempSubjects[i].subjectCode.toString()
+      ) {
+        flag = 1;
+        if (classTest1Upload !== null) {
+          await cloudinary.uploader.destroy(
+            tempSubjects[i].detailsOfMarks.classTest1.public_id,
+            {
+              format: "xlsx",
+              resource_type: "raw",
+              folder: "Marks List",
+            }
+          );
+          tempSubjects[i].detailsOfMarks.classTest1 = {
+            public_id: classTest1Upload.public_id,
+            url: classTest1Upload.secure_url,
+          };
+        }
+        if (classTest2Upload !== null) {
+          if (
+            tempSubjects[i].detailsOfMarks.classTest2.public_id !== undefined
+          ) {
+            await cloudinary.uploader.destroy(
+              tempSubjects[i].detailsOfMarks.classTest2.public_id,
+              {
+                format: "xlsx",
+                resource_type: "raw",
+                folder: "Marks List",
+              }
+            );
+          }
+          tempSubjects[i].detailsOfMarks.classTest2 = {
+            public_id: classTest2Upload.public_id,
+            url: classTest2Upload.secure_url,
+          };
+        }
+        if (endSemesterUpload !== null) {
+          if (
+            tempSubjects[i].detailsOfMarks.endSemester.public_id !== undefined
+          ) {
+            await cloudinary.uploader.destroy(
+              tempSubjects[i].detailsOfMarks.endSemester.public_id,
+              {
+                format: "xlsx",
+                resource_type: "raw",
+                folder: "Marks List",
+              }
+            );
+          }
+          tempSubjects[i].detailsOfMarks.endSemester = {
+            public_id: endSemesterUpload.public_id,
+            url: endSemesterUpload.secure_url,
+          };
+        }
+        break;
+      }
+    }
+    if (flag === 0) {
+      var detailMarks = {};
+      if (classTest1Upload !== null) {
+        detailMarks.classTest1 = {
+          public_id: classTest1Upload.public_id,
+          url: classTest1Upload.secure_url,
+        };
+      }
+      if (classTest2Upload !== null) {
+        detailMarks.classTest2 = {
+          public_id: classTest2Upload.public_id,
+          url: classTest2Upload.secure_url,
+        };
+      }
+      if (endSemesterUpload !== null) {
+        detailMarks.endSemester = {
+          public_id: endSemesterUpload.public_id,
+          url: endSemesterUpload.secure_url,
+        };
+      }
+      tempSubjects.push({
+        subjectName: subject.subjectName,
+        subjectCode: subject.subjectCode,
+        detailsOfMarks: detailMarks,
+      });
+    }
+    await Marks.updateOne(
+      {
+        session: session,
+        course: req.user.course,
+        department: req.user.department,
+        semester: semester,
+      },
+      {
+        $set: {
+          subjects: tempSubjects,
+        },
+      }
+    );
+  } else {
+    var subjectsMarks = [];
+    var detailMarks = {};
+    if (classTest1Upload !== null) {
+      detailMarks.classTest1 = {
+        public_id: classTest1Upload.public_id,
+        url: classTest1Upload.secure_url,
+      };
+    }
+    if (classTest2Upload !== null) {
+      detailMarks.classTest2 = {
+        public_id: classTest2Upload.public_id,
+        url: classTest2Upload.secure_url,
+      };
+    }
+    if (endSemesterUpload !== null) {
+      detailMarks.endSemester = {
+        public_id: endSemesterUpload.public_id,
+        url: endSemesterUpload.secure_url,
+      };
+    }
+    subjectsMarks.push({
+      subjectName: subject.subjectName,
+      subjectCode: subject.subjectCode,
+      detailsOfMarks: detailMarks,
+    });
+    await Marks.create({
+      session: session,
+      course: req.user.course,
+      department: req.user.department,
+      semester: semester,
+      subjects: subjectsMarks,
+    });
+  }
+
+  res.status(200).json({
+    success: true,
+    message: "Marks uploaded successfully",
+  });
+});

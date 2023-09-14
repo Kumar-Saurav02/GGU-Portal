@@ -55,6 +55,9 @@ import {
   GET_ALL_ATTENDANCES_FOR_DEAN_REQUEST,
   GET_ALL_ATTENDANCES_FOR_DEAN_SUCCESS,
   GET_ALL_ATTENDANCES_FOR_DEAN_FAIL,
+  GET_COURSE_SUBJECTS_FOR_MARKS_REQUEST,
+  GET_COURSE_SUBJECTS_FOR_MARKS_SUCCESS,
+  GET_COURSE_SUBJECTS_FOR_MARKS_FAIL,
 } from "../constants/teacherConstant";
 import {
   REGISTER_TEACHER_REQUEST,
@@ -418,18 +421,20 @@ export const getAttendanceDetailBySubject =
 
 //MARKS ENTRY BY SUBJECT TEACHER
 export const marksEntryBySubjectTeacher =
-  (semester, department, students) => async (dispatch) => {
+  (session, semester, subject, classTest1, classTest2, endSemester) =>
+  async (dispatch) => {
     try {
       dispatch({ type: SUBMIT_MARKS_ENTRY_REQUEST });
 
       const config = { headers: { "Content-Type": "application/json" } };
 
       const { data } = await axios.put(
-        `/api/marksEntryByTeacher`,
+        `/api/updatingMarks/${session}/${semester}`,
         {
-          semester,
-          department,
-          students,
+          subject,
+          classTest1,
+          classTest2,
+          endSemester,
         },
         config
       );
@@ -556,3 +561,24 @@ export const getAllAttendancesForDean = () => async (dispatch) => {
     });
   }
 };
+
+//GET COURSE SUBJECT FOR MARKS
+export const getCourseSubjectsForMarks =
+  (session, semester) => async (dispatch) => {
+    try {
+      dispatch({ type: GET_COURSE_SUBJECTS_FOR_MARKS_REQUEST });
+
+      const { data } = await axios.get(
+        `/api/getCourseSubjectsForMarks/${session}/${semester}`
+      );
+      dispatch({
+        type: GET_COURSE_SUBJECTS_FOR_MARKS_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: GET_COURSE_SUBJECTS_FOR_MARKS_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };

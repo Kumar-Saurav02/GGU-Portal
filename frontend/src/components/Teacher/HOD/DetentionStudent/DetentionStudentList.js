@@ -18,8 +18,9 @@ const DetentionStudentList = ({ data, sessions }) => {
   });
 
   const promoteStudentFromDetain = () => {
-    console.log(selectedSession);
-    //     dispatch(promoteStudentFromDetentionByHOD(data._id,selectedSession));
+    dispatch(
+      promoteStudentFromDetentionByHOD(data._id, selectedSession, semester)
+    );
   };
   return (
     <Fragment>

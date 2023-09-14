@@ -212,12 +212,12 @@ export const getAllDetainedStudents = () => async (dispatch) => {
 
 //PROMOTE STUDENT FROM DETENTION
 export const promoteStudentFromDetentionByHOD =
-  (id, session) => async (dispatch) => {
+  (id, session, semester) => async (dispatch) => {
     try {
       dispatch({ type: PROMOTE_DETENTION_TO_STUDENT_REQUEST });
 
       const { data } = await axios.put(
-        `/api/promoteDetainToStudent/${id}${session}/`
+        `/api/promoteDetainToStudent/${id}/${session}/${semester}`
       );
 
       dispatch({

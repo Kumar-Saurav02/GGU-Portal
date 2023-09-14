@@ -56,6 +56,9 @@ import {
   GET_ALL_ATTENDANCES_FOR_DEAN_REQUEST,
   GET_ALL_ATTENDANCES_FOR_DEAN_SUCCESS,
   GET_ALL_ATTENDANCES_FOR_DEAN_FAIL,
+  GET_COURSE_SUBJECTS_FOR_MARKS_REQUEST,
+  GET_COURSE_SUBJECTS_FOR_MARKS_SUCCESS,
+  GET_COURSE_SUBJECTS_FOR_MARKS_FAIL,
 } from "../constants/teacherConstant";
 
 export const getPresentSessionOfWorkReducer = (
@@ -470,6 +473,40 @@ export const getAllAttendancesForDeanReducer = (
         ...state,
         loading: false,
         attendances: null,
+        error: action.payload,
+      };
+    case CLEAR_MESSAGES:
+      return {
+        ...state,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+//GET COURSE SUBJECT FOR MARKS
+export const getCourseSubjectsForMarksReducer = (
+  state = { subjects: [], marksList: [] },
+  action
+) => {
+  switch (action.type) {
+    case GET_COURSE_SUBJECTS_FOR_MARKS_REQUEST:
+      return {
+        loading: true,
+      };
+    case GET_COURSE_SUBJECTS_FOR_MARKS_SUCCESS:
+      return {
+        loading: false,
+        subjects: action.payload.subjects,
+        marksList: action.payload.marksList,
+      };
+    case GET_COURSE_SUBJECTS_FOR_MARKS_FAIL:
+      return {
+        ...state,
+        loading: false,
+        subjects: null,
+        marksList: null,
         error: action.payload,
       };
     case CLEAR_MESSAGES:
