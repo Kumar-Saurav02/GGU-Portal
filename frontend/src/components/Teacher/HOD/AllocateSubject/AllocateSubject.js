@@ -45,6 +45,7 @@ const AllocateSubject = () => {
     if (subjectAllocateMessage) {
       toast.success(subjectAllocateMessage + ". Refresh to see updated data");
       dispatch(clearMessages());
+      dispatch(getAllTeacherDetailsForHOD());
     }
     if (subjectAllocateError) {
       toast.error(subjectAllocateError);
@@ -62,41 +63,41 @@ const AllocateSubject = () => {
             <SidebarTeacher role={teacher.subRole} />
             <div className="approvBox">
               <div className="subsection">
-              <h2>Allocate Subject</h2>
-              <br />
-              <div className="entry">
-                <div className="label_name">
-                <h4>Search</h4>
+                <h2>Allocate Subject</h2>
+                <br />
+                <div className="entry">
+                  <div className="label_name">
+                    <h4>Search</h4>
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Enter Employee ID"
+                    required
+                    value={filterEmployeeID}
+                    onChange={(e) => setFilterEmployeeID(e.target.value)}
+                  />
                 </div>
-                <input
-                  type="text"
-                  placeholder="Enter Employee ID"
-                  required
-                  value={filterEmployeeID}
-                  onChange={(e) => setFilterEmployeeID(e.target.value)}
-                />
+                <br></br>
+                <br></br>
+                {teachers &&
+                  teachers
+                    .filter((teachers) =>
+                      teachers.department.includes(teacher.department)
+                    )
+                    .filter((teachers) =>
+                      teachers.employeeID
+                        .toString()
+                        .includes(filterEmployeeID.toString())
+                    )
+                    .map((teacher, i) => (
+                      <div key={i}>
+                        <AllocateSubjectTeacherMapping
+                          data={teacher}
+                          subjects={subjects}
+                        />
+                      </div>
+                    ))}
               </div>
-              <br></br>
-              <br></br>
-              {teachers &&
-                teachers
-                  .filter((teachers) =>
-                    teachers.department.includes(teacher.department)
-                  )
-                  .filter((teachers) =>
-                    teachers.employeeID
-                      .toString()
-                      .includes(filterEmployeeID.toString())
-                  )
-                  .map((teacher, i) => (
-                    <div key={i}>
-                      <AllocateSubjectTeacherMapping
-                        data={teacher}
-                        subjects={subjects}
-                      />
-                    </div>
-                  ))}
-            </div>
             </div>
           </div>
         </Fragment>

@@ -104,6 +104,7 @@ const CourseSelection = () => {
   };
 
   useEffect(() => {
+    setCredits(0);
     if (
       credits === 0 &&
       course !== null &&

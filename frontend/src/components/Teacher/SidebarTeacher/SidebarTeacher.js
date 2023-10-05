@@ -84,13 +84,19 @@ const SidebarTeacher = ({ role }) => {
             <Link to="/hod/promoteStudent">
               <p>
                 <PeopleIcon />
-                Promote Student
+                Student's Promotion
               </p>
             </Link>
             <Link to="/studentsApproval">
               <p>
                 <PeopleIcon />
                 Students Approval
+              </p>
+            </Link>
+            <Link to="/hod/detentionStudentList">
+              <p>
+                <PeopleIcon />
+                Detention List
               </p>
             </Link>
           </div>

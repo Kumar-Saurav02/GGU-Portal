@@ -24,35 +24,33 @@ const marksSchema = new mongoose.Schema({
         type: String,
         required: true,
       },
+      subjectCode: {
+        type: String,
+        required: true,
+      },
       detailsOfMarks: {
         classTest1: {
           public_id: {
             type: String,
-            required: true,
           },
           url: {
             type: String,
-            required: true,
           },
         },
         classTest2: {
           public_id: {
             type: String,
-            required: true,
           },
           url: {
             type: String,
-            required: true,
           },
         },
         endSemester: {
           public_id: {
             type: String,
-            required: true,
           },
           url: {
             type: String,
-            required: true,
           },
         },
       },

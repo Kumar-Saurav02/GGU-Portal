@@ -78,6 +78,7 @@ exports.createSubject = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
+//GET ALL SUBJECTS
 exports.getAllSubjects = catchAsyncErrors(async (req, res, next) => {
   const subjects = await Subject.findOne({
     course: req.user.course,
@@ -242,6 +243,7 @@ exports.detainStudent = catchAsyncErrors(async (req, res, next) => {
 
     let studentData = await Student.findById(idOfStudent).select("+password");
     listOfStudentsToDetain[i].password = studentData.password;
+
     await DetainStudent.create(listOfStudentsToDetain[i]);
 
     await Student.findOneAndDelete({ _id: idOfStudent });
@@ -250,5 +252,110 @@ exports.detainStudent = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({
     success: true,
     message: "Students Detained",
+  });
+});
+
+//GET ALL DETAINED STUDENTS
+exports.getAllDetainedStudents = catchAsyncErrors(async (req, res, next) => {
+  const detainedStudents = await DetainStudent.find({
+    course: req.user.course,
+    department: req.user.department,
+  });
+
+  if (detainedStudents === null || detainedStudents === undefined) {
+    return next(new ErrorHandler(`No Detained Students found create one`, 401));
+  }
+
+  res.status(200).json({
+    success: true,
+    detainedStudents,
+  });
+});
+
+//PROMOTE DETAINED STUDENT TO STUDENT
+exports.promoteDetainToStudent = catchAsyncErrors(async (req, res, next) => {
+  const { id, session, semester } = req.params;
+
+  let studentData = await DetainStudent.findById(id);
+
+  const {
+    enrollmentNo,
+    password,
+    rollNo,
+    name,
+    fatherName,
+    motherName,
+    currentSemester,
+    email,
+    mobileNumber,
+    fatherMobileNumber,
+    motherMobileNumber,
+    gender,
+    department,
+    course,
+    dateOfBirth,
+    dateOfJoining,
+    religion,
+    bloodGroup,
+    category,
+    physicallyHandicapped,
+    aadharNumber,
+    hosteler,
+    yearOfJoining,
+    localAddress,
+    permanentAddress,
+    photoUpload,
+    signatureUpload,
+    feeDetails,
+    marksDetails,
+    courseSelected,
+    scholarshipDetails,
+    role,
+  } = studentData;
+
+  const data = {
+    enrollmentNo,
+    password,
+    rollNo,
+    name,
+    fatherName,
+    motherName,
+    currentSemester,
+    email,
+    mobileNumber,
+    fatherMobileNumber,
+    motherMobileNumber,
+    gender,
+    department,
+    course,
+    dateOfBirth,
+    dateOfJoining,
+    religion,
+    bloodGroup,
+    category,
+    physicallyHandicapped,
+    aadharNumber,
+    hosteler,
+    yearOfJoining,
+    localAddress,
+    permanentAddress,
+    photoUpload,
+    signatureUpload,
+    feeDetails,
+    marksDetails,
+    courseSelected,
+    scholarshipDetails,
+    role,
+  };
+  data.currentSession = session;
+  data.currentSemester = semester;
+
+  await Student.create(data);
+
+  await DetainStudent.findOneAndDelete({ _id: id });
+
+  res.status(200).json({
+    success: true,
+    message: "Students Promoted",
   });
 });
