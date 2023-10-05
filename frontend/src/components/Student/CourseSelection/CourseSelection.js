@@ -139,6 +139,8 @@ const CourseSelection = () => {
         <Fragment>
           <div className="courseSelectionMain">
             <SidebarStudent />
+            <div className="approvBox">
+              <div className="subsection">
             <div className="course_Selection_full">
               <h1>Course Selection</h1>
               {courseSelected === false && sentForApproval === undefined && (
@@ -298,6 +300,8 @@ const CourseSelection = () => {
                   <h3>Course is already submitted for current semester.</h3>
                 </div>
               )}
+            </div>
+            </div>
             </div>
           </div>
         </Fragment>

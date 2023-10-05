@@ -15,15 +15,15 @@
   align-items: center;
 }
 .detailsOfStudent {
-  display: flex;
-  justify-content: center;
+  /* display: flex; */
+  justify-content: left;
   align-items: center;
   flex-wrap: wrap;
   margin: 1rem 2rem;
 }
 .detailsOfStudent > p {
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
   width: 40%;
 }
