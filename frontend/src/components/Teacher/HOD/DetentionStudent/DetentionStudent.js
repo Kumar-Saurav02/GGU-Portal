@@ -50,6 +50,7 @@ const DetentionStudent = () => {
     }
   }, [promoteStudentMessage, promoteStudentError]);
 
+
   return (
     <Fragment>
       {detentionStudentLoading || promoteStudentLoading ? (
@@ -58,6 +59,8 @@ const DetentionStudent = () => {
         <Fragment>
           <div className="detentionStudent">
             <SidebarTeacher role={teacher.subRole} />
+            <div className="approvBox">
+              <div className="subsection">
             <div>
               <h2>Detention List</h2>
               <br></br>
@@ -74,6 +77,8 @@ const DetentionStudent = () => {
                       />
                     ))}
               </div>
+            </div>
+            </div>
             </div>
           </div>
         </Fragment>

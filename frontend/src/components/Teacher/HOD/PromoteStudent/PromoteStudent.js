@@ -168,7 +168,7 @@ const PromoteStudent = () => {
                     </select>
                   </div>
 
-                  <button onClick={getListOfStudents}>Get Student List</button>
+                  <button className="last_promote" onClick={getListOfStudents}>Get Student List</button>
                 </div>
                 <div>
                   {/* {students.length === 0 && (
@@ -180,6 +180,11 @@ const PromoteStudent = () => {
                     <div>
                       <div>
                         <h3 className="entry">To Promote</h3>
+                        <div className="grid_promote">
+                          <p>Select</p>
+                          <p>Name</p>
+                          <p>Semester</p>
+                        </div>
                         {listOfStudentsApproval.length === 0 && (
                           <div>
                             <h5>Nothing to show.</h5>
@@ -187,7 +192,7 @@ const PromoteStudent = () => {
                         )}
                         {listOfStudentsApproval &&
                           listOfStudentsApproval.map((student, i) => (
-                            <div key={i} style={{ display: "flex" }}>
+                            <div className="grid_promote" key={i} >
                               <input
                                 type="checkbox"
                                 id={i}
@@ -199,7 +204,7 @@ const PromoteStudent = () => {
                           ))}
                         {listOfStudentsApproval.length > 0 && (
                           <div>
-                            <div>
+                            <div className="entry">
                               <label className="label_name">Session</label>
                               <select
                                 className="label_name"
@@ -217,8 +222,10 @@ const PromoteStudent = () => {
                                   ))}
                               </select>
                             </div>
-                            <p>*Action cannot be reversed</p>
+                            <div className="last_promote" >
                             <button onClick={promoteStudents}>Promote</button>
+                            <p className="space_margin" >*Action cannot be reversed</p>
+                            </div>
                           </div>
                         )}
                       </div>
@@ -249,7 +256,7 @@ const PromoteStudent = () => {
                         {listOfStudentsDetention.length > 0 && (
                           <div className="last_promote">
                             <button onClick={detainStudents}>Detain</button>
-                            <p>*Action cannot be reversed</p>
+                            <p className="space_margin" >*Action cannot be reversed</p>
                           </div>
                         )}
                       </div>

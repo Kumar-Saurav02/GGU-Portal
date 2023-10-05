@@ -9,6 +9,12 @@
 
 .last_promote{
   display: flex;
+  margin: 10px;
+  
+}
+
+.space_margin{
+  margin-left: 10px;
 }
 
 .detain_promote{

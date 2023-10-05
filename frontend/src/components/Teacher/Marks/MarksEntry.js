@@ -271,7 +271,7 @@ const MarksEntry = () => {
                       </select>
                     </div>
                     <div>
-                      <button onClick={getSubjectsForCourse}>
+                      <button className="last_promote" onClick={getSubjectsForCourse}>
                         Get Subjects
                       </button>
                     </div>
