@@ -151,12 +151,7 @@ const PromoteStudent = () => {
             <div className="approvBox">
               <div className="subsection">
             <div>
-<<<<<<< HEAD
-              <h1>Promote Student</h1>
-              <br /><br />
-=======
               <h1>Student's Promotion</h1>
->>>>>>> cb091169b30f4fdc480bbcb36544d678e95c30cf
               <div>
                 <div>
                   <div className="entry">
