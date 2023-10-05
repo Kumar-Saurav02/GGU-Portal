@@ -137,6 +137,7 @@ const TeacherListDetails = () => {
         <Fragment>
           <div className="studentListAdmin">
             <SidebarTeacher role={teacher.subRole} />
+            
             <div className="approvBox">
               <div className="subsection">
               <h3>Edit Teacher Details</h3>

@@ -54,6 +54,8 @@ const TeacherList = () => {
         <Fragment>
           <div className="teacherListAdmin">
             <SidebarTeacher role={teacher.subRole} />
+            <div className="approvBox">
+              <div className="subsection">
             <div>
               <div>
                 <h4>Search</h4>
@@ -76,6 +78,8 @@ const TeacherList = () => {
                       <TeacherListMapping data={teacher} />
                     </div>
                   ))}
+            </div>
+            </div>
             </div>
           </div>
         </Fragment>
